@@ -57,8 +57,11 @@ import 'package:signets_api_client/clients.dart';
   final programs = await signetsAPIClient.getPrograms();
 ```
 
-To import models from the package 
-
+To import models or exceptions used in this package you can use this simple import:
+```dart
+import 'package:signets_api_client/models.dart';
+import 'package:signets_api_client/exceptions.dart';
+```
 ## Mock
 
 TODO: Add a way to easily mock the clients.
