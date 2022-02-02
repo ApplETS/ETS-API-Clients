@@ -1,9 +1,9 @@
 import 'package:xml/xml.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:signets_api_client/src/constants/urls.dart';
-import 'package:signets_api_client/src/constants/api_exception.dart';
-import 'package:signets_api_client/src/constants/signets_errors.dart';
+import '../constants/urls.dart';
+import '../constants/api_exception.dart';
+import '../constants/signets_errors.dart';
 
 class SoapService {
   static const String tag = "SoapService";
@@ -44,7 +44,7 @@ class SoapService {
   /// the response.
   /// Will throw a [ApiException] if an error is returned by the api.
   static Future<XmlElement> sendSOAPRequest(
-      XmlDocument body, String operation) async {
+      http.Client client, XmlDocument body, String operation) async {
     // Send the envelope
     final response = await http.post(Uri.parse(Urls.signetsAPI),
         headers: _buildHeaders(Urls.signetsOperationBase + operation),
