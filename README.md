@@ -57,7 +57,7 @@ import 'package:signets_api_client/clients.dart';
   final programs = await signetsAPIClient.getPrograms();
 ```
 
-To import models or exceptions used in this package you can use this simple import:
+To import models or exceptions used in this package you can use these simples imports:
 ```dart
 import 'package:signets_api_client/models.dart';
 import 'package:signets_api_client/exceptions.dart';

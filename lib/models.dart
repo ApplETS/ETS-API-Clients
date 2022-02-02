@@ -11,3 +11,5 @@ export 'src/models/profile_student.dart';
 export 'src/models/program.dart';
 export 'src/models/schedule_activity.dart';
 export 'src/models/session.dart';
+
+export 'src/constants/activity_code.dart';
