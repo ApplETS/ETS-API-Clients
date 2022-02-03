@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 
 import 'monets_api_client.dart';
 
@@ -13,9 +15,16 @@ class MonETSAPIClient extends IMonETSAPIClient {
   static const String tag = "MonETSApi";
   static const String tagError = "$tag - Error";
 
-  final http.Client _httpClient;
+  http.Client _httpClient;
 
-  MonETSAPIClient(this._httpClient);
+  MonETSAPIClient({http.Client client}) {
+    if (client == null) {
+      final ioClient = HttpClient();
+      _httpClient = IOClient(ioClient);
+    } else {
+      _httpClient = client;
+    }
+  }
 
   /// Authenticate the basic MonETS user
   ///

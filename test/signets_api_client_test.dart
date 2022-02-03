@@ -35,7 +35,7 @@ void main() {
   group('SignetsApi - ', () {
     setUp(() {
       clientMock = HttpClientMock();
-      service = SignetsAPIClient(clientMock);
+      service = SignetsAPIClient(client: clientMock);
     });
 
     tearDown(() {

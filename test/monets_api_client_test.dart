@@ -15,7 +15,7 @@ void main() {
       // default response stub
       mockClient = MockClient((request) => Future.value(Response("", 200)));
 
-      service = MonETSAPIClient(mockClient);
+      service = MonETSAPIClient(client: mockClient);
     });
 
     tearDown(() {

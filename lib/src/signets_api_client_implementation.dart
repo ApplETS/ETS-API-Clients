@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'package:xml/xml.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,9 +23,17 @@ class SignetsAPIClient {
   static const String tag = "SignetsApi";
   static const String tagError = "$tag - Error";
 
-  final http.Client _httpClient;
+  http.Client _httpClient;
 
-  SignetsAPIClient(this._httpClient);
+  SignetsAPIClient({http.Client client}) {
+    if (client == null) {
+      final ioClient = HttpClient();
+
+      _httpClient = IOClient(ioClient);
+    } else {
+      _httpClient = client;
+    }
+  }
 
   /// Expression to validate the format of a session short name (ex: A2020)
   final RegExp _sessionShortNameRegExp = RegExp("^([A-É-H][0-9]{4})");
