@@ -1,13 +1,13 @@
 name: ets_api_clients
 description: API clients to help process calls from any application that need to access 
-version: 0.2.2
+version: 0.3.0
 homepage: https://clubapplets.ca/
 repository: https://github.com/ApplETS/Notre-Dame
 issue_tracker: https://github.com/ApplETS/Notre-Dame/issues
 documentation: https://github.com/ApplETS/Notre-Dame/wiki
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:

@@ -1,72 +1,73 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xml/xml.dart';
 
 /// Data-class that represent an activity of a course
 class ScheduleActivity {
   // The course acronym (ex: "ABC123")
-  final String? courseAcronym;
+  final String courseAcronym;
 
   /// The group number of the activity (ex: "09")
-  final String? courseGroup;
+  final String courseGroup;
 
   /// the location of the course
-  final String? courseTitle;
+  final String courseTitle;
 
   /// The current day of the week (starting monday)
   /// for the ScheduleActivity (ex: 5 for friday)
-  final int? dayOfTheWeek;
+  final int dayOfTheWeek;
 
   /// The current day of the week (ex: "Vendredi")
-  final String? day;
+  final String day;
 
   /// Date when the activity start (no date part)
-  final DateTime? startTime;
+  final DateTime startTime;
 
   /// Date when the activity end (no date part)
-  final DateTime? endTime;
+  final DateTime endTime;
 
   //The code corresponding to the type of schedule activity
-  final String? activityCode;
+  final String activityCode;
 
   /// If the activity schedule is the main activity associated to the course (usually the )
-  final bool? isPrincipalActivity;
+  final bool isPrincipalActivity;
 
   /// the location of the activity
-  final String? activityLocation;
+  final String activityLocation;
 
   /// the name of the activity
-  final String? name;
+  final String name;
 
   ScheduleActivity(
-      {required this.courseAcronym,
-      required this.courseGroup,
-      required this.courseTitle,
-      required this.dayOfTheWeek,
-      required this.day,
-      required this.startTime,
-      required this.endTime,
-      required this.activityCode,
-      required this.isPrincipalActivity,
-      required this.activityLocation,
-      required this.name});
+      {@required this.courseAcronym,
+      @required this.courseGroup,
+      @required this.courseTitle,
+      @required this.dayOfTheWeek,
+      @required this.day,
+      @required this.startTime,
+      @required this.endTime,
+      @required this.activityCode,
+      @required this.isPrincipalActivity,
+      @required this.activityLocation,
+      @required this.name});
 
   /// Used to create a new [CourseActivity] instance from a [XMLElement].
   factory ScheduleActivity.fromXmlNode(XmlElement node) => ScheduleActivity(
-        courseAcronym: node.getElement('sigle')!.innerText,
-        courseGroup: node.getElement('groupe')!.innerText,
-        courseTitle: node.getElement('titreCours')!.innerText,
-        dayOfTheWeek: int.parse(node.getElement('jour')!.innerText),
-        day: node.getElement('journee')!.innerText,
-        activityCode: node.getElement('codeActivite')!.innerText,
-        name: node.getElement('nomActivite')!.innerText,
+        courseAcronym: node.getElement('sigle').innerText,
+        courseGroup: node.getElement('groupe').innerText,
+        courseTitle: node.getElement('titreCours').innerText,
+        dayOfTheWeek: int.parse(node.getElement('jour').innerText),
+        day: node.getElement('journee').innerText,
+        activityCode: node.getElement('codeActivite').innerText,
+        name: node.getElement('nomActivite').innerText,
         isPrincipalActivity:
-            node.getElement('activitePrincipale')!.innerText == "Oui",
+            node.getElement('activitePrincipale').innerText == "Oui",
         startTime:
-            DateFormat('HH:mm').parse(node.getElement('heureDebut')!.innerText),
+            DateFormat('HH:mm').parse(node.getElement('heureDebut').innerText),
         endTime:
-            DateFormat('HH:mm').parse(node.getElement('heureFin')!.innerText),
-        activityLocation: node.getElement('local')!.innerText,
+            DateFormat('HH:mm').parse(node.getElement('heureFin').innerText),
+        activityLocation: node.getElement('local').innerText,
       );
 
   /// Used to create [CourseActivity] instance from a JSON file
@@ -95,8 +96,8 @@ class ScheduleActivity {
         'activityCode': activityCode,
         'name': name,
         'isPrincipalActivity': isPrincipalActivity.toString(),
-        'startTime': DateFormat("HH:mm").format(startTime!),
-        'endTime': DateFormat("HH:mm").format(endTime!),
+        'startTime': DateFormat("HH:mm").format(startTime),
+        'endTime': DateFormat("HH:mm").format(endTime),
         'activityLocation': activityLocation
       };
 

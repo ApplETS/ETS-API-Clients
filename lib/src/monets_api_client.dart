@@ -7,6 +7,5 @@ abstract class IMonETSAPIClient {
   ///
   /// Throws an [HttpException] if the MonETSApi return anything
   /// else than a 200 code
-  Future<MonETSUser> authenticate(
-      {required String username, required String password});
+  Future<MonETSUser> authenticate({String username, String password});
 }

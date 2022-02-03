@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 
 import 'monets_api_client.dart';
 
@@ -22,7 +23,7 @@ class MonETSAPIClient extends IMonETSAPIClient {
   /// else than a 200 code
   @override
   Future<MonETSUser> authenticate(
-      {required String username, required String password}) async {
+      {@required String username, @required String password}) async {
     final response = await _httpClient.post(
         Uri.parse(Urls.authenticationMonETS),
         body: {"Username": username, "Password": password});

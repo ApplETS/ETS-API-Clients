@@ -1,41 +1,46 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
-// MODELS
 import 'course_evaluation.dart';
 import 'course_summary.dart';
+
+// MODELS
 
 /// Data-class that represent a course
 class Course {
   /// Course acronym (ex: LOG430)
-  final String? acronym;
+  final String acronym;
 
   /// Title of the course (ex: Chimie et matériaux)
-  final String? title;
+  final String title;
 
   /// Course group, on which group the student is registered
-  final String? group;
+  final String group;
 
   /// Session short name during which the course is given (ex: H2020)
-  final String? session;
+  final String session;
 
   /// Code number of the program of which the course is a part of
-  final String? programCode;
+  final String programCode;
 
   /// Final grade of the course (ex: A+, C, ...) if the course doesn't
   /// have a the grade yet the variable will be null.
-  final String? grade;
+  final String grade;
 
   /// Number of credits of the course
-  final int? numberOfCredits;
+  final int numberOfCredits;
 
   /// Current mark, score... of the student for this course.
   /// Can be null!!
-  CourseSummary? summary;
+  CourseSummary summary;
 
   /// Information about when the course will be evaluated by the student.
   /// Can be null!!
-  CourseEvaluation? evaluation;
+  CourseEvaluation evaluation;
+
+  /// Get the teacher name if available
+  String get teacherName => evaluation?.teacherName;
 
   /// Determine if we are currently in the evaluation period for this course.
   bool get inEvaluationPeriod {
@@ -45,8 +50,7 @@ class Course {
 
     final now = DateTime.now();
 
-    return now.isAfter(evaluation!.startAt!) &&
-        now.isBefore(evaluation!.endAt!);
+    return now.isAfter(evaluation.startAt) && now.isBefore(evaluation.endAt);
   }
 
   /// Determine if the evaluation of this course is completed.
@@ -54,44 +58,41 @@ class Course {
     if (evaluation == null) {
       return true;
     }
-    return evaluation!.isCompleted!;
+    return evaluation.isCompleted;
   }
 
-  /// Get the teacher name if available
-  String? get teacherName => evaluation?.teacherName;
-
   Course(
-      {required this.acronym,
-      required this.title,
-      required this.group,
-      required this.session,
-      required this.programCode,
-      required this.numberOfCredits,
+      {@required this.acronym,
+      @required this.title,
+      @required this.group,
+      @required this.session,
+      @required this.programCode,
+      @required this.numberOfCredits,
       this.grade,
       this.summary,
       this.evaluation});
 
   /// Used to create a new [Course] instance from a [XMLElement].
   factory Course.fromXmlNode(XmlElement node) => Course(
-      acronym: node.getElement('sigle')!.innerText,
-      title: node.getElement('titreCours')!.innerText,
-      group: node.getElement('groupe')!.innerText,
-      session: node.getElement('session')!.innerText,
-      programCode: node.getElement('programmeEtudes')!.innerText,
-      numberOfCredits: int.parse(node.getElement('nbCredits')!.innerText),
-      grade: node.getElement('cote')!.innerText.isEmpty
+      acronym: node.getElement('sigle').innerText,
+      title: node.getElement('titreCours').innerText,
+      group: node.getElement('groupe').innerText,
+      session: node.getElement('session').innerText,
+      programCode: node.getElement('programmeEtudes').innerText,
+      numberOfCredits: int.parse(node.getElement('nbCredits').innerText),
+      grade: node.getElement('cote').innerText.isEmpty
           ? null
-          : node.getElement('cote')!.innerText);
+          : node.getElement('cote').innerText);
 
   /// Used to create [Course] instance from a JSON file
   factory Course.fromJson(Map<String, dynamic> map) => Course(
-      acronym: map['acronym'] as String?,
-      title: map['title'] as String?,
-      group: map['group'] as String?,
-      session: map['session'] as String?,
-      programCode: map['programCode'] as String?,
-      numberOfCredits: map['numberOfCredits'] as int?,
-      grade: map['grade'] != null ? map['grade'] as String? : null,
+      acronym: map['acronym'] as String,
+      title: map['title'] as String,
+      group: map['group'] as String,
+      session: map['session'] as String,
+      programCode: map['programCode'] as String,
+      numberOfCredits: map['numberOfCredits'] as int,
+      grade: map['grade'] != null ? map['grade'] as String : null,
       summary: map["summary"] != null
           ? CourseSummary.fromJson(map["summary"] as Map<String, dynamic>)
           : null,
@@ -110,6 +111,20 @@ class Course {
         'summary': summary,
         'evaluation': evaluation
       };
+
+  @override
+  String toString() {
+    return 'Course{'
+        'acronym: $acronym, '
+        'title: $title, '
+        'group: $group, '
+        'session: $session, '
+        'programCode: $programCode, '
+        'grade: $grade, '
+        'numberOfCredits: $numberOfCredits, '
+        'summary: $summary, '
+        'evaluation: $evaluation}';
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -137,18 +152,4 @@ class Course {
       numberOfCredits.hashCode ^
       summary.hashCode ^
       evaluation.hashCode;
-
-  @override
-  String toString() {
-    return 'Course{'
-        'acronym: $acronym, '
-        'title: $title, '
-        'group: $group, '
-        'session: $session, '
-        'programCode: $programCode, '
-        'grade: $grade, '
-        'numberOfCredits: $numberOfCredits, '
-        'summary: $summary, '
-        'evaluation: $evaluation}';
-  }
 }

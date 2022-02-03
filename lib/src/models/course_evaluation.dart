@@ -5,46 +5,46 @@ import 'package:xml/xml.dart';
 /// Data-class that represent a course evaluation.
 class CourseEvaluation {
   /// Course acronym (ex: LOG430)
-  final String? acronym;
+  final String acronym;
 
   /// Course group, on which group the student is registered
-  final String? group;
+  final String group;
 
   /// Name of the professor
-  final String? teacherName;
+  final String teacherName;
 
   /// Date when the evaluation start.
-  final DateTime? startAt;
+  final DateTime startAt;
 
   /// When the evaluation end.
-  final DateTime? endAt;
+  final DateTime endAt;
 
   /// Type of the evaluation
-  final String? type;
+  final String type;
 
   /// Is the evaluation completed
-  final bool? isCompleted;
+  final bool isCompleted;
 
   CourseEvaluation(
-      {required this.acronym,
-      required this.group,
-      required this.teacherName,
-      required this.type,
-      required this.startAt,
-      required this.endAt,
-      required this.isCompleted});
+      {@required this.acronym,
+      @required this.group,
+      @required this.teacherName,
+      @required this.type,
+      @required this.startAt,
+      @required this.endAt,
+      @required this.isCompleted});
 
   /// Used to create a new [CourseEvaluation] instance from a [XMLElement].
   factory CourseEvaluation.fromXmlNode(XmlElement node) => CourseEvaluation(
-      acronym: node.getElement('Sigle')!.innerText,
-      group: node.getElement('Groupe')!.innerText,
-      teacherName: node.getElement('Enseignant')!.innerText,
-      type: node.getElement('TypeEvaluation')!.innerText,
+      acronym: node.getElement('Sigle').innerText,
+      group: node.getElement('Groupe').innerText,
+      teacherName: node.getElement('Enseignant').innerText,
+      type: node.getElement('TypeEvaluation').innerText,
       startAt:
-          DateTime.tryParse(node.getElement('DateDebutEvaluation')!.innerText),
-      endAt: DateTime.tryParse(node.getElement('DateFinEvaluation')!.innerText),
+          DateTime.tryParse(node.getElement('DateDebutEvaluation').innerText),
+      endAt: DateTime.tryParse(node.getElement('DateFinEvaluation').innerText),
       isCompleted:
-          node.getElement('EstComplete')!.innerText.toLowerCase() == 'true');
+          node.getElement('EstComplete').innerText.toLowerCase() == 'true');
 
   /// Used to create [CourseEvaluation] instance from a JSON file
   factory CourseEvaluation.fromJson(Map<String, dynamic> map) =>

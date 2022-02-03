@@ -1,42 +1,43 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 class ProfileStudent {
   /// Balance of the student
-  final String? balance;
+  final String balance;
 
   /// First name of the student
-  final String? firstName;
+  final String firstName;
 
   /// Last name of the student
-  final String? lastName;
+  final String lastName;
 
   /// Permanent code of the student (XXXX00000000)
-  final String? permanentCode;
+  final String permanentCode;
 
   ProfileStudent(
-      {required this.balance,
-      required this.firstName,
-      required this.lastName,
-      required this.permanentCode});
+      {@required this.balance,
+      @required this.firstName,
+      @required this.lastName,
+      @required this.permanentCode});
 
   /// Used to create a new [ProfileStudent] instance from a [XMLElement].
   factory ProfileStudent.fromXmlNode(XmlElement node) => ProfileStudent(
-      lastName: node.getElement('nom')!.innerText.trimRight(),
-      firstName: node.getElement('prenom')!.innerText.trimRight(),
-      permanentCode: node.getElement('codePerm')!.innerText,
-      balance: node.getElement('soldeTotal')!.innerText);
+      lastName: node.getElement('nom').innerText.trimRight(),
+      firstName: node.getElement('prenom').innerText.trimRight(),
+      permanentCode: node.getElement('codePerm').innerText,
+      balance: node.getElement('soldeTotal').innerText);
 
   /// Used to create [ProfileStudent] instance from a JSON file
   factory ProfileStudent.fromJson(Map<String, dynamic> map) => ProfileStudent(
-      lastName: map['nom'] as String?,
-      firstName: map['prenom'] as String?,
-      permanentCode: map['codePerm'] as String?,
-      balance: map['soldeTotal'] as String?);
+      lastName: map['nom'] as String,
+      firstName: map['prenom'] as String,
+      permanentCode: map['codePerm'] as String,
+      balance: map['soldeTotal'] as String);
 
   Map<String, dynamic> toJson() => {
-        'nom': lastName!.trimRight(),
-        'prenom': firstName!.trimRight(),
+        'nom': lastName.trimRight(),
+        'prenom': firstName.trimRight(),
         'codePerm': permanentCode,
         'soldeTotal': balance
       };

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,7 +34,7 @@ class SignetsAPIClient {
   @Deprecated(
       'This function is deprecated in favor of `MonETSAPIClient.authenticate()`')
   Future<bool> authenticate(
-      {required String username, required String password}) async {
+      {@required String username, @required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
             Urls.donneesAuthentificationValides, username, password)
@@ -51,12 +52,12 @@ class SignetsAPIClient {
   /// If the [startDate] and/or [endDate] are specified the results will contains
   /// all the activities between these dates
   Future<List<CourseActivity>> getCoursesActivities(
-      {required String username,
-      required String password,
+      {@required String username,
+      @required String password,
       String session = "",
       String courseGroup = "",
-      DateTime? startDate,
-      DateTime? endDate}) async {
+      DateTime startDate,
+      DateTime endDate}) async {
     // Validate the format of parameters
     if (!_sessionShortNameRegExp.hasMatch(session)) {
       throw FormatException("Session $session isn't a correctly formatted");
@@ -115,8 +116,8 @@ class SignetsAPIClient {
   /// Call the SignetsAPI to get the courses activities for the [session] for
   /// the student ([username]).
   Future<List<ScheduleActivity>> getScheduleActivities(
-      {required String username,
-      required String password,
+      {@required String username,
+      @required String password,
       String session = ""}) async {
     if (!_sessionShortNameRegExp.hasMatch(session)) {
       throw FormatException("Session $session isn't correctly formatted");
@@ -153,7 +154,7 @@ class SignetsAPIClient {
 
   /// Call the SignetsAPI to get the courses of the student ([username]).
   Future<List<Course>> getCourses(
-      {required String username, required String password}) async {
+      {@required String username, @required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
             Urls.listCourseOperation, username, password)
@@ -171,9 +172,9 @@ class SignetsAPIClient {
   /// Call the SignetsAPI to get all the evaluations (exams) and the summary
   /// of [course] for the student ([username]).
   Future<CourseSummary> getCourseSummary(
-      {required String username,
-      required String password,
-      required Course course}) async {
+      {@required String username,
+      @required String password,
+      Course course}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
             Urls.listEvaluationsOperation, username, password)
@@ -182,13 +183,13 @@ class SignetsAPIClient {
 
     // Add the content needed by the operation
     operationContent.element("pSigle", nest: () {
-      operationContent.text(course.acronym!);
+      operationContent.text(course.acronym);
     });
     operationContent.element("pGroupe", nest: () {
-      operationContent.text(course.group!);
+      operationContent.text(course.group);
     });
     operationContent.element("pSession", nest: () {
-      operationContent.text(course.session!);
+      operationContent.text(course.session);
     });
 
     body
@@ -215,7 +216,7 @@ class SignetsAPIClient {
 
   /// Call the SignetsAPI to get the list of all the [Session] for the student ([username]).
   Future<List<Session>> getSessions(
-      {required String username, required String password}) async {
+      {@required String username, @required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
             Urls.listSessionsOperation, username, password)
@@ -233,7 +234,7 @@ class SignetsAPIClient {
 
   /// Call the SignetsAPI to get the [ProfileStudent] for the student.
   Future<ProfileStudent> getStudentInfo(
-      {required String username, required String password}) async {
+      {@required String username, @required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
             Urls.infoStudentOperation, username, password)
@@ -248,7 +249,7 @@ class SignetsAPIClient {
 
   /// Call the SignetsAPI to get the list of all the [Program] for the student ([username]).
   Future<List<Program>> getPrograms(
-      {required String username, required String password}) async {
+      {@required String username, @required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
             Urls.listProgramsOperation, username, password)
@@ -267,9 +268,9 @@ class SignetsAPIClient {
   /// Call the SignetsAPI to get the list of all [CourseEvaluation] for the [session]
   /// of the student ([username]).
   Future<List<CourseEvaluation>> getCoursesEvaluation(
-      {required String username,
-      required String password,
-      required Session session}) async {
+      {@required String username,
+      @required String password,
+      Session session}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
             Urls.readCourseEvaluationOperation, username, password)
@@ -278,7 +279,7 @@ class SignetsAPIClient {
     final operationContent = XmlBuilder();
 
     operationContent.element("pSession", nest: () {
-      operationContent.text(session.shortName!);
+      operationContent.text(session.shortName);
     });
 
     body

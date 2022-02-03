@@ -25,14 +25,14 @@ MonETSAPI:
 
 SignetsAPI:
 - `authenticate()`
-- `getCoursesActivities({String session = "", String courseGroup = "", DateTime? startDate, DateTime? endDate})`
+- `getCoursesActivities({String session = "", String courseGroup = "", DateTime startDate, DateTime endDate})`
 - `getScheduleActivities({String session = ""})`
 - `getCourses()`
-- `getCourseSummary({required Course course})`
+- `getCourseSummary({Course course})`
 - `getStudentInfo()`
 - `getStudentInfo()`
 - `getPrograms()`
-- `getCoursesEvaluation({required Session session})`
+- `getCoursesEvaluation({Session session})`
 
 ## Getting started
 

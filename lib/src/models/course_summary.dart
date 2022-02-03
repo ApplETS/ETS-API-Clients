@@ -1,89 +1,91 @@
 // FLUTTER / DART / THIRD-PARTIES
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 import 'evaluation.dart';
+
 
 /// Data class that represent the current mark, score, ... of a course
 class CourseSummary {
   /// Mark obtained by the student.
   /// (ex: 24)
-  final double? currentMark;
+  final double currentMark;
 
   /// Mark obtained by the student in percent.
   /// (ex: 24)
-  final double? currentMarkInPercent;
+  final double currentMarkInPercent;
 
   /// On how much the course is actually corrected (ex: 30)
   /// Sum of all the evaluations weight already published.
-  final double? markOutOf;
+  final double markOutOf;
 
   /// Average mark of the class (ex: 30)
   /// /!\ CAN BE NULL /!\
-  final double? passMark;
+  final double passMark;
 
   /// Standard deviation of the class
   /// /!\ CAN BE NULL /!\
-  final double? standardDeviation;
+  final double standardDeviation;
 
   /// Median of the class
   /// /!\ CAN BE NULL /!\
-  final double? median;
+  final double median;
 
   /// Percentile rank of the student on this course
   /// /!\ CAN BE NULL /!\
-  final int? percentileRank;
+  final int percentileRank;
 
   /// All the evaluations for this courses.
   final List<Evaluation> evaluations;
 
   CourseSummary(
-      {required this.currentMark,
-      required this.currentMarkInPercent,
-      required this.markOutOf,
-      required this.passMark,
-      required this.standardDeviation,
-      required this.median,
-      required this.percentileRank,
-      required this.evaluations});
+      {@required this.currentMark,
+      @required this.currentMarkInPercent,
+      @required this.markOutOf,
+      @required this.passMark,
+      @required this.standardDeviation,
+      @required this.median,
+      @required this.percentileRank,
+      @required this.evaluations});
 
   /// Used to create a new [CourseSummary] instance from a [XMLElement].
   factory CourseSummary.fromXmlNode(XmlElement node) => CourseSummary(
-      currentMark: node.getElement("scoreFinalSur100")!.innerText.isNotEmpty
+      currentMark: node.getElement("scoreFinalSur100").innerText.isNotEmpty
           ? double.parse(node
-              .getElement("scoreFinalSur100")!
+              .getElement("scoreFinalSur100")
               .innerText
               .replaceAll(",", "."))
           : null,
-      currentMarkInPercent: node.getElement("noteACeJour")!.innerText.isNotEmpty
+      currentMarkInPercent: node.getElement("noteACeJour").innerText.isNotEmpty
           ? double.parse(
-              node.getElement("noteACeJour")!.innerText.replaceAll(",", "."))
+              node.getElement("noteACeJour").innerText.replaceAll(",", "."))
           : 0.0,
-      markOutOf: node.getElement("tauxPublication")!.innerText.isNotEmpty
+      markOutOf: node.getElement("tauxPublication").innerText.isNotEmpty
           ? double.parse(
-              node.getElement("tauxPublication")!.innerText.replaceAll(",", "."))
+              node.getElement("tauxPublication").innerText.replaceAll(",", "."))
           : 0.0,
-      passMark: node.getElement("moyenneClasse")!.innerText.isNotEmpty
+      passMark: node.getElement("moyenneClasse").innerText.isNotEmpty
           ? double.parse(
-              node.getElement("moyenneClasse")!.innerText.replaceAll(",", "."))
+              node.getElement("moyenneClasse").innerText.replaceAll(",", "."))
           : null,
-      standardDeviation: node.getElement("ecartTypeClasse")!.innerText.isNotEmpty
+      standardDeviation: node.getElement("ecartTypeClasse").innerText.isNotEmpty
           ? double.parse(
-              node.getElement("ecartTypeClasse")!.innerText.replaceAll(",", "."))
+              node.getElement("ecartTypeClasse").innerText.replaceAll(",", "."))
           : null,
-      median: node.getElement("medianeClasse")!.innerText.isNotEmpty ? double.parse(node.getElement("medianeClasse")!.innerText.replaceAll(",", ".")) : null,
-      percentileRank: node.getElement("rangCentileClasse")!.innerText.isNotEmpty ? int.parse(node.getElement("rangCentileClasse")!.innerText.replaceAll(",0", "")) : null,
+      median: node.getElement("medianeClasse").innerText.isNotEmpty ? double.parse(node.getElement("medianeClasse").innerText.replaceAll(",", ".")) : null,
+      percentileRank: node.getElement("rangCentileClasse").innerText.isNotEmpty ? int.parse(node.getElement("rangCentileClasse").innerText.replaceAll(",0", "")) : null,
       evaluations: node.findAllElements("ElementEvaluation").map((node) => Evaluation.fromXml(node)).toList());
 
   /// Used to create [CourseSummary] instance from a JSON file
   factory CourseSummary.fromJson(Map<String, dynamic> json) => CourseSummary(
-      currentMark: json["currentMark"] as double?,
-      currentMarkInPercent: json["currentMarkInPercent"] as double?,
-      markOutOf: json["markOutOf"] as double?,
-      passMark: json["passMark"] as double?,
-      standardDeviation: json["standardDeviation"] as double?,
-      median: json["median"] as double?,
-      percentileRank: json["percentileRank"] as int?,
+      currentMark: json["currentMark"] as double,
+      currentMarkInPercent: json["currentMarkInPercent"] as double,
+      markOutOf: json["markOutOf"] as double,
+      passMark: json["passMark"] as double,
+      standardDeviation: json["standardDeviation"] as double,
+      median: json["median"] as double,
+      percentileRank: json["percentileRank"] as int,
       evaluations: (json["evaluations"] as List)
           .map<Evaluation>(
               (e) => Evaluation.fromJson(e as Map<String, dynamic>))

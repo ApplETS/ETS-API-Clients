@@ -14,8 +14,8 @@ import 'package:mockito/mockito.dart';
 import 'mocks/http_client_mock.dart';
 
 void main() {
-  late HttpClientMock clientMock;
-  late SignetsAPIClient service;
+  HttpClientMock clientMock;
+  SignetsAPIClient service;
 
   final Session session = Session(
       shortName: 'H2018',
@@ -867,7 +867,7 @@ void main() {
   });
 }
 
-String buildResponse(String operation, String body, [String? firstElement]) =>
+String buildResponse(String operation, String body, [String firstElement]) =>
     '<?xml version="1.0" encoding="utf-8"?> '
     '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> '
     '<soap:Body> '
@@ -883,7 +883,7 @@ String buildResponse(String operation, String body, [String? firstElement]) =>
     '</soap:Envelope>';
 
 String buildErrorResponse(String operation, String error,
-        [String? firstElement]) =>
+        [String firstElement]) =>
     '<?xml version="1.0" encoding="utf-8"?> '
     '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> '
     '<soap:Body>'

@@ -8,8 +8,8 @@ import 'package:ets_api_clients/src/constants/http_exception.dart';
 import 'package:ets_api_clients/clients.dart';
 
 void main() {
-  late MonETSAPIClient service;
-  late MockClient mockClient;
+  MonETSAPIClient service;
+  MockClient mockClient;
   group('MonETSApi - ', () {
     setUp(() {
       // default response stub

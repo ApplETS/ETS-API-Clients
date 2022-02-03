@@ -1,68 +1,69 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 class Program {
   /// Name of the program
-  final String? name;
+  final String name;
 
   /// Code of the program (ex: 0725)
-  final String? code;
+  final String code;
 
   /// Average grade of the program (x.xx / 4.30)
-  final String? average;
+  final String average;
 
   /// Number of accumulated credits for the program
-  final String? accumulatedCredits;
+  final String accumulatedCredits;
 
   /// Number of registered credits for the program
-  final String? registeredCredits;
+  final String registeredCredits;
 
   /// Number of completed courses for the program
-  final String? completedCourses;
+  final String completedCourses;
 
   /// Number of failed courses for the program
-  final String? failedCourses;
+  final String failedCourses;
 
   /// Number of equivalent courses for the program
-  final String? equivalentCourses;
+  final String equivalentCourses;
 
   /// Status of the program (Actif, Diplome)
-  final String? status;
+  final String status;
 
   Program(
-      {required this.name,
-      required this.code,
-      required this.average,
-      required this.accumulatedCredits,
-      required this.registeredCredits,
-      required this.completedCourses,
-      required this.failedCourses,
-      required this.equivalentCourses,
-      required this.status});
+      {@required this.name,
+      @required this.code,
+      @required this.average,
+      @required this.accumulatedCredits,
+      @required this.registeredCredits,
+      @required this.completedCourses,
+      @required this.failedCourses,
+      @required this.equivalentCourses,
+      @required this.status});
 
   /// Used to create a new [Program] instance from a [XMLElement].
   factory Program.fromXmlNode(XmlElement node) => Program(
-      name: node.getElement('libelle')!.innerText,
-      code: node.getElement('code')!.innerText,
-      average: node.getElement('moyenne')!.innerText,
-      accumulatedCredits: node.getElement('nbCreditsCompletes')!.innerText,
-      registeredCredits: node.getElement('nbCreditsInscrits')!.innerText,
-      completedCourses: node.getElement('nbCrsReussis')!.innerText,
-      failedCourses: node.getElement('nbCrsEchoues')!.innerText,
-      equivalentCourses: node.getElement('nbEquivalences')!.innerText,
-      status: node.getElement('statut')!.innerText);
+      name: node.getElement('libelle').innerText,
+      code: node.getElement('code').innerText,
+      average: node.getElement('moyenne').innerText,
+      accumulatedCredits: node.getElement('nbCreditsCompletes').innerText,
+      registeredCredits: node.getElement('nbCreditsInscrits').innerText,
+      completedCourses: node.getElement('nbCrsReussis').innerText,
+      failedCourses: node.getElement('nbCrsEchoues').innerText,
+      equivalentCourses: node.getElement('nbEquivalences').innerText,
+      status: node.getElement('statut').innerText);
 
   /// Used to create [CourseActivity] instance from a JSON file
   factory Program.fromJson(Map<String, dynamic> map) => Program(
-      name: map['libelle'] as String?,
-      code: map['code'] as String?,
-      average: map['moyenne'] as String?,
-      accumulatedCredits: map['nbCreditsCompletes'] as String?,
-      registeredCredits: map['nbCreditsInscrits'] as String?,
-      completedCourses: map['nbCrsReussis'] as String?,
-      failedCourses: map['nbCrsEchoues'] as String?,
-      equivalentCourses: map['nbEquivalences'] as String?,
-      status: map['statut'] as String?);
+      name: map['libelle'] as String,
+      code: map['code'] as String,
+      average: map['moyenne'] as String,
+      accumulatedCredits: map['nbCreditsCompletes'] as String,
+      registeredCredits: map['nbCreditsInscrits'] as String,
+      completedCourses: map['nbCrsReussis'] as String,
+      failedCourses: map['nbCrsEchoues'] as String,
+      equivalentCourses: map['nbEquivalences'] as String,
+      status: map['statut'] as String);
 
   Map<String, dynamic> toJson() => {
         'libelle': name,
