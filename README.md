@@ -43,7 +43,7 @@ dependencies:
   signets_api_client: 
     git:
       url: https://github.com/ApplETS/ETS-API-Clients.git
-      ref: v0.3.0
+      ref: v0.3.1
 ```
 
 ## Usage
