@@ -37,28 +37,28 @@ class Course {
 
   /// Information about when the course will be evaluated by the student.
   /// Can be null!!
-  CourseReview evaluation;
+  CourseReview review;
 
   /// Get the teacher name if available
-  String get teacherName => evaluation?.teacherName;
+  String get teacherName => review?.teacherName;
 
-  /// Determine if we are currently in the evaluation period for this course.
-  bool get inEvaluationPeriod {
-    if (evaluation == null) {
+  /// Determine if we are currently in the review period for this course.
+  bool get inReviewPeriod {
+    if (review == null) {
       return false;
     }
 
     final now = DateTime.now();
 
-    return now.isAfter(evaluation.startAt) && now.isBefore(evaluation.endAt);
+    return now.isAfter(review.startAt) && now.isBefore(review.endAt);
   }
 
-  /// Determine if the evaluation of this course is completed.
-  bool get evaluationCompleted {
-    if (evaluation == null) {
+  /// Determine if the review of this course is completed.
+  bool get reviewCompleted {
+    if (review == null) {
       return true;
     }
-    return evaluation.isCompleted;
+    return review.isCompleted;
   }
 
   Course(
@@ -70,7 +70,7 @@ class Course {
       @required this.numberOfCredits,
       this.grade,
       this.summary,
-      this.evaluation});
+      this.review});
 
   /// Used to create a new [Course] instance from a [XMLElement].
   factory Course.fromXmlNode(XmlElement node) => Course(
@@ -96,8 +96,8 @@ class Course {
       summary: map["summary"] != null
           ? CourseSummary.fromJson(map["summary"] as Map<String, dynamic>)
           : null,
-      evaluation: map["evaluation"] != null
-          ? CourseReview.fromJson(map["evaluation"] as Map<String, dynamic>)
+      review: map["review"] != null
+          ? CourseReview.fromJson(map["review"] as Map<String, dynamic>)
           : null);
 
   Map<String, dynamic> toJson() => {
@@ -109,7 +109,7 @@ class Course {
         'numberOfCredits': numberOfCredits,
         'grade': grade,
         'summary': summary,
-        'evaluation': evaluation
+        'review': review
       };
 
   @override
@@ -123,7 +123,7 @@ class Course {
         'grade: $grade, '
         'numberOfCredits: $numberOfCredits, '
         'summary: $summary, '
-        'evaluation: $evaluation}';
+        'review: $review}';
   }
 
   @override
@@ -139,7 +139,7 @@ class Course {
           grade == other.grade &&
           numberOfCredits == other.numberOfCredits &&
           summary == other.summary &&
-          evaluation == other.evaluation;
+          review == other.review;
 
   @override
   int get hashCode =>
@@ -151,5 +151,5 @@ class Course {
       grade.hashCode ^
       numberOfCredits.hashCode ^
       summary.hashCode ^
-      evaluation.hashCode;
+      review.hashCode;
 }
