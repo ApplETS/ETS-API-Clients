@@ -51,6 +51,6 @@ abstract class ISignetsAPIClient {
 
   /// Call the SignetsAPI to get the list of all [CourseReview] for the [session]
   /// of the student ([username]).
-  Future<List<CourseReview>> getCoursesEvaluation(
+  Future<List<CourseReview>> getCourseReviews(
       {String username, String password, Session session});
 }
