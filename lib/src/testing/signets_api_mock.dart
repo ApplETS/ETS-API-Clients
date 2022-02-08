@@ -147,12 +147,12 @@ class SignetsAPIClientMock extends Mock implements SignetsAPIClient {
   /// Stub the answer of the [getCoursesReviews] when the [username] and [session] is used.
   /// If [session] is null any session will be accepted.
   static void stubGetCourseReviews(SignetsAPIClientMock mock, String username,
-      {Session session, List<CourseReview> evaluationsToReturn = const []}) {
+      {Session session, List<CourseReview> reviewsToReturn = const []}) {
     when(mock.getCourseReviews(
             username: username,
             session: session ?? anyNamed('session'),
             password: anyNamed("password")))
-        .thenAnswer((_) async => evaluationsToReturn);
+        .thenAnswer((_) async => reviewsToReturn);
   }
 
   /// Throw [exceptionToThrow] when [getCoursesReviews] with the [username] and [session] is used.
