@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 /// Data-class that represent a course evaluation.
-class CourseEvaluation {
+class CourseReview {
   /// Course acronym (ex: LOG430)
   final String acronym;
 
@@ -25,7 +25,7 @@ class CourseEvaluation {
   /// Is the evaluation completed
   final bool isCompleted;
 
-  CourseEvaluation(
+  CourseReview(
       {@required this.acronym,
       @required this.group,
       @required this.teacherName,
@@ -35,7 +35,7 @@ class CourseEvaluation {
       @required this.isCompleted});
 
   /// Used to create a new [CourseEvaluation] instance from a [XMLElement].
-  factory CourseEvaluation.fromXmlNode(XmlElement node) => CourseEvaluation(
+  factory CourseReview.fromXmlNode(XmlElement node) => CourseReview(
       acronym: node.getElement('Sigle').innerText,
       group: node.getElement('Groupe').innerText,
       teacherName: node.getElement('Enseignant').innerText,
@@ -47,15 +47,14 @@ class CourseEvaluation {
           node.getElement('EstComplete').innerText.toLowerCase() == 'true');
 
   /// Used to create [CourseEvaluation] instance from a JSON file
-  factory CourseEvaluation.fromJson(Map<String, dynamic> map) =>
-      CourseEvaluation(
-          acronym: map['acronym'] as String,
-          group: map['group'] as String,
-          teacherName: map['teacherName'] as String,
-          type: map['type'] as String,
-          startAt: DateTime.tryParse(map['startAt'] as String),
-          endAt: DateTime.tryParse(map['endAt'] as String),
-          isCompleted: map['isCompleted'] as bool);
+  factory CourseReview.fromJson(Map<String, dynamic> map) => CourseReview(
+      acronym: map['acronym'] as String,
+      group: map['group'] as String,
+      teacherName: map['teacherName'] as String,
+      type: map['type'] as String,
+      startAt: DateTime.tryParse(map['startAt'] as String),
+      endAt: DateTime.tryParse(map['endAt'] as String),
+      isCompleted: map['isCompleted'] as bool);
 
   Map<String, dynamic> toJson() => {
         'acronym': acronym,
@@ -82,7 +81,7 @@ class CourseEvaluation {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CourseEvaluation &&
+      other is CourseReview &&
           runtimeType == other.runtimeType &&
           acronym == other.acronym &&
           group == other.group &&

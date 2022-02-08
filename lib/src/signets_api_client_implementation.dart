@@ -11,7 +11,7 @@ import 'constants/api_exception.dart';
 import 'constants/signets_errors.dart';
 import 'models/course_activity.dart';
 import 'models/course.dart';
-import 'models/course_evaluation.dart';
+import 'models/course_review.dart';
 import 'models/course_summary.dart';
 import 'models/profile_student.dart';
 import 'models/program.dart';
@@ -278,7 +278,7 @@ class SignetsAPIClient {
 
   /// Call the SignetsAPI to get the list of all [CourseEvaluation] for the [session]
   /// of the student ([username]).
-  Future<List<CourseEvaluation>> getCoursesEvaluation(
+  Future<List<CourseReview>> getCourseReviews(
       {@required String username,
       @required String password,
       Session session}) async {
@@ -306,7 +306,7 @@ class SignetsAPIClient {
     /// Build and return the list of Program
     return responseBody
         .findAllElements("EvaluationCours")
-        .map((node) => CourseEvaluation.fromXmlNode(node))
+        .map((node) => CourseReview.fromXmlNode(node))
         .toList();
   }
 }

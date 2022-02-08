@@ -32,7 +32,7 @@ SignetsAPI:
 - `getStudentInfo()`
 - `getStudentInfo()`
 - `getPrograms()`
-- `getCoursesEvaluation({Session session})`
+- `getCourseReviews({Session session})`
 
 ## Getting started
 
