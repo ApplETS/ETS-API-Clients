@@ -34,7 +34,7 @@ class CourseReview {
       @required this.endAt,
       @required this.isCompleted});
 
-  /// Used to create a new [CourseEvaluation] instance from a [XMLElement].
+  /// Used to create a new [CourseReview] instance from a [XMLElement].
   factory CourseReview.fromXmlNode(XmlElement node) => CourseReview(
       acronym: node.getElement('Sigle').innerText,
       group: node.getElement('Groupe').innerText,
@@ -46,7 +46,7 @@ class CourseReview {
       isCompleted:
           node.getElement('EstComplete').innerText.toLowerCase() == 'true');
 
-  /// Used to create [CourseEvaluation] instance from a JSON file
+  /// Used to create [CourseReview] instance from a JSON file
   factory CourseReview.fromJson(Map<String, dynamic> map) => CourseReview(
       acronym: map['acronym'] as String,
       group: map['group'] as String,
@@ -68,7 +68,7 @@ class CourseReview {
 
   @override
   String toString() {
-    return 'CourseEvaluation{'
+    return 'CourseReview{'
         'acronym: $acronym, '
         'group: $group, '
         'teacherName: $teacherName, '

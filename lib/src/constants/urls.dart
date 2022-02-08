@@ -21,5 +21,5 @@ class Urls {
   static const String listCourseOperation = "listeCours";
   static const String listEvaluationsOperation = "listeElementsEvaluation";
   static const String listeHoraireEtProf = "listeHoraireEtProf";
-  static const String readCourseEvaluationOperation = "lireEvaluationCours";
+  static const String readCourseReviewOperation = "lireEvaluationCours";
 }
