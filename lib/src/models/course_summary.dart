@@ -3,8 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
-import 'evaluation.dart';
-
+import 'course_evaluation.dart';
 
 /// Data class that represent the current mark, score, ... of a course
 class CourseSummary {
@@ -37,7 +36,7 @@ class CourseSummary {
   final int percentileRank;
 
   /// All the evaluations for this courses.
-  final List<Evaluation> evaluations;
+  final List<CourseEvaluation> evaluations;
 
   CourseSummary(
       {@required this.currentMark,
@@ -75,7 +74,7 @@ class CourseSummary {
           : null,
       median: node.getElement("medianeClasse").innerText.isNotEmpty ? double.parse(node.getElement("medianeClasse").innerText.replaceAll(",", ".")) : null,
       percentileRank: node.getElement("rangCentileClasse").innerText.isNotEmpty ? int.parse(node.getElement("rangCentileClasse").innerText.replaceAll(",0", "")) : null,
-      evaluations: node.findAllElements("ElementEvaluation").map((node) => Evaluation.fromXml(node)).toList());
+      evaluations: node.findAllElements("ElementEvaluation").map((node) => CourseEvaluation.fromXml(node)).toList());
 
   /// Used to create [CourseSummary] instance from a JSON file
   factory CourseSummary.fromJson(Map<String, dynamic> json) => CourseSummary(
@@ -87,8 +86,8 @@ class CourseSummary {
       median: json["median"] as double,
       percentileRank: json["percentileRank"] as int,
       evaluations: (json["evaluations"] as List)
-          .map<Evaluation>(
-              (e) => Evaluation.fromJson(e as Map<String, dynamic>))
+          .map<CourseEvaluation>(
+              (e) => CourseEvaluation.fromJson(e as Map<String, dynamic>))
           .toList());
 
   Map<String, dynamic> toJson() => {

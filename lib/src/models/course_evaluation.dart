@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 /// Data-class that represent an evaluation which happened during a course
-class Evaluation {
+class CourseEvaluation {
   final String courseGroup;
 
   /// Title of the evaluation (ex: Laboratoire 1)
@@ -49,7 +49,7 @@ class Evaluation {
 
   double get markInPercent => mark / correctedEvaluationOutOfFormatted;
 
-  Evaluation(
+  CourseEvaluation(
       {@required this.courseGroup,
       @required this.title,
       @required this.weight,
@@ -68,8 +68,8 @@ class Evaluation {
                 correctedEvaluationOutOf.split("+").first.replaceAll(",", "."))
             : 0.0;
 
-  /// Used to create a new [Evaluation] instance from a [XMLElement].
-  factory Evaluation.fromXml(XmlElement node) => Evaluation(
+  /// Used to create a new [CourseEvaluation] instance from a [XMLElement].
+  factory CourseEvaluation.fromXml(XmlElement node) => CourseEvaluation(
       courseGroup: node.getElement('coursGroupe').innerText,
       title: node.getElement('nom').innerText,
       mark: node.getElement('note').innerText.isNotEmpty
@@ -101,23 +101,24 @@ class Evaluation {
           ? DateTime.parse(node.getElement('dateCible').innerText)
           : null);
 
-  /// Used to create [Evaluation] instance from a JSON file
-  factory Evaluation.fromJson(Map<String, dynamic> map) => Evaluation(
-      courseGroup: map["courseGroup"] as String,
-      title: map["title"] as String,
-      mark: map["mark"] as double,
-      correctedEvaluationOutOf: map["correctedEvaluationOutOf"] as String,
-      weight: map["weight"] as double,
-      passMark: map["passMark"] as double,
-      standardDeviation: map["standardDeviation"] as double,
-      median: map["median"] as double,
-      percentileRank: map["percentileRank"] as int,
-      published: map["published"] as bool,
-      teacherMessage: map["teacherMessage"] as String,
-      ignore: map["ignore"] as bool,
-      targetDate: map["targetDate"] == null
-          ? null
-          : DateTime.parse(map["targetDate"] as String));
+  /// Used to create [CourseEvaluation] instance from a JSON file
+  factory CourseEvaluation.fromJson(Map<String, dynamic> map) =>
+      CourseEvaluation(
+          courseGroup: map["courseGroup"] as String,
+          title: map["title"] as String,
+          mark: map["mark"] as double,
+          correctedEvaluationOutOf: map["correctedEvaluationOutOf"] as String,
+          weight: map["weight"] as double,
+          passMark: map["passMark"] as double,
+          standardDeviation: map["standardDeviation"] as double,
+          median: map["median"] as double,
+          percentileRank: map["percentileRank"] as int,
+          published: map["published"] as bool,
+          teacherMessage: map["teacherMessage"] as String,
+          ignore: map["ignore"] as bool,
+          targetDate: map["targetDate"] == null
+              ? null
+              : DateTime.parse(map["targetDate"] as String));
 
   Map<String, dynamic> toJson() => {
         'courseGroup': courseGroup,
@@ -138,7 +139,7 @@ class Evaluation {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Evaluation &&
+      other is CourseEvaluation &&
           runtimeType == other.runtimeType &&
           courseGroup == other.courseGroup &&
           title == other.title &&
