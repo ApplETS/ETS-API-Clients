@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
-import 'course_evaluation.dart';
+import 'course_review.dart';
 import 'course_summary.dart';
 
 // MODELS
@@ -37,7 +37,7 @@ class Course {
 
   /// Information about when the course will be evaluated by the student.
   /// Can be null!!
-  CourseEvaluation evaluation;
+  CourseReview evaluation;
 
   /// Get the teacher name if available
   String get teacherName => evaluation?.teacherName;
@@ -97,7 +97,7 @@ class Course {
           ? CourseSummary.fromJson(map["summary"] as Map<String, dynamic>)
           : null,
       evaluation: map["evaluation"] != null
-          ? CourseEvaluation.fromJson(map["evaluation"] as Map<String, dynamic>)
+          ? CourseReview.fromJson(map["evaluation"] as Map<String, dynamic>)
           : null);
 
   Map<String, dynamic> toJson() => {

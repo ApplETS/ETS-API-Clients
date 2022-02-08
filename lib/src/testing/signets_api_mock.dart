@@ -144,25 +144,23 @@ class SignetsAPIClientMock extends Mock implements SignetsAPIClient {
         .thenThrow(exceptionToThrow);
   }
 
-  /// Stub the answer of the [getCoursesEvaluation] when the [username] and [session] is used.
+  /// Stub the answer of the [getCoursesReviews] when the [username] and [session] is used.
   /// If [session] is null any session will be accepted.
-  static void stubGetCoursesEvaluation(
-      SignetsAPIClientMock mock, String username,
-      {Session session,
-      List<CourseEvaluation> evaluationsToReturn = const []}) {
-    when(mock.getCoursesEvaluation(
+  static void stubGetCourseReviews(SignetsAPIClientMock mock, String username,
+      {Session session, List<CourseReview> evaluationsToReturn = const []}) {
+    when(mock.getCourseReviews(
             username: username,
             session: session ?? anyNamed('session'),
             password: anyNamed("password")))
         .thenAnswer((_) async => evaluationsToReturn);
   }
 
-  /// Throw [exceptionToThrow] when [getCoursesEvaluation] with the [username] and [session] is used.
+  /// Throw [exceptionToThrow] when [getCoursesReviews] with the [username] and [session] is used.
   /// If [session] is null any session will be accepted.
-  static void stubGetCoursesEvaluationException(
+  static void stubGetCourseReviewsException(
       SignetsAPIClientMock mock, String username,
       {Session session, ApiException exceptionToThrow = signetsException}) {
-    when(mock.getCoursesEvaluation(
+    when(mock.getCourseReviews(
             username: username,
             session: session ?? anyNamed('session'),
             password: anyNamed("password")))

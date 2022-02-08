@@ -11,7 +11,7 @@ import 'constants/api_exception.dart';
 import 'constants/signets_errors.dart';
 import 'models/course_activity.dart';
 import 'models/course.dart';
-import 'models/course_evaluation.dart';
+import 'models/course_review.dart';
 import 'models/course_summary.dart';
 import 'models/profile_student.dart';
 import 'models/program.dart';
@@ -276,15 +276,15 @@ class SignetsAPIClient {
         .toList();
   }
 
-  /// Call the SignetsAPI to get the list of all [CourseEvaluation] for the [session]
+  /// Call the SignetsAPI to get the list of all [CourseReview] for the [session]
   /// of the student ([username]).
-  Future<List<CourseEvaluation>> getCoursesEvaluation(
+  Future<List<CourseReview>> getCourseReviews(
       {@required String username,
       @required String password,
       Session session}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-            Urls.readCourseEvaluationOperation, username, password)
+            Urls.readCourseReviewOperation, username, password)
         .buildDocument();
 
     final operationContent = XmlBuilder();
@@ -294,19 +294,19 @@ class SignetsAPIClient {
     });
 
     body
-        .findAllElements(Urls.readCourseEvaluationOperation,
+        .findAllElements(Urls.readCourseReviewOperation,
             namespace: Urls.signetsOperationBase)
         .first
         .children
         .add(operationContent.buildFragment());
 
     final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.readCourseEvaluationOperation);
+        _httpClient, body, Urls.readCourseReviewOperation);
 
     /// Build and return the list of Program
     return responseBody
         .findAllElements("EvaluationCours")
-        .map((node) => CourseEvaluation.fromXmlNode(node))
+        .map((node) => CourseReview.fromXmlNode(node))
         .toList();
   }
 }

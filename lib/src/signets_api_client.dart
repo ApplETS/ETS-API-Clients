@@ -1,6 +1,6 @@
 import 'models/course_activity.dart';
 import 'models/course.dart';
-import 'models/course_evaluation.dart';
+import 'models/course_review.dart';
 import 'models/course_summary.dart';
 import 'models/profile_student.dart';
 import 'models/program.dart';
@@ -49,8 +49,8 @@ abstract class ISignetsAPIClient {
   /// Call the SignetsAPI to get the list of all the [Program] for the student ([username]).
   Future<List<Program>> getPrograms({String username, String password});
 
-  /// Call the SignetsAPI to get the list of all [CourseEvaluation] for the [session]
+  /// Call the SignetsAPI to get the list of all [CourseReview] for the [session]
   /// of the student ([username]).
-  Future<List<CourseEvaluation>> getCoursesEvaluation(
+  Future<List<CourseReview>> getCoursesEvaluation(
       {String username, String password, Session session});
 }

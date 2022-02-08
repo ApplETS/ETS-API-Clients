@@ -8,7 +8,7 @@ import 'package:http/testing.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ets_api_clients/models.dart';
-import 'package:ets_api_clients/src/models/evaluation.dart' as model;
+import 'package:ets_api_clients/src/models/course_evaluation.dart' as model;
 import 'package:mockito/mockito.dart';
 
 import 'mocks/http_client_mock.dart';
@@ -639,7 +639,7 @@ void main() {
           median: 4.5,
           percentileRank: 99,
           evaluations: [
-            model.Evaluation(
+            model.CourseEvaluation(
                 courseGroup: 'GEN101-01',
                 title: 'Test',
                 correctedEvaluationOutOf: "20",
@@ -647,7 +647,7 @@ void main() {
                 published: false,
                 teacherMessage: '',
                 ignore: false),
-            model.Evaluation(
+            model.CourseEvaluation(
                 courseGroup: 'GEN101-02',
                 title: 'Test',
                 mark: 18,
@@ -782,7 +782,7 @@ void main() {
     });
 
     group("getCoursesEvaluation - ", () {
-      const String courseEvaluationCompletedXML = '<EvaluationCours> '
+      const String courseReviewCompletedXML = '<EvaluationCours> '
           '<Sigle>GEN101</Sigle> '
           '<Groupe>01</Groupe> '
           '<Enseignant>April, Alain</Enseignant> '
@@ -792,7 +792,7 @@ void main() {
           '<EstComplete>true</EstComplete> '
           '</EvaluationCours>';
 
-      const String courseEvaluationNotCompletedXML = '<EvaluationCours> '
+      const String courseReviewNotCompletedXML = '<EvaluationCours> '
           '<Sigle>GEN102</Sigle> '
           '<Groupe>01</Groupe> '
           '<Enseignant>April, Alain</Enseignant> '
@@ -802,7 +802,7 @@ void main() {
           '<EstComplete>false</EstComplete> '
           '</EvaluationCours>';
 
-      final CourseEvaluation courseEvaluationCompleted = CourseEvaluation(
+      final CourseReview courseReviewCompleted = CourseReview(
           acronym: 'GEN101',
           group: '01',
           teacherName: 'April, Alain',
@@ -811,7 +811,7 @@ void main() {
           type: 'Cours',
           isCompleted: true);
 
-      final CourseEvaluation courseEvaluationNotCompleted = CourseEvaluation(
+      final CourseReview courseReviewNotCompleted = CourseReview(
           acronym: 'GEN102',
           group: '01',
           teacherName: 'April, Alain',
@@ -825,20 +825,18 @@ void main() {
         const String password = "password";
 
         final String stubResponse = buildResponse(
-            Urls.readCourseEvaluationOperation,
-            courseEvaluationCompletedXML + courseEvaluationNotCompletedXML,
+            Urls.readCourseReviewOperation,
+            courseReviewCompletedXML + courseReviewNotCompletedXML,
             'liste');
 
         HttpClientMock.stubPost(clientMock, Urls.signetsAPI, stubResponse);
 
-        final result = await service.getCoursesEvaluation(
+        final result = await service.getCourseReviews(
             username: username, password: password, session: session);
 
-        expect(result, isA<List<CourseEvaluation>>());
-        expect(
-            result,
-            containsAll(
-                [courseEvaluationCompleted, courseEvaluationNotCompleted]));
+        expect(result, isA<List<CourseReview>>());
+        expect(result,
+            containsAll([courseReviewCompleted, courseReviewNotCompleted]));
       });
 
       // Currently SignetsAPI doesn't have a clear way to indicate which error
@@ -849,14 +847,14 @@ void main() {
         const String password = "password";
 
         final String stubResponse = buildErrorResponse(
-            Urls.readCourseEvaluationOperation, 'An error occurred', 'liste');
+            Urls.readCourseReviewOperation, 'An error occurred', 'liste');
 
         MockClient mockClient = MockClient((request) async {
           return http.Response(stubResponse, 200);
         });
 
         expect(
-            service.getCoursesEvaluation(
+            service.getCourseReviews(
                 username: username, password: password, session: session),
             throwsA(isInstanceOf<ApiException>()),
             reason:

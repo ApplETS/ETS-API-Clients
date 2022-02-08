@@ -32,7 +32,7 @@ SignetsAPI:
 - `getStudentInfo({String username, String password})`
 - `getStudentInfo({String username, String password})`
 - `getPrograms({String username, String password})`
-- `getCoursesEvaluation({String username, String password, Session session})`
+- `getCourseReviews({String username, String password, Session session})`
 
 ## Getting started
 
