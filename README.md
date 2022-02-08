@@ -21,26 +21,29 @@ Also, it's now possible to use null safety on models and functions from this pac
  With this package you can call specific method from multiple sources:
 
 MonETSAPI:
-- `authenticate()`
+- `authenticate({String username, String password})`
 
 SignetsAPI:
-- `authenticate()`
-- `getCoursesActivities({String session = "", String courseGroup = "", DateTime startDate, DateTime endDate})`
-- `getScheduleActivities({String session = ""})`
-- `getCourses()`
-- `getCourseSummary({Course course})`
-- `getStudentInfo()`
-- `getStudentInfo()`
-- `getPrograms()`
-- `getCourseReviews({Session session})`
+- `authenticate({String username, String password})`
+- `getCoursesActivities({String username, String password, String session = "", String courseGroup = "", DateTime startDate, DateTime endDate})`
+- `getScheduleActivities({String username, String password, String session = ""})`
+- `getCourses({String username, String password})`
+- `getCourseSummary({String username, String password, Course course})`
+- `getStudentInfo({String username, String password})`
+- `getStudentInfo({String username, String password})`
+- `getPrograms({String username, String password})`
+- `getCourseReviews({String username, String password, Session session})`
 
 ## Getting started
 
-To start using this package, it's as simple as to import the package in your pubspec.yaml file:
+To start using this package, it's as simple as to import the package in your pubspec.yaml file using the git tg of the desired version:
 ```yaml
 dependencies:
   ...
-  signets_api_client: ^0.1.0
+  signets_api_client: 
+    git:
+      url: https://github.com/ApplETS/ETS-API-Clients.git
+      ref: v0.3.1
 ```
 
 ## Usage
@@ -51,10 +54,19 @@ To use this library you can create an instance of the `SignetsApiClient` class. 
 
 import 'package:signets_api_client/clients.dart';
 
-// ...
+  // ...
+  
+  final programs = await SignetsAPIClient().getPrograms(username: "user", password: "pwd");
+  final monEtsUser = await MonETSAPIClient().getPrograms(username: "user", password: "pwd");
+```
 
-  final signetsAPIClient = SignetsAPIClient(username, password);
-  final programs = await signetsAPIClient.getPrograms();
+Or using getIt:
+```dart
+  locator.registerLazySingleton(() => SignetsAPIClient());
+  
+  // from anywhere in your code (and easily mockable)
+  
+  locator<SignetsAPIClient>().getStudentInfo(username: "user", password: "pwd");
 ```
 
 To import models or exceptions used in this package you can use these simples imports:
@@ -64,7 +76,21 @@ import 'package:signets_api_client/exceptions.dart';
 ```
 ## Mock
 
-TODO: Add a way to easily mock the clients.
+Mocks are provided by this package for each client if you import:
+```dart
+import 'package:signets_api_client/testing.dart';
+
+SignetsAPIClientMock.stubGetCourseSummary(mock, "username", course,
+      summaryToReturn: mySummary);
+```
+
+You can use the static class to stub any function present in the [Features](#Features) section of this doc. Couples of things to know:
+- The password is `anyNamed` which means it could be any password passed as parameter to stub this entry.
+- You can also stub Exception:
+```dart
+SignetsAPIClientMock.stubGetCourseSummaryException(mock, "username", course,
+      exceptionToThrow: MyException("An exception occurs while accessing get course summary"));
+```
 
 ## Additional information
 
