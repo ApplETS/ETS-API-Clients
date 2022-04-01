@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
 
 import 'monets_api_client.dart';
@@ -11,20 +10,14 @@ import 'models/mon_ets_user.dart';
 import 'package:http/http.dart' as http;
 
 /// A Wrapper for all calls to MonETS API.
-class MonETSAPIClient extends IMonETSAPIClient {
+class MonETSAPIClient implements IMonETSAPIClient {
   static const String tag = "MonETSApi";
   static const String tagError = "$tag - Error";
 
-  http.Client _httpClient;
+  final http.Client _httpClient;
 
-  MonETSAPIClient({http.Client client}) {
-    if (client == null) {
-      final ioClient = HttpClient();
-      _httpClient = IOClient(ioClient);
-    } else {
-      _httpClient = client;
-    }
-  }
+  MonETSAPIClient({http.Client? client})
+      : _httpClient = client ?? IOClient(HttpClient());
 
   /// Authenticate the basic MonETS user
   ///
@@ -32,7 +25,7 @@ class MonETSAPIClient extends IMonETSAPIClient {
   /// else than a 200 code
   @override
   Future<MonETSUser> authenticate(
-      {@required String username, @required String password}) async {
+      {required String username, required String password}) async {
     final response = await _httpClient.post(
         Uri.parse(Urls.authenticationMonETS),
         body: {"Username": username, "Password": password});

@@ -1,5 +1,4 @@
 // FLUTTER / DART / THIRD-PARTIES
-import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 /// Data-class that represent a course evaluation.
@@ -26,25 +25,25 @@ class CourseReview {
   final bool isCompleted;
 
   CourseReview(
-      {@required this.acronym,
-      @required this.group,
-      @required this.teacherName,
-      @required this.type,
-      @required this.startAt,
-      @required this.endAt,
-      @required this.isCompleted});
+      {required this.acronym,
+      required this.group,
+      required this.teacherName,
+      required this.type,
+      required this.startAt,
+      required this.endAt,
+      required this.isCompleted});
 
   /// Used to create a new [CourseReview] instance from a [XMLElement].
   factory CourseReview.fromXmlNode(XmlElement node) => CourseReview(
-      acronym: node.getElement('Sigle').innerText,
-      group: node.getElement('Groupe').innerText,
-      teacherName: node.getElement('Enseignant').innerText,
-      type: node.getElement('TypeEvaluation').innerText,
+      acronym: node.getElement('Sigle')!.innerText,
+      group: node.getElement('Groupe')!.innerText,
+      teacherName: node.getElement('Enseignant')!.innerText,
+      type: node.getElement('TypeEvaluation')!.innerText,
       startAt:
-          DateTime.tryParse(node.getElement('DateDebutEvaluation').innerText),
-      endAt: DateTime.tryParse(node.getElement('DateFinEvaluation').innerText),
+          DateTime.parse(node.getElement('DateDebutEvaluation')!.innerText),
+      endAt: DateTime.parse(node.getElement('DateFinEvaluation')!.innerText),
       isCompleted:
-          node.getElement('EstComplete').innerText.toLowerCase() == 'true');
+          node.getElement('EstComplete')!.innerText.toLowerCase() == 'true');
 
   /// Used to create [CourseReview] instance from a JSON file
   factory CourseReview.fromJson(Map<String, dynamic> map) => CourseReview(
@@ -52,8 +51,8 @@ class CourseReview {
       group: map['group'] as String,
       teacherName: map['teacherName'] as String,
       type: map['type'] as String,
-      startAt: DateTime.tryParse(map['startAt'] as String),
-      endAt: DateTime.tryParse(map['endAt'] as String),
+      startAt: DateTime.parse(map['startAt'] as String),
+      endAt: DateTime.parse(map['endAt'] as String),
       isCompleted: map['isCompleted'] as bool);
 
   Map<String, dynamic> toJson() => {
@@ -61,8 +60,8 @@ class CourseReview {
         'group': group,
         'teacherName': teacherName,
         'type': type,
-        'startAt': startAt?.toString(),
-        'endAt': endAt?.toString(),
+        'startAt': startAt.toString(),
+        'endAt': endAt.toString(),
         'isCompleted': isCompleted,
       };
 

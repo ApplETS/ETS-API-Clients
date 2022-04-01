@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 /// Data-class that represent an evaluation which happened during a course
@@ -10,12 +9,11 @@ class CourseEvaluation {
 
   /// Date on which the evaluation should happen (can also be the date on which
   /// the mark was enter in the system)
-  /// Can be null!
-  final DateTime targetDate;
+  final DateTime? targetDate;
 
   /// Mark obtained by the student on the evaluation
   /// (ex: 24)
-  final double mark;
+  final double? mark;
 
   /// On how much the evaluation is corrected (ex: 30)
   final double correctedEvaluationOutOfFormatted;
@@ -27,16 +25,16 @@ class CourseEvaluation {
   final double weight;
 
   /// Average mark of the students on this evaluation (ex: 30)
-  final double passMark;
+  final double? passMark;
 
   /// Standard deviation of the evaluation
-  final double standardDeviation;
+  final double? standardDeviation;
 
   /// Median of the evaluation
-  final double median;
+  final double? median;
 
   /// Percentile rank of the student on this evaluation
-  final int percentileRank;
+  final int? percentileRank;
 
   /// Is the mark of the evaluation published
   final bool published;
@@ -45,18 +43,18 @@ class CourseEvaluation {
   final String teacherMessage;
 
   /// Is this evaluation ignored in the final grade
-  final bool ignore;
+  final bool? ignore;
 
-  double get markInPercent => mark / correctedEvaluationOutOfFormatted;
+  double get markInPercent => mark! / correctedEvaluationOutOfFormatted;
 
   CourseEvaluation(
-      {@required this.courseGroup,
-      @required this.title,
-      @required this.weight,
-      @required this.published,
-      @required this.teacherMessage,
-      @required this.ignore,
-      @required this.correctedEvaluationOutOf,
+      {required this.courseGroup,
+      required this.title,
+      required this.weight,
+      required this.published,
+      required this.teacherMessage,
+      required this.ignore,
+      required this.correctedEvaluationOutOf,
       this.mark,
       this.passMark,
       this.standardDeviation,
@@ -70,35 +68,35 @@ class CourseEvaluation {
 
   /// Used to create a new [CourseEvaluation] instance from a [XMLElement].
   factory CourseEvaluation.fromXml(XmlElement node) => CourseEvaluation(
-      courseGroup: node.getElement('coursGroupe').innerText,
-      title: node.getElement('nom').innerText,
-      mark: node.getElement('note').innerText.isNotEmpty
-          ? double.parse(node.getElement('note').innerText.replaceAll(",", "."))
+      courseGroup: node.getElement('coursGroupe')!.innerText,
+      title: node.getElement('nom')!.innerText,
+      mark: node.getElement('note')!.innerText.isNotEmpty
+          ? double.parse(node.getElement('note')!.innerText.replaceAll(",", "."))
           : null,
       correctedEvaluationOutOf:
-          node.getElement('corrigeSur').innerText.replaceAll(",", "."),
+          node.getElement('corrigeSur')!.innerText.replaceAll(",", "."),
       weight: double.parse(
-          node.getElement('ponderation').innerText.replaceAll(",", ".")),
-      passMark: node.getElement('moyenne').innerText.isNotEmpty
+          node.getElement('ponderation')!.innerText.replaceAll(",", ".")),
+      passMark: node.getElement('moyenne')!.innerText.isNotEmpty
           ? double.parse(
-              node.getElement('moyenne').innerText.replaceAll(",", "."))
+              node.getElement('moyenne')!.innerText.replaceAll(",", "."))
           : null,
-      standardDeviation: node.getElement('ecartType').innerText.isNotEmpty
+      standardDeviation: node.getElement('ecartType')!.innerText.isNotEmpty
           ? double.parse(
-              node.getElement('ecartType').innerText.replaceAll(",", "."))
+              node.getElement('ecartType')!.innerText.replaceAll(",", "."))
           : null,
-      median: node.getElement('mediane').innerText.isNotEmpty
+      median: node.getElement('mediane')!.innerText.isNotEmpty
           ? double.parse(
-              node.getElement('mediane').innerText.replaceAll(",", "."))
+              node.getElement('mediane')!.innerText.replaceAll(",", "."))
           : null,
-      percentileRank: node.getElement('rangCentile').innerText.isNotEmpty
-          ? int.parse(node.getElement('rangCentile').innerText)
+      percentileRank: node.getElement('rangCentile')!.innerText.isNotEmpty
+          ? int.parse(node.getElement('rangCentile')!.innerText)
           : null,
-      published: node.getElement('publie').innerText == "Oui",
-      teacherMessage: node.getElement('messageDuProf').innerText,
-      ignore: node.getElement('ignoreDuCalcul').innerText == "Oui",
-      targetDate: node.getElement('dateCible').innerText.isNotEmpty
-          ? DateTime.parse(node.getElement('dateCible').innerText)
+      published: node.getElement('publie')!.innerText == "Oui",
+      teacherMessage: node.getElement('messageDuProf')!.innerText,
+      ignore: node.getElement('ignoreDuCalcul')!.innerText == "Oui",
+      targetDate: node.getElement('dateCible')!.innerText.isNotEmpty
+          ? DateTime.parse(node.getElement('dateCible')!.innerText)
           : null);
 
   /// Used to create [CourseEvaluation] instance from a JSON file
@@ -106,16 +104,16 @@ class CourseEvaluation {
       CourseEvaluation(
           courseGroup: map["courseGroup"] as String,
           title: map["title"] as String,
-          mark: map["mark"] as double,
+          mark: map["mark"] as double?,
           correctedEvaluationOutOf: map["correctedEvaluationOutOf"] as String,
           weight: map["weight"] as double,
-          passMark: map["passMark"] as double,
-          standardDeviation: map["standardDeviation"] as double,
-          median: map["median"] as double,
-          percentileRank: map["percentileRank"] as int,
+          passMark: map["passMark"] as double?,
+          standardDeviation: map["standardDeviation"] as double?,
+          median: map["median"] as double?,
+          percentileRank: map["percentileRank"] as int?,
           published: map["published"] as bool,
           teacherMessage: map["teacherMessage"] as String,
-          ignore: map["ignore"] as bool,
+          ignore: map["ignore"] as bool?,
           targetDate: map["targetDate"] == null
               ? null
               : DateTime.parse(map["targetDate"] as String));

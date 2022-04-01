@@ -1,5 +1,7 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:ets_api_clients/src/testing/mon_ets_api_mock.mocks.dart';
 import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
 
 // MODELS
 import 'package:ets_api_clients/models.dart';
@@ -11,7 +13,8 @@ import 'package:ets_api_clients/clients.dart';
 import 'package:ets_api_clients/exceptions.dart';
 
 /// Mock for the [MonETSApi]
-class MonETSAPIClientMock extends Mock implements MonETSAPIClient {
+@GenerateMocks([MonETSAPIClient])
+class MonETSAPIClientMock extends MockMonETSAPIClient {
   /// Stub the user to return when a authenticate is called using the username
   /// of [userToReturn]
   static void stubAuthenticate(
@@ -32,7 +35,7 @@ class MonETSAPIClientMock extends Mock implements MonETSAPIClient {
   /// Stub to throw an [Exception] when the authenticate
   /// will be called with this [username]
   static void stubException(MonETSAPIClientMock mock, String username,
-      {Exception exception}) {
+      {Exception? exception}) {
     exception ??= Exception();
     when(mock.authenticate(username: username, password: anyNamed('password')))
         .thenThrow(exception);

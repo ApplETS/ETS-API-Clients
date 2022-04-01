@@ -2,20 +2,19 @@
 import 'package:ets_api_clients/clients.dart';
 import 'package:ets_api_clients/exceptions.dart';
 import 'package:ets_api_clients/src/constants/urls.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ets_api_clients/models.dart';
 import 'package:ets_api_clients/src/models/course_evaluation.dart' as model;
-import 'package:mockito/mockito.dart';
 
-import 'mocks/http_client_mock.dart';
+import 'mocks/http_client_mock_helper.dart';
 
 void main() {
-  HttpClientMock clientMock;
-  SignetsAPIClient service;
+  late MockClient clientMock;
+  late SignetsAPIClient service;
 
   final Session session = Session(
       shortName: 'H2018',
@@ -34,8 +33,8 @@ void main() {
 
   group('SignetsApi - ', () {
     setUp(() {
-      clientMock = HttpClientMock();
-      service = SignetsAPIClient(client: clientMock);
+      service =
+          buildService(MockClient((_) => Future.value(http.Response('', 500))));
     });
 
     tearDown(() {
@@ -73,7 +72,9 @@ void main() {
             courseActivityXML + courseActivityXML,
             'ListeDesSeances');
 
-        HttpClientMock.stubPost(clientMock, Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result = await service.getCoursesActivities(
             username: username,
@@ -99,7 +100,9 @@ void main() {
             SignetsError.scheduleNotAvailable,
             'ListeDesSeances');
 
-        HttpClientMock.stubPost(clientMock, Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result = await service.getCoursesActivities(
             username: username, password: password, session: session);
@@ -107,15 +110,14 @@ void main() {
         expect(result, isA<List<CourseActivity>>());
         expect(result.length, 0);
 
-        // Restart the test with the female version of the error
-        reset(clientMock);
-
         final String stubResponseF = buildErrorResponse(
             Urls.listClassScheduleOperation,
             SignetsError.scheduleNotAvailable,
             'ListeDesSeances');
 
-        HttpClientMock.stubPost(clientMock, Urls.signetsAPI, stubResponseF);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponseF);
+        service = buildService(clientMock);
 
         final resultF = await service.getCoursesActivities(
             username: username, password: password, session: session);
@@ -133,7 +135,7 @@ void main() {
           expect(
               service.getCoursesActivities(
                   username: username, password: password, session: session),
-              throwsA(isInstanceOf<FormatException>()),
+              throwsA(isA<FormatException>()),
               reason:
                   "The session should validate the regex: /^([A-E-H][0-9]{4})/");
         });
@@ -153,7 +155,7 @@ void main() {
                   password: password,
                   session: session,
                   courseGroup: courseGroup1),
-              throwsA(isInstanceOf<FormatException>()),
+              throwsA(isA<FormatException>()),
               reason:
                   "A courseGroup should validate the regex: /^([A-Z]{3}[0-9]{3}-[0-9]{2})/");
           expect(
@@ -162,7 +164,7 @@ void main() {
                   password: password,
                   session: session,
                   courseGroup: courseGroup2),
-              throwsA(isInstanceOf<FormatException>()),
+              throwsA(isA<FormatException>()),
               reason:
                   "A courseGroup should validate the regex: /^([A-Z]{3}[0-9]{3}-[0-9]{2})/");
           expect(
@@ -171,7 +173,7 @@ void main() {
                   password: password,
                   session: session,
                   courseGroup: courseGroup3),
-              throwsA(isInstanceOf<FormatException>()),
+              throwsA(isA<FormatException>()),
               reason:
                   "A courseGroup should validate the regex: /^([A-Z]{3}[0-9]{3}-[0-9]{2})/");
           expect(
@@ -180,7 +182,7 @@ void main() {
                   password: password,
                   session: session,
                   courseGroup: courseGroup4),
-              throwsA(isInstanceOf<FormatException>()),
+              throwsA(isA<FormatException>()),
               reason:
                   "A courseGroup should validate the regex: /^([A-Z]{3}[0-9]{3}-[0-9]{2})/");
         });
@@ -214,17 +216,16 @@ void main() {
             Urls.listClassScheduleOperation,
             'An error occurred',
             'ListeDesSeances');
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(
             service.getCoursesActivities(
                 username: username, password: password, session: session),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
 
       test("Wrong credentials", () async {
@@ -236,16 +237,16 @@ void main() {
             Urls.listClassScheduleOperation,
             SignetsError.credentialsInvalid,
             'ListeDesSeances');
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
+
         expect(
             service.getCoursesActivities(
                 username: username, password: password, session: session),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
     });
     group("getScheduleActivities - ", () {
@@ -287,7 +288,8 @@ void main() {
         final String stubResponse = buildResponse(Urls.listeHoraireEtProf,
             scheduleActivityXML + scheduleActivityXML, 'listeActivites');
 
-        HttpClientMock.stubPost(clientMock, Urls.signetsAPI, stubResponse);
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result = await service.getScheduleActivities(
             username: username, password: password, session: session);
@@ -305,17 +307,15 @@ void main() {
         final String stubResponse = buildErrorResponse(Urls.listeHoraireEtProf,
             SignetsError.credentialsInvalid, 'listeActivites');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(
             service.getScheduleActivities(
                 username: username, password: password, session: session),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
 
       test("An error occurred", () async {
@@ -326,17 +326,15 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listeHoraireEtProf, 'An error occurred', 'listeActivites');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(
             service.getScheduleActivities(
                 username: username, password: password, session: session),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
 
       group("invalid parameters - ", () {
@@ -348,7 +346,7 @@ void main() {
           expect(
               service.getScheduleActivities(
                   username: username, password: password, session: session),
-              throwsA(isInstanceOf<FormatException>()),
+              throwsA(isA<FormatException>()),
               reason:
                   "The session should validate the regex: /^([A-E-H][0-9]{4})/");
         });
@@ -379,17 +377,15 @@ void main() {
         final String stubResponse = buildResponse(
             Urls.listSessionsOperation, sessionXML + sessionXML, 'liste');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
+
         final result =
             await service.getSessions(username: username, password: password);
 
         expect(result, isA<List<Session>>());
         expect(result.first == session, isTrue);
         expect(result.length, 2);
-
-        mockClient.close();
       });
 
       // Currently SignetsAPI doesn't have a clear way to indicate which error
@@ -402,14 +398,13 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listSessionsOperation, 'An error occurred', 'liste');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
+
         expect(service.getSessions(username: username, password: password),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
     });
 
@@ -433,16 +428,14 @@ void main() {
         final String stubResponse =
             buildResponse(Urls.infoStudentOperation, studentInfoXML);
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result = await service.getStudentInfo(
             username: username, password: password);
 
         expect(result, isA<ProfileStudent>());
         expect(result == studentInfo, isTrue);
-        mockClient.close();
       });
 
       // Currently SignetsAPI doesn't have a clear way to indicate which error
@@ -455,16 +448,13 @@ void main() {
         final String stubResponse =
             buildErrorResponse(Urls.infoStudentOperation, 'An error occurred');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(service.getStudentInfo(username: username, password: password),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-
-        mockClient.close();
       });
     });
 
@@ -504,9 +494,8 @@ void main() {
         final String stubResponse = buildResponse(
             Urls.listProgramsOperation, programXML + programXML, 'liste');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result =
             await service.getPrograms(username: username, password: password);
@@ -514,8 +503,6 @@ void main() {
         expect(result, isA<List<Program>>());
         expect(result.first == program, isTrue);
         expect(result.length, 2);
-
-        mockClient.close();
       });
 
       // Currently SignetsAPI doesn't have a clear way to indicate which error
@@ -528,15 +515,13 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listProgramsOperation, 'An error occurred', 'liste');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(service.getPrograms(username: username, password: password),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
     });
 
@@ -585,9 +570,8 @@ void main() {
         final String stubResponse = buildResponse(Urls.listCourseOperation,
             courseWithGradeXML + courseWithoutGradeXML, 'liste');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result =
             await service.getCourses(username: username, password: password);
@@ -595,8 +579,6 @@ void main() {
         expect(result, isA<List<Course>>());
         expect(result[0], courseWithGrade);
         expect(result[1], courseWithoutGrade);
-
-        mockClient.close();
       });
 
       // Currently SignetsAPI doesn't have a clear way to indicate which error
@@ -609,15 +591,13 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listCourseOperation, 'An error occurred', 'liste');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(service.getCourses(username: username, password: password),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
     });
 
@@ -724,17 +704,14 @@ void main() {
         final String stubResponse =
             buildResponse(Urls.listEvaluationsOperation, courseSummaryXml);
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result = await service.getCourseSummary(
             username: username, password: password, course: course);
 
         expect(result, isA<CourseSummary>());
         expect(result, courseSummary);
-
-        mockClient.close();
       });
 
       test("Summary is empty", () async {
@@ -744,17 +721,15 @@ void main() {
         final String stubResponse =
             buildResponse(Urls.listEvaluationsOperation, courseSummaryEmptyXml);
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(
             service.getCourseSummary(
                 username: username, password: password, course: course),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the summary is empty, the service should return an error.");
-        mockClient.close();
       });
 
       // Currently SignetsAPI doesn't have a clear way to indicate which error
@@ -767,17 +742,15 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listEvaluationsOperation, 'An error occurred');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(
             service.getCourseSummary(
                 username: username, password: password, course: course),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
     });
 
@@ -829,7 +802,8 @@ void main() {
             courseReviewCompletedXML + courseReviewNotCompletedXML,
             'liste');
 
-        HttpClientMock.stubPost(clientMock, Urls.signetsAPI, stubResponse);
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         final result = await service.getCourseReviews(
             username: username, password: password, session: session);
@@ -849,23 +823,24 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.readCourseReviewOperation, 'An error occurred', 'liste');
 
-        MockClient mockClient = MockClient((request) async {
-          return http.Response(stubResponse, 200);
-        });
+        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        service = buildService(clientMock);
 
         expect(
             service.getCourseReviews(
                 username: username, password: password, session: session),
-            throwsA(isInstanceOf<ApiException>()),
+            throwsA(isA<ApiException>()),
             reason:
                 "If the SignetsAPI return an error the service should return the error.");
-        mockClient.close();
       });
     });
   });
 }
 
-String buildResponse(String operation, String body, [String firstElement]) =>
+SignetsAPIClient buildService(MockClient client) =>
+    SignetsAPIClient(client: client);
+
+String buildResponse(String operation, String body, [String? firstElement]) =>
     '<?xml version="1.0" encoding="utf-8"?> '
     '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> '
     '<soap:Body> '
@@ -881,7 +856,7 @@ String buildResponse(String operation, String body, [String firstElement]) =>
     '</soap:Envelope>';
 
 String buildErrorResponse(String operation, String error,
-        [String firstElement]) =>
+        [String? firstElement]) =>
     '<?xml version="1.0" encoding="utf-8"?> '
     '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> '
     '<soap:Body>'

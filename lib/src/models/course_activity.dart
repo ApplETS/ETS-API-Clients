@@ -1,5 +1,4 @@
 // FLUTTER / DART / THIRD-PARTIES
-import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 /// Data-class that represent an activity of a course
@@ -28,23 +27,23 @@ class CourseActivity {
   final DateTime endDateTime;
 
   CourseActivity(
-      {@required this.courseGroup,
-      @required this.courseName,
-      @required this.activityName,
-      @required this.activityDescription,
-      @required this.activityLocation,
-      @required this.startDateTime,
-      @required this.endDateTime});
+      {required this.courseGroup,
+      required this.courseName,
+      required this.activityName,
+      required this.activityDescription,
+      required this.activityLocation,
+      required this.startDateTime,
+      required this.endDateTime});
 
   /// Used to create a new [CourseActivity] instance from a [XMLElement].
   factory CourseActivity.fromXmlNode(XmlElement node) => CourseActivity(
-      courseGroup: node.getElement('coursGroupe').innerText,
-      courseName: node.getElement('libelleCours').innerText,
-      activityName: node.getElement('nomActivite').innerText,
-      activityDescription: node.getElement('descriptionActivite').innerText,
-      activityLocation: node.getElement('local').innerText,
-      startDateTime: DateTime.parse(node.getElement('dateDebut').innerText),
-      endDateTime: DateTime.parse(node.getElement('dateFin').innerText));
+      courseGroup: node.getElement('coursGroupe')!.innerText,
+      courseName: node.getElement('libelleCours')!.innerText,
+      activityName: node.getElement('nomActivite')!.innerText,
+      activityDescription: node.getElement('descriptionActivite')!.innerText,
+      activityLocation: node.getElement('local')!.innerText,
+      startDateTime: DateTime.parse(node.getElement('dateDebut')!.innerText),
+      endDateTime: DateTime.parse(node.getElement('dateFin')!.innerText));
 
   /// Used to create [CourseActivity] instance from a JSON file
   factory CourseActivity.fromJson(Map<String, dynamic> map) => CourseActivity(

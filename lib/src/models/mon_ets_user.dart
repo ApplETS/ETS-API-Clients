@@ -1,5 +1,3 @@
-// FLUTTER / DART / THIRD-PARTIES
-import 'package:flutter/material.dart';
 
 /// User received from MonETS after a authentication
 class MonETSUser {
@@ -17,9 +15,9 @@ class MonETSUser {
   String get universalCode => username.replaceFirst("$domain\\", "");
 
   MonETSUser(
-      {@required this.domain,
-      @required this.typeUsagerId,
-      @required this.username});
+      {required this.domain,
+      required this.typeUsagerId,
+      required this.username});
 
   MonETSUser.fromJson(Map<String, dynamic> json)
       : domain = json['Domaine'] as String,
