@@ -1,4 +1,5 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:collection/collection.dart';
 import 'package:xml/xml.dart';
 
 import 'course_evaluation.dart';
@@ -112,7 +113,6 @@ class CourseSummary {
         'evaluations: $evaluations}';
   }
 
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -125,7 +125,7 @@ class CourseSummary {
           standardDeviation == other.standardDeviation &&
           median == other.median &&
           percentileRank == other.percentileRank &&
-          evaluations == other.evaluations;
+          const ListEquality().equals(evaluations, other.evaluations);
 
   @override
   int get hashCode =>
