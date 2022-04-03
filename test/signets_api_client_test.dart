@@ -217,7 +217,8 @@ void main() {
             'An error occurred',
             'ListeDesSeances');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(
@@ -238,7 +239,8 @@ void main() {
             SignetsError.credentialsInvalid,
             'ListeDesSeances');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(
@@ -288,7 +290,8 @@ void main() {
         final String stubResponse = buildResponse(Urls.listeHoraireEtProf,
             scheduleActivityXML + scheduleActivityXML, 'listeActivites');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         final result = await service.getScheduleActivities(
@@ -307,7 +310,8 @@ void main() {
         final String stubResponse = buildErrorResponse(Urls.listeHoraireEtProf,
             SignetsError.credentialsInvalid, 'listeActivites');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(
@@ -326,7 +330,8 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listeHoraireEtProf, 'An error occurred', 'listeActivites');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(
@@ -377,7 +382,8 @@ void main() {
         final String stubResponse = buildResponse(
             Urls.listSessionsOperation, sessionXML + sessionXML, 'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         final result =
@@ -398,7 +404,8 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listSessionsOperation, 'An error occurred', 'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(service.getSessions(username: username, password: password),
@@ -428,7 +435,8 @@ void main() {
         final String stubResponse =
             buildResponse(Urls.infoStudentOperation, studentInfoXML);
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         final result = await service.getStudentInfo(
@@ -448,7 +456,8 @@ void main() {
         final String stubResponse =
             buildErrorResponse(Urls.infoStudentOperation, 'An error occurred');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(service.getStudentInfo(username: username, password: password),
@@ -494,7 +503,8 @@ void main() {
         final String stubResponse = buildResponse(
             Urls.listProgramsOperation, programXML + programXML, 'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         final result =
@@ -515,7 +525,8 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listProgramsOperation, 'An error occurred', 'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(service.getPrograms(username: username, password: password),
@@ -570,7 +581,8 @@ void main() {
         final String stubResponse = buildResponse(Urls.listCourseOperation,
             courseWithGradeXML + courseWithoutGradeXML, 'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         final result =
@@ -591,7 +603,8 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listCourseOperation, 'An error occurred', 'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(service.getCourses(username: username, password: password),
@@ -704,7 +717,8 @@ void main() {
         final String stubResponse =
             buildResponse(Urls.listEvaluationsOperation, courseSummaryXml);
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         final result = await service.getCourseSummary(
@@ -721,7 +735,8 @@ void main() {
         final String stubResponse =
             buildResponse(Urls.listEvaluationsOperation, courseSummaryEmptyXml);
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(
@@ -742,7 +757,8 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.listEvaluationsOperation, 'An error occurred');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(
@@ -802,7 +818,8 @@ void main() {
             courseReviewCompletedXML + courseReviewNotCompletedXML,
             'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         final result = await service.getCourseReviews(
@@ -823,7 +840,8 @@ void main() {
         final String stubResponse = buildErrorResponse(
             Urls.readCourseReviewOperation, 'An error occurred', 'liste');
 
-        clientMock = HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
+        clientMock =
+            HttpClientMockHelper.stubPost(Urls.signetsAPI, stubResponse);
         service = buildService(clientMock);
 
         expect(

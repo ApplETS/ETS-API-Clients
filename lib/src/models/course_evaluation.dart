@@ -71,7 +71,8 @@ class CourseEvaluation {
       courseGroup: node.getElement('coursGroupe')!.innerText,
       title: node.getElement('nom')!.innerText,
       mark: node.getElement('note')!.innerText.isNotEmpty
-          ? double.parse(node.getElement('note')!.innerText.replaceAll(",", "."))
+          ? double.parse(
+              node.getElement('note')!.innerText.replaceAll(",", "."))
           : null,
       correctedEvaluationOutOf:
           node.getElement('corrigeSur')!.innerText.replaceAll(",", "."),

@@ -12,7 +12,7 @@ import 'package:ets_api_clients/exceptions.dart';
 
 /// Mock for the [SignetsApi]
 @GenerateMocks([SignetsAPIClient])
-class SignetsAPIClientMock extends MockSignetsAPIClient{
+class SignetsAPIClientMock extends MockSignetsAPIClient {
   static const signetsException = ApiException(prefix: SignetsAPIClient.tag);
 
   // ignore: deprecated_member_use_from_same_package
