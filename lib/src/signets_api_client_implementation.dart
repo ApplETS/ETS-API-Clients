@@ -42,7 +42,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
       {required String username, required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.donneesAuthentificationValides, username, password)
+            Urls.donneesAuthentificationValides, username, password)
         .buildDocument();
     final responseBody = await SoapService.sendSOAPRequest(
         _httpClient, body, Urls.donneesAuthentificationValides);
@@ -57,12 +57,13 @@ class SignetsAPIClient implements ISignetsAPIClient {
   /// If the [startDate] and/or [endDate] are specified the results will contains
   /// all the activities between these dates
   @override
-  Future<List<CourseActivity>> getCoursesActivities({required String username,
-    required String password,
-    String session = "",
-    String courseGroup = "",
-    DateTime? startDate,
-    DateTime? endDate}) async {
+  Future<List<CourseActivity>> getCoursesActivities(
+      {required String username,
+      required String password,
+      String session = "",
+      String courseGroup = "",
+      DateTime? startDate,
+      DateTime? endDate}) async {
     // Validate the format of parameters
     if (!_sessionShortNameRegExp.hasMatch(session)) {
       throw FormatException("Session $session isn't a correctly formatted");
@@ -77,7 +78,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
 
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.listClassScheduleOperation, username, password)
+            Urls.listClassScheduleOperation, username, password)
         .buildDocument();
     final operationContent = XmlBuilder();
 
@@ -103,7 +104,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
     // Add the parameters needed inside the request.
     body
         .findAllElements(Urls.listClassScheduleOperation,
-        namespace: Urls.signetsOperationBase)
+            namespace: Urls.signetsOperationBase)
         .first
         .children
         .add(operationContent.buildFragment());
@@ -123,15 +124,15 @@ class SignetsAPIClient implements ISignetsAPIClient {
   @override
   Future<List<ScheduleActivity>> getScheduleActivities(
       {required String username,
-        required String password,
-        String session = ""}) async {
+      required String password,
+      String session = ""}) async {
     if (!_sessionShortNameRegExp.hasMatch(session)) {
       throw FormatException("Session $session isn't correctly formatted");
     }
 
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.listeHoraireEtProf, username, password)
+            Urls.listeHoraireEtProf, username, password)
         .buildDocument();
     final operationContent = XmlBuilder();
 
@@ -143,7 +144,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
     // Add the parameters needed inside the request.
     body
         .findAllElements(Urls.listeHoraireEtProf,
-        namespace: Urls.signetsOperationBase)
+            namespace: Urls.signetsOperationBase)
         .first
         .children
         .add(operationContent.buildFragment());
@@ -164,7 +165,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
       {required String username, required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.listCourseOperation, username, password)
+            Urls.listCourseOperation, username, password)
         .buildDocument();
 
     final responseBody = await SoapService.sendSOAPRequest(
@@ -180,10 +181,12 @@ class SignetsAPIClient implements ISignetsAPIClient {
   /// of [course] for the student ([username]).
   @override
   Future<CourseSummary> getCourseSummary(
-      {required String username, required String password, required Course course}) async {
+      {required String username,
+      required String password,
+      required Course course}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.listEvaluationsOperation, username, password)
+            Urls.listEvaluationsOperation, username, password)
         .buildDocument();
     final operationContent = XmlBuilder();
 
@@ -200,7 +203,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
 
     body
         .findAllElements(Urls.listEvaluationsOperation,
-        namespace: Urls.signetsOperationBase)
+            namespace: Urls.signetsOperationBase)
         .first
         .children
         .add(operationContent.buildFragment());
@@ -209,10 +212,8 @@ class SignetsAPIClient implements ISignetsAPIClient {
         _httpClient, body, Urls.listEvaluationsOperation);
     var errorTag = responseBody.getElement(SignetsError.signetsErrorSoapTag);
     if (errorTag != null &&
-        errorTag.innerText.contains(SignetsError.gradesNotAvailable) ||
-        responseBody
-            .findAllElements('ElementEvaluation')
-            .isEmpty) {
+            errorTag.innerText.contains(SignetsError.gradesNotAvailable) ||
+        responseBody.findAllElements('ElementEvaluation').isEmpty) {
       throw const ApiException(
           prefix: tag,
           message: "No grades available",
@@ -228,7 +229,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
       {required String username, required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.listSessionsOperation, username, password)
+            Urls.listSessionsOperation, username, password)
         .buildDocument();
 
     final responseBody = await SoapService.sendSOAPRequest(
@@ -247,7 +248,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
       {required String username, required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.infoStudentOperation, username, password)
+            Urls.infoStudentOperation, username, password)
         .buildDocument();
 
     final responseBody = await SoapService.sendSOAPRequest(
@@ -263,7 +264,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
       {required String username, required String password}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.listProgramsOperation, username, password)
+            Urls.listProgramsOperation, username, password)
         .buildDocument();
 
     final responseBody = await SoapService.sendSOAPRequest(
@@ -279,12 +280,13 @@ class SignetsAPIClient implements ISignetsAPIClient {
   /// Call the SignetsAPI to get the list of all [CourseReview] for the [session]
   /// of the student ([username]).
   @override
-  Future<List<CourseReview>> getCourseReviews({required String username,
-    required String password,
-    Session? session}) async {
+  Future<List<CourseReview>> getCourseReviews(
+      {required String username,
+      required String password,
+      Session? session}) async {
     // Generate initial soap envelope
     final body = SoapService.buildBasicSOAPBody(
-        Urls.readCourseReviewOperation, username, password)
+            Urls.readCourseReviewOperation, username, password)
         .buildDocument();
 
     final operationContent = XmlBuilder();
@@ -295,7 +297,7 @@ class SignetsAPIClient implements ISignetsAPIClient {
 
     body
         .findAllElements(Urls.readCourseReviewOperation,
-        namespace: Urls.signetsOperationBase)
+            namespace: Urls.signetsOperationBase)
         .first
         .children
         .add(operationContent.buildFragment());

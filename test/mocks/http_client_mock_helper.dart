@@ -6,8 +6,8 @@ import 'package:http/testing.dart';
 /// Mock for the Http client
 class HttpClientMockHelper {
   /// Stub the next post of [url] and return [jsonResponse] with [statusCode] as http response code.
-  static MockClient stubJsonPost(String url,
-      Map<String, dynamic> jsonResponse, [int statusCode = 200]) {
+  static MockClient stubJsonPost(String url, Map<String, dynamic> jsonResponse,
+      [int statusCode = 200]) {
     return stubPost(url, jsonEncode(jsonResponse), statusCode);
   }
 
