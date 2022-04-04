@@ -108,11 +108,17 @@ jobs:
           lcov-file: ./coverage/lcov.info
 
       - name: 📊 Check Code Coverage
+        id: check_coverage
         if: ${{ github.event_name == 'pull_request' }}
         uses: VeryGoodOpenSource/very_good_coverage@v1
         with:
           path: ./coverage/lcov.info
           min_coverage: ${{ env.min_coverage }}
+
+      - name: 💬 Comment coverage too low
+        if: ${{ failure() && steps.check_coverage.outcome == 'failure' && github.event_name == 'pull_request' }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} -b 'Coverage too low, please improve the test to ${{ env.min_coverage }}% at least.'
 
       - name: ✉️ Commit coverage badge
         uses: stefanzweifel/git-auto-commit-action@v4
