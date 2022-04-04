@@ -16,7 +16,7 @@ on:
       - '.metadata'
 
 env:
-  min_coverage: 80
+  min_coverage: 50
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
