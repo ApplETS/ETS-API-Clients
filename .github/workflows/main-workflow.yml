@@ -17,7 +17,7 @@ on:
 
 env:
   min_coverage: 50
-  github_token: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   delete_bot_comments:
