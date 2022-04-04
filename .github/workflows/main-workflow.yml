@@ -16,7 +16,7 @@ on:
       - '.metadata'
 
 env:
-  min_coverage: 50
+  min_coverage: 80
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -98,7 +98,7 @@ jobs:
         run: |
           pub global activate test_coverage
           export PATH=$PATH:$HOME/.pub-cache/bin
-          test_coverage
+          test_coverage --min-coverage ${{ env.min_coverage }}
 
       - name: 💬 Comment coverage details on the PR
         if: ${{ github.event_name == 'pull_request' }}
