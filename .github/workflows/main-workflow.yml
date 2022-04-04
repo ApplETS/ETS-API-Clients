@@ -16,7 +16,8 @@ on:
       - '.metadata'
 
 env:
-  min_coverage: 80
+  min_coverage: 50
+  github_token: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   delete_bot_comments:
