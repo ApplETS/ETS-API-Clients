@@ -23,9 +23,9 @@ jobs:
   delete_bot_comments:
     name: Delete bot comments on PR.
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - uses: izhangzhihao/delete-comment@master
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           delete_user_name: github-actions[bot]
