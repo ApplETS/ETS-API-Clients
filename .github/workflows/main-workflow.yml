@@ -128,13 +128,9 @@ jobs:
           commit_user_name: Github Actions Bot
           commit_message: "[BOT] Update coverage badge."
           add_options: '-u'
-      - run: |
-          echo ${{ github.event_name }}
-          echo ${{ github.ref }}
-          echo ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'main') }}
   pre_release:
     name: Pre-release the package on Github.
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'main') }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') }}
     needs:
       - tag_validation
       - build
