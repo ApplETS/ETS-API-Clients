@@ -9,10 +9,11 @@ import 'models/session.dart';
 
 /// A Wrapper for all calls to Signets API.
 abstract class ISignetsAPIClient {
-  /// Returns whether the user is logged in or not throught the SignetsAPI.
+  /// Returns whether the user is logged in or not through the SignetsAPI.
   @Deprecated(
       'This function is deprecated in favor of `MonETSAPIClient.authenticate()`')
-  Future<bool> authenticate({String username, String password});
+  Future<bool> authenticate(
+      {required String username, required String password});
 
   /// Call the SignetsAPI to get the courses activities for the [session] for
   /// the student ([username]). By specifying [courseGroup] we can filter the
@@ -20,37 +21,47 @@ abstract class ISignetsAPIClient {
   /// If the [startDate] and/or [endDate] are specified the results will contains
   /// all the activities between these dates
   Future<List<CourseActivity>> getCoursesActivities(
-      {String username,
-      String password,
+      {required String username,
+      required String password,
       String session = "",
       String courseGroup = "",
-      DateTime startDate,
-      DateTime endDate});
+      DateTime? startDate,
+      DateTime? endDate});
 
   /// Call the SignetsAPI to get the courses activities for the [session] for
   /// the student ([username]).
   Future<List<ScheduleActivity>> getScheduleActivities(
-      {String username, String password, String session = ""});
+      {required String username,
+      required String password,
+      String session = ""});
 
   /// Call the SignetsAPI to get the courses of the student ([username]).
-  Future<List<Course>> getCourses({String username, String password});
+  Future<List<Course>> getCourses(
+      {required String username, required String password});
 
   /// Call the SignetsAPI to get all the evaluations (exams) and the summary
   /// of [course] for the student ([username]).
   Future<CourseSummary> getCourseSummary(
-      {String username, String password, Course course});
+      {required String username,
+      required String password,
+      required Course course});
 
   /// Call the SignetsAPI to get the list of all the [Session] for the student ([username]).
-  Future<List<Session>> getSessions({String username, String password});
+  Future<List<Session>> getSessions(
+      {required String username, required String password});
 
   /// Call the SignetsAPI to get the [ProfileStudent] for the student.
-  Future<ProfileStudent> getStudentInfo({String username, String password});
+  Future<ProfileStudent> getStudentInfo(
+      {required String username, required String password});
 
   /// Call the SignetsAPI to get the list of all the [Program] for the student ([username]).
-  Future<List<Program>> getPrograms({String username, String password});
+  Future<List<Program>> getPrograms(
+      {required String username, required String password});
 
   /// Call the SignetsAPI to get the list of all [CourseReview] for the [session]
   /// of the student ([username]).
   Future<List<CourseReview>> getCourseReviews(
-      {String username, String password, Session session});
+      {required String username,
+      required String password,
+      required Session session});
 }

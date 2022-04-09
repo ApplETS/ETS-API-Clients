@@ -1,5 +1,4 @@
 // FLUTTER / DART / THIRD-PARTIES
-import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 /// Data-class that represent a session of courses.
@@ -44,46 +43,47 @@ class Session {
   final DateTime deadlineCancellationASEQ;
 
   Session(
-      {@required this.shortName,
-      @required this.name,
-      @required this.startDate,
-      @required this.endDate,
-      @required this.endDateCourses,
-      @required this.startDateRegistration,
-      @required this.deadlineRegistration,
-      @required this.startDateCancellationWithRefund,
-      @required this.deadlineCancellationWithRefund,
-      @required this.deadlineCancellationWithRefundNewStudent,
-      @required this.startDateCancellationWithoutRefundNewStudent,
-      @required this.deadlineCancellationWithoutRefundNewStudent,
-      @required this.deadlineCancellationASEQ});
+      {required this.shortName,
+      required this.name,
+      required this.startDate,
+      required this.endDate,
+      required this.endDateCourses,
+      required this.startDateRegistration,
+      required this.deadlineRegistration,
+      required this.startDateCancellationWithRefund,
+      required this.deadlineCancellationWithRefund,
+      required this.deadlineCancellationWithRefundNewStudent,
+      required this.startDateCancellationWithoutRefundNewStudent,
+      required this.deadlineCancellationWithoutRefundNewStudent,
+      required this.deadlineCancellationASEQ});
 
   /// Create a new [Session] instance from a [XMLElement] received from [SignetsApi]
   factory Session.fromXmlNode(XmlElement node) => Session(
-      shortName: node.getElement("abrege").innerText,
-      name: node.getElement("auLong").innerText,
-      startDate: DateTime.parse(node.getElement("dateDebut").innerText),
-      endDate: DateTime.parse(node.getElement("dateFin").innerText),
-      endDateCourses: DateTime.parse(node.getElement("dateFinCours").innerText),
+      shortName: node.getElement("abrege")!.innerText,
+      name: node.getElement("auLong")!.innerText,
+      startDate: DateTime.parse(node.getElement("dateDebut")!.innerText),
+      endDate: DateTime.parse(node.getElement("dateFin")!.innerText),
+      endDateCourses:
+          DateTime.parse(node.getElement("dateFinCours")!.innerText),
       startDateRegistration:
-          DateTime.parse(node.getElement("dateDebutChemiNot").innerText),
+          DateTime.parse(node.getElement("dateDebutChemiNot")!.innerText),
       deadlineRegistration:
-          DateTime.parse(node.getElement("dateFinChemiNot").innerText),
+          DateTime.parse(node.getElement("dateFinChemiNot")!.innerText),
       startDateCancellationWithRefund: DateTime.parse(
-          node.getElement("dateDebutAnnulationAvecRemboursement").innerText),
+          node.getElement("dateDebutAnnulationAvecRemboursement")!.innerText),
       deadlineCancellationWithRefund: DateTime.parse(
-          node.getElement("dateFinAnnulationAvecRemboursement").innerText),
+          node.getElement("dateFinAnnulationAvecRemboursement")!.innerText),
       deadlineCancellationWithRefundNewStudent: DateTime.parse(node
-          .getElement("dateFinAnnulationAvecRemboursementNouveauxEtudiants")
+          .getElement("dateFinAnnulationAvecRemboursementNouveauxEtudiants")!
           .innerText),
       startDateCancellationWithoutRefundNewStudent: DateTime.parse(node
-          .getElement("dateDebutAnnulationSansRemboursementNouveauxEtudiants")
+          .getElement("dateDebutAnnulationSansRemboursementNouveauxEtudiants")!
           .innerText),
       deadlineCancellationWithoutRefundNewStudent: DateTime.parse(node
-          .getElement("dateFinAnnulationSansRemboursementNouveauxEtudiants")
+          .getElement("dateFinAnnulationSansRemboursementNouveauxEtudiants")!
           .innerText),
       deadlineCancellationASEQ: DateTime.parse(
-          node.getElement("dateLimitePourAnnulerASEQ").innerText));
+          node.getElement("dateLimitePourAnnulerASEQ")!.innerText));
 
   /// Create a new [Session] instance from a JSON file
   factory Session.fromJson(Map<String, dynamic> json) => Session(

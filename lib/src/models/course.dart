@@ -1,5 +1,4 @@
 // FLUTTER / DART / THIRD-PARTIES
-import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
 import 'course_review.dart';
@@ -26,21 +25,19 @@ class Course {
 
   /// Final grade of the course (ex: A+, C, ...) if the course doesn't
   /// have a the grade yet the variable will be null.
-  final String grade;
+  final String? grade;
 
   /// Number of credits of the course
   final int numberOfCredits;
 
   /// Current mark, score... of the student for this course.
-  /// Can be null!!
-  CourseSummary summary;
+  CourseSummary? summary;
 
   /// Information about when the course will be evaluated by the student.
-  /// Can be null!!
-  CourseReview review;
+  CourseReview? review;
 
   /// Get the teacher name if available
-  String get teacherName => review?.teacherName;
+  String? get teacherName => review?.teacherName;
 
   /// Determine if we are currently in the review period for this course.
   bool get inReviewPeriod {
@@ -50,39 +47,39 @@ class Course {
 
     final now = DateTime.now();
 
-    return now.isAfter(review.startAt) && now.isBefore(review.endAt);
+    return now.isAfter(review!.startAt) && now.isBefore(review!.endAt);
   }
 
   /// Determine if the review of this course is completed.
-  bool get reviewCompleted {
+  bool? get reviewCompleted {
     if (review == null) {
       return true;
     }
-    return review.isCompleted;
+    return review!.isCompleted;
   }
 
   Course(
-      {@required this.acronym,
-      @required this.title,
-      @required this.group,
-      @required this.session,
-      @required this.programCode,
-      @required this.numberOfCredits,
+      {required this.acronym,
+      required this.title,
+      required this.group,
+      required this.session,
+      required this.programCode,
+      required this.numberOfCredits,
       this.grade,
       this.summary,
       this.review});
 
   /// Used to create a new [Course] instance from a [XMLElement].
   factory Course.fromXmlNode(XmlElement node) => Course(
-      acronym: node.getElement('sigle').innerText,
-      title: node.getElement('titreCours').innerText,
-      group: node.getElement('groupe').innerText,
-      session: node.getElement('session').innerText,
-      programCode: node.getElement('programmeEtudes').innerText,
-      numberOfCredits: int.parse(node.getElement('nbCredits').innerText),
-      grade: node.getElement('cote').innerText.isEmpty
+      acronym: node.getElement('sigle')!.innerText,
+      title: node.getElement('titreCours')!.innerText,
+      group: node.getElement('groupe')!.innerText,
+      session: node.getElement('session')!.innerText,
+      programCode: node.getElement('programmeEtudes')!.innerText,
+      numberOfCredits: int.parse(node.getElement('nbCredits')!.innerText),
+      grade: node.getElement('cote')!.innerText.isEmpty
           ? null
-          : node.getElement('cote').innerText);
+          : node.getElement('cote')!.innerText);
 
   /// Used to create [Course] instance from a JSON file
   factory Course.fromJson(Map<String, dynamic> map) => Course(
@@ -92,7 +89,7 @@ class Course {
       session: map['session'] as String,
       programCode: map['programCode'] as String,
       numberOfCredits: map['numberOfCredits'] as int,
-      grade: map['grade'] != null ? map['grade'] as String : null,
+      grade: map['grade'] as String?,
       summary: map["summary"] != null
           ? CourseSummary.fromJson(map["summary"] as Map<String, dynamic>)
           : null,

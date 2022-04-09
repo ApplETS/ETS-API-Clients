@@ -1,3 +1,6 @@
+## 1.0.0
+
+* Migration of the package to null safety.
 
 ## 0.1.0
 

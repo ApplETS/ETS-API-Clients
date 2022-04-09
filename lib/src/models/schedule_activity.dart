@@ -1,5 +1,4 @@
 // FLUTTER / DART / THIRD-PARTIES
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xml/xml.dart';
 
@@ -40,34 +39,34 @@ class ScheduleActivity {
   final String name;
 
   ScheduleActivity(
-      {@required this.courseAcronym,
-      @required this.courseGroup,
-      @required this.courseTitle,
-      @required this.dayOfTheWeek,
-      @required this.day,
-      @required this.startTime,
-      @required this.endTime,
-      @required this.activityCode,
-      @required this.isPrincipalActivity,
-      @required this.activityLocation,
-      @required this.name});
+      {required this.courseAcronym,
+      required this.courseGroup,
+      required this.courseTitle,
+      required this.dayOfTheWeek,
+      required this.day,
+      required this.startTime,
+      required this.endTime,
+      required this.activityCode,
+      required this.isPrincipalActivity,
+      required this.activityLocation,
+      required this.name});
 
   /// Used to create a new [CourseActivity] instance from a [XMLElement].
   factory ScheduleActivity.fromXmlNode(XmlElement node) => ScheduleActivity(
-        courseAcronym: node.getElement('sigle').innerText,
-        courseGroup: node.getElement('groupe').innerText,
-        courseTitle: node.getElement('titreCours').innerText,
-        dayOfTheWeek: int.parse(node.getElement('jour').innerText),
-        day: node.getElement('journee').innerText,
-        activityCode: node.getElement('codeActivite').innerText,
-        name: node.getElement('nomActivite').innerText,
+        courseAcronym: node.getElement('sigle')!.innerText,
+        courseGroup: node.getElement('groupe')!.innerText,
+        courseTitle: node.getElement('titreCours')!.innerText,
+        dayOfTheWeek: int.parse(node.getElement('jour')!.innerText),
+        day: node.getElement('journee')!.innerText,
+        activityCode: node.getElement('codeActivite')!.innerText,
+        name: node.getElement('nomActivite')!.innerText,
         isPrincipalActivity:
-            node.getElement('activitePrincipale').innerText == "Oui",
+            node.getElement('activitePrincipale')!.innerText == "Oui",
         startTime:
-            DateFormat('HH:mm').parse(node.getElement('heureDebut').innerText),
+            DateFormat('HH:mm').parse(node.getElement('heureDebut')!.innerText),
         endTime:
-            DateFormat('HH:mm').parse(node.getElement('heureFin').innerText),
-        activityLocation: node.getElement('local').innerText,
+            DateFormat('HH:mm').parse(node.getElement('heureFin')!.innerText),
+        activityLocation: node.getElement('local')!.innerText,
       );
 
   /// Used to create [CourseActivity] instance from a JSON file

@@ -46,7 +46,7 @@ class SoapService {
   static Future<XmlElement> sendSOAPRequest(
       http.Client client, XmlDocument body, String operation) async {
     // Send the envelope
-    final response = await http.post(Uri.parse(Urls.signetsAPI),
+    final response = await client.post(Uri.parse(Urls.signetsAPI),
         headers: _buildHeaders(Urls.signetsOperationBase + operation),
         body: body.toXmlString());
 
