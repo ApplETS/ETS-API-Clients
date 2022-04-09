@@ -130,7 +130,7 @@ jobs:
           add_options: '-u'
   pre_release:
     name: Pre-release the package on Github.
-    if: ${{ github.event_name != 'pull_request' && github.ref == 'main' }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow-dispatch' && github.head_ref == 'main') }}
     needs:
       - tag_validation
       - build
