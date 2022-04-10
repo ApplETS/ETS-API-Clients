@@ -22,4 +22,6 @@ class Urls {
   static const String listEvaluationsOperation = "listeElementsEvaluation";
   static const String listeHoraireEtProf = "listeHoraireEtProf";
   static const String readCourseReviewOperation = "lireEvaluationCours";
+
+  static const String portalAPI = "https://localhost:5001";
 }
