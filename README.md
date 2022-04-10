@@ -42,7 +42,7 @@ To start using this package, it's as simple as to import the package in your pub
 ```yaml
 dependencies:
   ...
-  signets_api_client: 
+  ets_api_clients: 
     git:
       url: https://github.com/ApplETS/ETS-API-Clients.git
       ref: 0.5.0
