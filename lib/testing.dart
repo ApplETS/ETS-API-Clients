@@ -1,4 +1,4 @@
-library signets_api_client;
+library ets_api_client;
 
 // Mocks
 export 'src/testing/mon_ets_api_mock.dart';

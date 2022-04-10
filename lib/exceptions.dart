@@ -1,4 +1,4 @@
-library signets_api_client;
+library ets_api_client;
 
 // Exceptions
 export 'src/constants/signets_errors.dart' show SignetsError;

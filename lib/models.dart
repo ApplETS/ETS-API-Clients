@@ -1,4 +1,4 @@
-library signets_api_client;
+library ets_api_client;
 
 // Models
 export 'src/models/course.dart';
@@ -11,5 +11,7 @@ export 'src/models/profile_student.dart';
 export 'src/models/program.dart';
 export 'src/models/schedule_activity.dart';
 export 'src/models/session.dart';
+export 'src/models/whats_new.dart';
+export 'src/models/whats_new_page.dart';
 
 export 'src/constants/activity_code.dart';
