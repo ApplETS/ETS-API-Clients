@@ -106,9 +106,8 @@ class MockSignetsAPIClient extends _i1.Mock implements _i4.SignetsAPIClient {
       (super.noSuchMethod(
           Invocation.method(
               #getStudentInfo, [], {#username: username, #password: password}),
-          returnValue:
-              Future<_i3.ProfileStudent>.value(_FakeProfileStudent_1())) as _i5
-          .Future<_i3.ProfileStudent>);
+          returnValue: Future<_i3.ProfileStudent>.value(
+              _FakeProfileStudent_1())) as _i5.Future<_i3.ProfileStudent>);
   @override
   _i5.Future<List<_i10.Program>> getPrograms(
           {String? username, String? password}) =>
