@@ -97,7 +97,7 @@ jobs:
 
       - name: 🧪 Run Tests
         run: |
-          pub global activate test_coverage
+          dart pub global activate test_coverage
           export PATH=$PATH:$HOME/.pub-cache/bin
           test_coverage
 
