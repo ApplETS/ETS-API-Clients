@@ -97,9 +97,9 @@ jobs:
 
       - name: 🧪 Run Tests
         run: |
-          dart pub global activate test_coverage
+          dart pub global activate coverage
           export PATH=$PATH:$HOME/.pub-cache/bin
-          test_coverage
+          dart pub global run coverage:test_with_coverage
 
       - name: 💬 Comment coverage details on the PR
         if: ${{ github.event_name == 'pull_request' }}
