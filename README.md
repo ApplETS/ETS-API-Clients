@@ -45,7 +45,7 @@ dependencies:
   ets_api_clients: 
     git:
       url: https://github.com/ApplETS/ETS-API-Clients.git
-      ref: 0.5.0
+      ref: 1.0.0
 ```
 
 ## Usage
