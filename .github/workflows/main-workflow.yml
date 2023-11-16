@@ -44,7 +44,7 @@ jobs:
 
       - name: Get version number from the pubspec.yaml
         id: pubspecVersion
-        uses: CumulusDS/get-yaml-paths-action@v0.1.0
+        uses: CumulusDS/get-yaml-paths-action@v1.0.2
         with:
           file: pubspec.yaml
           version: version
