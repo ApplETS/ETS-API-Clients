@@ -111,7 +111,7 @@ jobs:
       - name: 📊 Check Code Coverage
         id: check_coverage
         if: ${{ github.event_name == 'pull_request' }}
-        uses: VeryGoodOpenSource/very_good_coverage@v1
+        uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
           path: ./coverage/lcov.info
           min_coverage: ${{ env.min_coverage }}
