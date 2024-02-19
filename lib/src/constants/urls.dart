@@ -5,7 +5,7 @@ class Urls {
   static const String authenticationMonETS = "${monEtsAPI}authentification";
 
   /// Urls related to Hello API news endpoints
-  static const String helloNewsAPI = "portail.etsmtl.ca";
+  static const String helloNewsAPI = "localhost:8080";
 
   /// Urls related to SignetsMobile API
   /// For more information about the operations supported see:
