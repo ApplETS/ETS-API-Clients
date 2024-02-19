@@ -1,6 +1,4 @@
 // FLUTTER / DART / THIRD-PARTIES
-import 'package:xml/xml.dart';
-
 import 'news_user.dart';
 
 /// Data-class that represent an hello-based news
