@@ -44,7 +44,7 @@ class HelloAPIClient implements IHelloAPIClient {
       'pageNumber': pageNumber.toString(),
       'pageSize': pageSize.toString(),
     };
-    final uri = Uri.https(Urls.helloNewsAPI, '/api/news', query);
+    final uri = Uri.https(Urls.helloNewsAPI, '/api/events', query);
     final response = await _httpClient.get(uri);
 
     // Log the http error and throw a exception
