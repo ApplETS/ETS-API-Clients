@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:ets_api_clients/src/constants/urls.dart';
 import 'package:ets_api_clients/src/models/news.dart';
 import 'package:ets_api_clients/src/models/news_user.dart';
