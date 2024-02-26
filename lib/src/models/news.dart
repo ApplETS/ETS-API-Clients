@@ -13,7 +13,7 @@ class News {
   final String content;
 
   /// The imageUrl of the news
-  final String imageUrl;
+  final String? imageThumbnail;
 
   /// The current state of the news
   final int state;
@@ -39,7 +39,7 @@ class News {
       {required this.id,
       required this.title,
       required this.content,
-      required this.imageUrl,
+      required this.imageThumbnail,
       required this.state,
       required this.publicationDate,
       required this.eventStartDate,
@@ -54,7 +54,7 @@ class News {
       id: map['id'] as String,
       title: map['title'] as String,
       content: map['content'] as String,
-      imageUrl: map['imageUrl'] as String,
+      imageThumbnail: map['imageThumbnail'] as String,
       state: map['state'] as int,
       publicationDate: DateTime.parse(map['publicationDate'] as String),
       eventStartDate: DateTime.parse(map['eventStartDate'] as String),
@@ -68,7 +68,7 @@ class News {
         'id': id,
         'title': title,
         'content': content,
-        'imageUrl': imageUrl,
+        'imageThumbnail': imageThumbnail,
         'state': state,
         'publicationDate': publicationDate.toString(),
         'eventStartDate': eventStartDate.toString(),
@@ -87,7 +87,7 @@ class News {
           id == other.id &&
           title == other.title &&
           content == other.content &&
-          imageUrl == other.imageUrl &&
+          imageThumbnail == other.imageThumbnail &&
           state == other.state &&
           publicationDate == other.publicationDate &&
           eventStartDate == other.eventStartDate &&
@@ -102,7 +102,7 @@ class News {
       id.hashCode ^
       title.hashCode ^
       content.hashCode ^
-      imageUrl.hashCode ^
+      imageThumbnail.hashCode ^
       state.hashCode ^
       publicationDate.hashCode ^
       eventStartDate.hashCode ^

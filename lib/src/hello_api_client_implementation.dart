@@ -44,8 +44,24 @@ class HelloAPIClient implements IHelloAPIClient {
       'pageNumber': pageNumber.toString(),
       'pageSize': pageSize.toString(),
     };
-    final uri = Uri.https(Urls.helloNewsAPI, '/api/events', query);
-    final response = await _httpClient.get(uri);
+
+    if (query['startDate'] == null) {
+      query.remove('startDate');
+    }
+    if (query['endDate'] == null) {
+      query.remove('endDate');
+    }
+    if (query['tags'] == null) {
+      query.remove('tags');
+    }
+    if (query['activityAreas'] == null) {
+      query.remove('activityAreas');
+    }
+
+    final uri = Uri.https(Urls.helloNewsAPI, '/api/events');
+    final response = await _httpClient.get(uri.replace(queryParameters: query));
+
+    print('response: ${response.body}');
 
     // Log the http error and throw a exception
     if (response.statusCode != 200) {

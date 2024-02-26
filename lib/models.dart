@@ -12,5 +12,6 @@ export 'src/models/program.dart';
 export 'src/models/schedule_activity.dart';
 export 'src/models/session.dart';
 export 'src/models/news.dart';
+export 'src/models/news_user.dart';
 
 export 'src/constants/activity_code.dart';
