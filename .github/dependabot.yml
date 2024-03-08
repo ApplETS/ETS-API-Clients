@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dart"
+      - "dependencies"
+      - "version: Patch"
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - "yaml"
+      - "dependencies"
+      - "version: Patch"
