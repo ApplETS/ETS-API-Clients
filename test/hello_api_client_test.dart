@@ -5,6 +5,7 @@ import 'package:http/testing.dart';
 import 'package:ets_api_clients/models.dart';
 import 'package:ets_api_clients/src/constants/http_exception.dart';
 import 'package:ets_api_clients/clients.dart';
+import 'package:test/test.dart';
 
 import 'mocks/http_client_mock_helper.dart';
 
@@ -27,14 +28,10 @@ void main() {
     group('getEvents - ', () {
       test('empty data', () async {
         final query = {
-          'startDate': null,
-          'endDate': null,
-          'tags': null,
-          'activityAreas': null,
           'pageNumber': 1.toString(),
           'pageSize': 10.toString(),
         };
-        final uri = Uri.http(Urls.helloNewsAPI, '/api/news', query);
+        final uri = Uri.https(Urls.helloNewsAPI, '/api/events', query);
         mockClient = HttpClientMockHelper.stubJsonGet(uri.toString(), {
           'data': [],
           'pageNumber': 1,
@@ -46,8 +43,8 @@ void main() {
 
         final result = await service.getEvents();
 
-        expect(result, isA<List<News>>());
-        expect(result.length, 0);
+        expect(result, isA<PaginatedNews>());
+        expect(result.news.length, 0);
       });
 
       test('one news', () async {
@@ -62,9 +59,9 @@ void main() {
             eventEndDate: DateTime.now().add(const Duration(days: 4, hours: 2)),
             createdAt: DateTime.now().subtract(const Duration(days: 4)),
             updatedAt: DateTime.now().subtract(const Duration(days: 4)),
+            tags: [],
             moderator: NewsUser(
               id: "3783f79f-da78-4486-8a5a-7b855b856033",
-              name: "name",
               email: "email",
               type: "moderator",
               createdAt: DateTime.now().subtract(const Duration(days: 30)),
@@ -72,7 +69,7 @@ void main() {
             ),
             organizer: NewsUser(
               id: "3a5cb049-67cf-428e-b98f-ef29fb633e0d",
-              name: "name2",
+              organisation: "name2",
               email: "email2",
               type: "organizer",
               createdAt: DateTime.now().subtract(const Duration(days: 30)),
@@ -80,14 +77,10 @@ void main() {
             ));
 
         final query = {
-          'startDate': null,
-          'endDate': null,
-          'tags': null,
-          'activityAreas': null,
           'pageNumber': 1.toString(),
           'pageSize': 10.toString(),
         };
-        final uri = Uri.http(Urls.helloNewsAPI, '/api/news', query);
+        final uri = Uri.https(Urls.helloNewsAPI, '/api/events', query);
         mockClient = HttpClientMockHelper.stubJsonGet(uri.toString(), {
           'data': [news],
           'pageNumber': 1,
@@ -99,9 +92,9 @@ void main() {
 
         final result = await service.getEvents();
 
-        expect(result, isA<List<News>>());
-        expect(result.length, 1);
-        expect(result[0].id, "402e711c-0f72-4aab-9684-31f1956c1da1");
+        expect(result, isA<PaginatedNews>());
+        expect(result.news.length, 1);
+        expect(result.news[0].id, "402e711c-0f72-4aab-9684-31f1956c1da1");
       });
 
       test('any other errors for now', () async {

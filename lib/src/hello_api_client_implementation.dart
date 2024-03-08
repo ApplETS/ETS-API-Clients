@@ -61,8 +61,6 @@ class HelloAPIClient implements IHelloAPIClient {
     final uri = Uri.https(Urls.helloNewsAPI, '/api/events');
     final response = await _httpClient.get(uri.replace(queryParameters: query));
 
-    print('response: ${response.body}');
-
     // Log the http error and throw a exception
     if (response.statusCode != 200) {
       throw HttpException(
