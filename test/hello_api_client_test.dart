@@ -1,13 +1,10 @@
 import 'package:ets_api_clients/src/constants/urls.dart';
-import 'package:ets_api_clients/src/models/news.dart';
-import 'package:ets_api_clients/src/models/news_user.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 
 import 'package:ets_api_clients/models.dart';
 import 'package:ets_api_clients/src/constants/http_exception.dart';
 import 'package:ets_api_clients/clients.dart';
-import 'package:test/test.dart';
 
 import 'mocks/http_client_mock_helper.dart';
 

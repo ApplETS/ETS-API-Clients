@@ -2,9 +2,6 @@ class NewsUser {
   /// News user unique Id
   final String id;
 
-  /// The user name
-  final String name;
-
   /// The news user email
   final String email;
 
@@ -39,7 +36,6 @@ class NewsUser {
 
   NewsUser(
       {required this.id,
-      required this.name,
       required this.email,
       required this.type,
       this.organisation,
@@ -59,7 +55,6 @@ class NewsUser {
   /// Used to create [CourseActivity] instance from a JSON file
   factory NewsUser.fromJson(Map<String, dynamic> map) => NewsUser(
       id: map['id'] as String,
-      name: map['name'] as String,
       email: map['email'] as String,
       type: map['type'] as String,
       organisation: map['organisation'] as String?,
@@ -78,7 +73,6 @@ class NewsUser {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
         'email': email,
         'type': type,
         'organisation': organisation,
@@ -102,7 +96,6 @@ class NewsUser {
       other is NewsUser &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          name == other.name &&
           email == other.email &&
           type == other.type &&
           organisation == other.organisation &&
@@ -122,7 +115,6 @@ class NewsUser {
   @override
   int get hashCode =>
       id.hashCode ^
-      name.hashCode ^
       email.hashCode ^
       type.hashCode ^
       organisation.hashCode ^

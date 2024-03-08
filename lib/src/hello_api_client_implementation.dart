@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ets_api_clients/src/models/paginated_news.dart';
 import 'package:http/io_client.dart';
 
 import 'constants/http_exception.dart';
@@ -8,7 +9,6 @@ import 'constants/urls.dart';
 
 import 'hello_api_client.dart';
 
-import 'models/news.dart';
 import 'package:http/http.dart' as http;
 
 /// A Wrapper for all calls to Hello API.
@@ -29,7 +29,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [pageNumber] The page number (default: 1)
   /// [pageSize] The page size (default: 10)
   @override
-  Future<List<News>> getEvents(
+  Future<PaginatedNews> getEvents(
       {DateTime? startDate,
       DateTime? endDate,
       List<String>? tags,
@@ -69,8 +69,7 @@ class HelloAPIClient implements IHelloAPIClient {
           message: response.body, prefix: tagError, code: response.statusCode);
     }
 
-    final body = jsonDecode(response.body) as Map<String, dynamic>;
-    final news = body['data'] as List<dynamic>;
-    return news.map((e) => News.fromJson(e as Map<String, dynamic>)).toList();
+    return PaginatedNews.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 }

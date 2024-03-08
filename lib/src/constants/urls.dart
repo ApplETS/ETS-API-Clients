@@ -5,7 +5,7 @@ class Urls {
   static const String authenticationMonETS = "${monEtsAPI}authentification";
 
   /// Urls related to Hello API news endpoints
-  static const String helloNewsAPI = "d630-192-226-141-106.ngrok-free.app";
+  static const String helloNewsAPI = "9d80-192-226-141-106.ngrok-free.app";
 
   /// Urls related to SignetsMobile API
   /// For more information about the operations supported see:

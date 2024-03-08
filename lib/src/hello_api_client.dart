@@ -1,4 +1,4 @@
-import 'models/news.dart';
+import 'models/paginated_news.dart';
 
 /// A Wrapper for all calls to Hello API.
 abstract class IHelloAPIClient {
@@ -9,7 +9,7 @@ abstract class IHelloAPIClient {
   /// [activityAreas] The activity areas of the news (optional)
   /// [pageNumber] The page number (default: 1)
   /// [pageSize] The page size (default: 10)
-  Future<List<News>> getEvents(
+  Future<PaginatedNews> getEvents(
       {DateTime? startDate,
       DateTime? endDate,
       List<String>? tags,

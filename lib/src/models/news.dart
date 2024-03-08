@@ -1,4 +1,6 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:ets_api_clients/models.dart';
+
 import 'news_user.dart';
 
 /// Data-class that represent an hello-based news
@@ -14,9 +16,6 @@ class News {
 
   /// The imageUrl of the news
   final String? imageUrl;
-
-  /// The imageThumbnail as base64
-  final String? imageThumbnail;
 
   /// The current state of the news
   final int state;
@@ -34,23 +33,25 @@ class News {
 
   final DateTime updatedAt;
 
-  final NewsUser moderator;
+  final NewsUser? moderator;
 
   final NewsUser organizer;
+
+  final List<NewsTags> tags;
 
   News(
       {required this.id,
       required this.title,
       required this.content,
-      required this.imageUrl,
-      required this.imageThumbnail,
+      this.imageUrl,
       required this.state,
+      required this.tags,
       required this.publicationDate,
       required this.eventStartDate,
       required this.eventEndDate,
       required this.createdAt,
       required this.updatedAt,
-      required this.moderator,
+      this.moderator,
       required this.organizer});
 
   /// Used to create [CourseActivity] instance from a JSON file
@@ -58,15 +59,18 @@ class News {
       id: map['id'] as String,
       title: map['title'] as String,
       content: map['content'] as String,
-      imageUrl: map['imageUrl'] as String,
-      imageThumbnail: map['imageThumbnail'] as String,
+      imageUrl: map['imageUrl'] as String?,
       state: map['state'] as int,
+      tags: (map['tags'] as List<dynamic>)
+          .map((e) => NewsTags.fromJson(e as Map<String, dynamic>))
+          .toList(),
       publicationDate: DateTime.parse(map['publicationDate'] as String),
       eventStartDate: DateTime.parse(map['eventStartDate'] as String),
       eventEndDate: DateTime.parse(map['eventEndDate'] as String),
       createdAt: DateTime.parse(map['createdAt'] as String),
       updatedAt: DateTime.parse(map['updatedAt'] as String),
-      moderator: NewsUser.fromJson(map['moderator']),
+      moderator:
+          map['moderator'] != null ? NewsUser.fromJson(map['moderator']) : null,
       organizer: NewsUser.fromJson(map['organizer']));
 
   Map<String, dynamic> toJson() => {
@@ -74,14 +78,14 @@ class News {
         'title': title,
         'content': content,
         'imageUrl': imageUrl,
-        'imageThumbnail': imageThumbnail,
         'state': state,
+        'tags': tags.map((e) => e.toJson()).toList(),
         'publicationDate': publicationDate.toString(),
         'eventStartDate': eventStartDate.toString(),
         'eventEndDate': eventEndDate.toString(),
         'createdAt': createdAt.toString(),
         'updatedAt': updatedAt.toString(),
-        'moderator': moderator.toJson(),
+        'moderator': moderator?.toJson() ?? null,
         'organizer': organizer.toJson(),
       };
 
@@ -94,8 +98,8 @@ class News {
           title == other.title &&
           content == other.content &&
           imageUrl == other.imageUrl &&
-          imageThumbnail == other.imageThumbnail &&
           state == other.state &&
+          tags == other.tags &&
           publicationDate == other.publicationDate &&
           eventStartDate == other.eventStartDate &&
           eventEndDate == other.eventEndDate &&
@@ -110,8 +114,8 @@ class News {
       title.hashCode ^
       content.hashCode ^
       imageUrl.hashCode ^
-      imageThumbnail.hashCode ^
       state.hashCode ^
+      tags.hashCode ^
       publicationDate.hashCode ^
       eventStartDate.hashCode ^
       eventEndDate.hashCode ^
