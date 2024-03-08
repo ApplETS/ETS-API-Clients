@@ -5,6 +5,7 @@ class Urls {
   static const String authenticationMonETS = "${monEtsAPI}authentification";
 
   /// Urls related to Hello API news endpoints
+  /// TODO: Change the URL to the real one
   static const String helloNewsAPI = "9d80-192-226-141-106.ngrok-free.app";
 
   /// Urls related to SignetsMobile API
