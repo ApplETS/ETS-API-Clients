@@ -15,7 +15,7 @@ and the Flutter guide for
 
 A dart package to be able to handle all API calls from a main source. The code in this package was initially written by apomalyn inside our main project Notre-Dame. It was then ported to pub package by MysticFragilist. 
 
-This package is also a way of standardized the models used across all projects that needs an access to SignETS API.
+This package is also a way of standardizing the models used across all projects that needs an access to SignETS API.
 
 Also, it's now possible to use null safety on models and functions from this package. It's a good start in implementing null safety without refactoring all existing code :smile:
 
@@ -42,10 +42,10 @@ To start using this package, it's as simple as to import the package in your pub
 ```yaml
 dependencies:
   ...
-  signets_api_client: 
+  ets_api_clients: 
     git:
       url: https://github.com/ApplETS/ETS-API-Clients.git
-      ref: v0.3.1
+      ref: 1.0.0
 ```
 
 ## Usage

@@ -43,7 +43,7 @@ class CourseEvaluation {
   final String teacherMessage;
 
   /// Is this evaluation ignored in the final grade
-  final bool? ignore;
+  final bool ignore;
 
   double get markInPercent => mark! / correctedEvaluationOutOfFormatted;
 
@@ -114,7 +114,7 @@ class CourseEvaluation {
           percentileRank: map["percentileRank"] as int?,
           published: map["published"] as bool,
           teacherMessage: map["teacherMessage"] as String,
-          ignore: map["ignore"] as bool?,
+          ignore: map["ignore"],
           targetDate: map["targetDate"] == null
               ? null
               : DateTime.parse(map["targetDate"] as String));
