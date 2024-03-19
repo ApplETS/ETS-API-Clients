@@ -53,7 +53,7 @@ void main() {
             title: "title",
             content: "content",
             imageUrl: "imageUrl",
-            state: 1,
+            state: "1",
             publicationDate: DateTime.now(),
             eventStartDate: DateTime.now().add(const Duration(days: 4)),
             eventEndDate: DateTime.now().add(const Duration(days: 4, hours: 2)),
