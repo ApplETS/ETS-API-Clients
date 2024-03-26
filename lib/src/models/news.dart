@@ -18,7 +18,7 @@ class News {
   final String? imageUrl;
 
   /// The current state of the news
-  final int state;
+  final String state;
 
   /// The date that the news was created at
   final DateTime publicationDate;
@@ -60,7 +60,7 @@ class News {
       title: map['title'] as String,
       content: map['content'] as String,
       imageUrl: map['imageUrl'] as String?,
-      state: map['state'] as int,
+      state: map['state'] as String,
       tags: (map['tags'] as List<dynamic>)
           .map((e) => NewsTags.fromJson(e as Map<String, dynamic>))
           .toList(),
