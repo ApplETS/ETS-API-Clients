@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ets_api_clients/src/models/organizer.dart';
 import 'package:ets_api_clients/src/models/paginated_news.dart';
 import 'package:http/io_client.dart';
 
@@ -26,6 +27,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [endDate] The end date of the news (optional)
   /// [tags] The tags of the news (optional)
   /// [activityAreas] The activity areas of the news (optional)
+  /// [organizerId] The organizer id (optional)
   /// [pageNumber] The page number (default: 1)
   /// [pageSize] The page size (default: 10)
   @override
@@ -34,6 +36,7 @@ class HelloAPIClient implements IHelloAPIClient {
       DateTime? endDate,
       List<String>? tags,
       List<String>? activityAreas,
+      String? organizerId,
       int pageNumber = 1,
       int pageSize = 10}) async {
     final query = {
@@ -41,6 +44,7 @@ class HelloAPIClient implements IHelloAPIClient {
       'endDate': endDate,
       'tags': tags,
       'activityAreas': activityAreas,
+      'organizerId': organizerId,
       'pageNumber': pageNumber.toString(),
       'pageSize': pageSize.toString(),
     };
@@ -57,6 +61,9 @@ class HelloAPIClient implements IHelloAPIClient {
     if (query['activityAreas'] == null) {
       query.remove('activityAreas');
     }
+    if (query['organizerId'] == null) {
+      query.remove('organizerId');
+    }
 
     final uri = Uri.https(Urls.helloNewsAPI, '/api/events');
     final response = await _httpClient.get(uri.replace(queryParameters: query));
@@ -68,6 +75,24 @@ class HelloAPIClient implements IHelloAPIClient {
     }
 
     return PaginatedNews.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
+  }
+
+  /// Call the Hello API to get the organizer
+  /// [organizerId] The organizer id
+  @override
+  Future<Organizer> getOrganizer(String organizerId) async {
+    final uri =
+        Uri.https(Urls.helloNewsAPI, '/api/moderator/organizer/$organizerId');
+    final response = await _httpClient.get(uri);
+
+    // Log the http error and throw a exception
+    if (response.statusCode != 200) {
+      throw HttpException(
+          message: response.body, prefix: tagError, code: response.statusCode);
+    }
+
+    return Organizer.fromJson(
         jsonDecode(response.body) as Map<String, dynamic>);
   }
 }
