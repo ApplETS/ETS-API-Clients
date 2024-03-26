@@ -23,5 +23,5 @@ abstract class IHelloAPIClient {
 
   /// Call the Hello API to get the organizer
   /// [organizerId] The organizer id
-  Future<Organizer> getOrganizer(String organizerId);
+  Future<Organizer?> getOrganizer(String organizerId);
 }

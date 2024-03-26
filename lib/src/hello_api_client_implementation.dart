@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ets_api_clients/src/models/api_response.dart';
 import 'package:ets_api_clients/src/models/organizer.dart';
 import 'package:ets_api_clients/src/models/paginated_news.dart';
 import 'package:http/io_client.dart';
@@ -81,7 +82,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// Call the Hello API to get the organizer
   /// [organizerId] The organizer id
   @override
-  Future<Organizer> getOrganizer(String organizerId) async {
+  Future<Organizer?> getOrganizer(String organizerId) async {
     final uri =
         Uri.https(Urls.helloNewsAPI, '/api/moderator/organizer/$organizerId');
     final response = await _httpClient.get(uri);
@@ -92,7 +93,8 @@ class HelloAPIClient implements IHelloAPIClient {
           message: response.body, prefix: tagError, code: response.statusCode);
     }
 
-    return Organizer.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>);
+    final json = jsonDecode(response.body);
+
+    return ApiResponse<Organizer>.fromJson(json, Organizer.fromJson).data;
   }
 }

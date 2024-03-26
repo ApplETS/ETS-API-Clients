@@ -51,12 +51,6 @@ class Organizer {
   /// Organizer's website link
   final String? webSiteLink;
 
-  /// The date that the organizer was created at
-  final DateTime createdAt;
-
-  /// The date that the organizer was last updated at
-  final DateTime updatedAt;
-
   Organizer({
     required this.id,
     this.name,
@@ -75,8 +69,6 @@ class Organizer {
     this.linkedInLink,
     this.redditLink,
     this.webSiteLink,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   /// Used to create [Organizer] instance from a JSON file
@@ -98,8 +90,6 @@ class Organizer {
         linkedInLink: map['linkedInLink'] as String?,
         redditLink: map['redditLink'] as String?,
         webSiteLink: map['webSiteLink'] as String?,
-        createdAt: DateTime.parse(map['createdAt'] as String),
-        updatedAt: DateTime.parse(map['updatedAt'] as String),
       );
 
   Map<String, dynamic> toJson() => {
@@ -120,7 +110,5 @@ class Organizer {
         'linkedInLink': linkedInLink,
         'redditLink': redditLink,
         'webSiteLink': webSiteLink,
-        'createdAt': createdAt.toString(),
-        'updatedAt': updatedAt.toString(),
       };
 }

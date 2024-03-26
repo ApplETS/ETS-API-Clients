@@ -69,7 +69,7 @@ void main() {
             ),
             organizer: NewsUser(
               id: "3a5cb049-67cf-428e-b98f-ef29fb633e0d",
-              organisation: "name2",
+              organization: "name2",
               email: "email2",
               type: "organizer",
               createdAt: DateTime.now().subtract(const Duration(days: 30)),
