@@ -25,9 +25,9 @@ abstract class IHelloAPIClient {
   /// Call the Hello API to get the organizer
   /// [organizerId] The organizer id
   Future<Organizer?> getOrganizer(String organizerId);
+
   /// Call the Hello API to report a news
   /// [newsId] The news id
   /// [report] The report
   Future<bool> reportNews(String newsId, Report report);
-  
 }
