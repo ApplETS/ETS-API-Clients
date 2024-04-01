@@ -161,6 +161,34 @@ void main() {
       expect(service.getOrganizer(organizerId), throwsA(isA<HttpException>()));
     });
   });
+
+  final report = Report(reason: "Test reason", category: "1");
+
+  group('reportNews - ', () {
+    test('successful report', () async {
+      const newsId = '123';
+      final uri = Uri.https(Urls.helloNewsAPI, '/api/events/$newsId/reports');
+      mockClient = HttpClientMockHelper.stubJsonPost(uri.toString(), {}, 200);
+      service = buildService(mockClient);
+
+      final result = await service.reportNews(newsId, report);
+
+      expect(result, isTrue);
+    });
+
+    test('error response', () async {
+      const newsId = '123';
+      const int statusCode = 400;
+      const String message = "Error reporting news.";
+
+      final uri = Uri.https(Urls.helloNewsAPI, '/api/events/$newsId/reports');
+      mockClient = HttpClientMockHelper.stubJsonPost(
+          uri.toString(), {"Message": message}, statusCode);
+      service = buildService(mockClient);
+
+      expect(service.reportNews(newsId, report), throwsA(isA<HttpException>()));
+    });
+  });
 }
 
 HelloAPIClient buildService(MockClient client) =>
