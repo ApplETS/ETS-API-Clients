@@ -98,7 +98,7 @@ class HelloAPIClient implements IHelloAPIClient {
 
     return ApiResponse<Organizer>.fromJson(json, Organizer.fromJson).data;
   }
-
+  
   /// Call the Hello API to report a news
   /// [newsId] The news id
   /// [report] The report
