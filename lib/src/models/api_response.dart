@@ -11,4 +11,11 @@ class ApiResponse<T> {
       error: json['error'],
     );
   }
+
+  Map<String, dynamic> toJson(Map<String, dynamic> Function(T) toJsonT) {
+    return {
+      'data': data != null ? toJsonT(data!) : null,
+      'error': error,
+    };
+  }
 }

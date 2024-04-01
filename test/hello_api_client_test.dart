@@ -1,4 +1,5 @@
 import 'package:ets_api_clients/src/constants/urls.dart';
+import 'package:ets_api_clients/src/models/api_response.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 
@@ -107,6 +108,59 @@ void main() {
 
         expect(service.getEvents(), throwsA(isA<HttpException>()));
       });
+    });
+  });
+
+  group('getOrganizer - ', () {
+    test('successful response', () async {
+      const organizerId = '1234';
+      final organizer = Organizer(
+        id: organizerId,
+        name: 'Test Organizer',
+        email: 'test@example.com',
+        avatarUrl: 'https://example.com/avatar.png',
+        type: 'type',
+        organization: 'Test Organization',
+        activityArea: 'Test Area',
+        isActive: true,
+        profileDescription: 'Test Description',
+        facebookLink: 'https://facebook.com/test',
+        instagramLink: 'https://instagram.com/test',
+        tikTokLink: 'https://tiktok.com/test',
+        xLink: 'https://x.com/test',
+        discordLink: 'https://discord.com/test',
+        linkedInLink: 'https://linkedin.com/test',
+        redditLink: 'https://reddit.com/test',
+        webSiteLink: 'https://example.com',
+      );
+
+      final apiResponse = ApiResponse<Organizer>(data: organizer);
+
+      final uri =
+          Uri.https(Urls.helloNewsAPI, '/api/moderator/organizer/$organizerId');
+      mockClient = HttpClientMockHelper.stubJsonGet(uri.toString(),
+          apiResponse.toJson((organizer) => organizer.toJson()));
+      service = buildService(mockClient);
+
+      final result = await service.getOrganizer(organizerId);
+
+      expect(result, isA<Organizer>());
+      expect(result?.id, organizerId);
+      expect(result?.name, 'Test Organizer');
+    });
+
+    test('error response', () async {
+      const organizerId = '1234';
+      const int statusCode = 404;
+      const String message = "Organizer not found.";
+
+      final uri =
+          Uri.https(Urls.helloNewsAPI, '/api/moderator/organizer/$organizerId');
+      mockClient = HttpClientMockHelper.stubJsonGet(
+          uri.toString(), {"Message": message}, statusCode);
+      service = buildService(mockClient);
+
+      expect(service.getOrganizer(organizerId), throwsA(isA<HttpException>()));
     });
   });
 }
