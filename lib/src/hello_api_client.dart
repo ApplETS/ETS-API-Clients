@@ -11,6 +11,7 @@ abstract class IHelloAPIClient {
   /// [tags] The tags of the news (optional)
   /// [activityAreas] The activity areas of the news (optional)
   /// [organizerId] The organizer id (optional)
+  /// [title] The news title (optional)
   /// [pageNumber] The page number (default: 1)
   /// [pageSize] The page size (default: 10)
   Future<PaginatedNews> getEvents(
@@ -19,6 +20,7 @@ abstract class IHelloAPIClient {
       List<String>? tags,
       List<String>? activityAreas,
       String? organizerId,
+      String? title,
       int pageNumber = 1,
       int pageSize = 10});
 
