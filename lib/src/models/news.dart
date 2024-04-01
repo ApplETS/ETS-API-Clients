@@ -35,7 +35,7 @@ class News {
 
   final NewsUser? moderator;
 
-  final NewsUser organizer;
+  final Organizer organizer;
 
   final List<NewsTags> tags;
 
@@ -71,7 +71,7 @@ class News {
       updatedAt: DateTime.parse(map['updatedAt'] as String),
       moderator:
           map['moderator'] != null ? NewsUser.fromJson(map['moderator']) : null,
-      organizer: NewsUser.fromJson(map['organizer']));
+      organizer: Organizer.fromJson(map['organizer']));
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -85,7 +85,7 @@ class News {
         'eventEndDate': eventEndDate.toString(),
         'createdAt': createdAt.toString(),
         'updatedAt': updatedAt.toString(),
-        'moderator': moderator?.toJson() ?? null,
+        'moderator': moderator?.toJson(),
         'organizer': organizer.toJson(),
       };
 

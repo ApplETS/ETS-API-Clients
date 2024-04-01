@@ -8,7 +8,7 @@ class NewsUser {
   /// The user type
   final String type;
 
-  final String? organisation;
+  final String? organization;
 
   final String? activityArea;
 
@@ -38,7 +38,7 @@ class NewsUser {
       {required this.id,
       required this.email,
       required this.type,
-      this.organisation,
+      this.organization,
       this.activityArea,
       this.profileDescription,
       this.facebookLink,
@@ -57,7 +57,7 @@ class NewsUser {
       id: map['id'] as String,
       email: map['email'] as String,
       type: map['type'] as String,
-      organisation: map['organisation'] as String?,
+      organization: map['organization'] as String?,
       activityArea: map['activityArea'] as String?,
       profileDescription: map['profileDescription'] as String?,
       facebookLink: map['facebookLink'] as String?,
@@ -75,7 +75,7 @@ class NewsUser {
         'id': id,
         'email': email,
         'type': type,
-        'organisation': organisation,
+        'organization': organization,
         'activityArea': activityArea,
         'profileDescription': profileDescription,
         'facebookLink': facebookLink,
@@ -98,7 +98,7 @@ class NewsUser {
           id == other.id &&
           email == other.email &&
           type == other.type &&
-          organisation == other.organisation &&
+          organization == other.organization &&
           activityArea == other.activityArea &&
           profileDescription == other.profileDescription &&
           facebookLink == other.facebookLink &&
@@ -117,7 +117,7 @@ class NewsUser {
       id.hashCode ^
       email.hashCode ^
       type.hashCode ^
-      organisation.hashCode ^
+      organization.hashCode ^
       activityArea.hashCode ^
       profileDescription.hashCode ^
       facebookLink.hashCode ^
