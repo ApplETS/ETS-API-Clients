@@ -16,5 +16,6 @@ export 'src/models/news_user.dart';
 export 'src/models/news_tags.dart';
 export 'src/models/paginated_news.dart';
 export 'src/models/organizer.dart';
+export 'src/models/report.dart';
 
 export 'src/constants/activity_code.dart';

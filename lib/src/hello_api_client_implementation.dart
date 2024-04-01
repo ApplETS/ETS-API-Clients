@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ets_api_clients/src/models/api_response.dart';
 import 'package:ets_api_clients/src/models/organizer.dart';
 import 'package:ets_api_clients/src/models/paginated_news.dart';
+import 'package:ets_api_clients/src/models/report.dart';
 import 'package:http/io_client.dart';
 
 import 'constants/http_exception.dart';
@@ -96,5 +97,31 @@ class HelloAPIClient implements IHelloAPIClient {
     final json = jsonDecode(response.body);
 
     return ApiResponse<Organizer>.fromJson(json, Organizer.fromJson).data;
+  }
+
+  /// Call the Hello API to report a news
+  /// [newsId] The news id
+  /// [report] The report
+  @override
+  Future<bool> reportNews(String newsId, Report report) async {
+    final uri = Uri.https(Urls.helloNewsAPI, '/api/events/$newsId/reports');
+    final response = await _httpClient.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'reason': report.reason,
+        'category': report.category
+      }),
+    );
+
+    // Log the http error and throw a exception
+    if (response.statusCode != 200) {
+      throw HttpException(
+          message: response.body, prefix: tagError, code: response.statusCode);
+    }
+
+    return true;
   }
 }
