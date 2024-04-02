@@ -30,6 +30,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [tags] The tags of the news (optional)
   /// [activityAreas] The activity areas of the news (optional)
   /// [organizerId] The organizer id (optional)
+  /// [title] The news title (optional)
   /// [pageNumber] The page number (default: 1)
   /// [pageSize] The page size (default: 10)
   @override
@@ -39,6 +40,7 @@ class HelloAPIClient implements IHelloAPIClient {
       List<String>? tags,
       List<String>? activityAreas,
       String? organizerId,
+      String? title,
       int pageNumber = 1,
       int pageSize = 10}) async {
     final query = {
@@ -47,6 +49,7 @@ class HelloAPIClient implements IHelloAPIClient {
       'tags': tags,
       'activityAreas': activityAreas,
       'organizerId': organizerId,
+      'title': title,
       'pageNumber': pageNumber.toString(),
       'pageSize': pageSize.toString(),
     };
@@ -65,6 +68,9 @@ class HelloAPIClient implements IHelloAPIClient {
     }
     if (query['organizerId'] == null) {
       query.remove('organizerId');
+    }
+    if (query['title'] == null) {
+      query.remove('title');
     }
 
     final uri = Uri.https(Urls.helloNewsAPI, '/api/events');
