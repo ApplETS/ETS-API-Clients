@@ -66,6 +66,12 @@ void main() {
               organization: "name2",
               email: "email2",
               type: "organizer",
+              activityArea: ActivityArea(
+                  id: "1",
+                  nameFr: "Fr",
+                  nameEn: "En",
+                  createdAt: DateTime.now().subtract(const Duration(days: 4)),
+                  updatedAt: DateTime.now().subtract(const Duration(days: 4))),
             ));
 
         final query = {
