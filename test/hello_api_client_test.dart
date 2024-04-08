@@ -61,13 +61,6 @@ void main() {
             createdAt: DateTime.now().subtract(const Duration(days: 4)),
             updatedAt: DateTime.now().subtract(const Duration(days: 4)),
             tags: [],
-            moderator: NewsUser(
-              id: "3783f79f-da78-4486-8a5a-7b855b856033",
-              email: "email",
-              type: "moderator",
-              createdAt: DateTime.now().subtract(const Duration(days: 30)),
-              updatedAt: DateTime.now().subtract(const Duration(days: 30)),
-            ),
             organizer: Organizer(
               id: "3a5cb049-67cf-428e-b98f-ef29fb633e0d",
               organization: "name2",

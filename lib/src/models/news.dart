@@ -1,8 +1,6 @@
 // FLUTTER / DART / THIRD-PARTIES
 import 'package:ets_api_clients/models.dart';
 
-import 'news_user.dart';
-
 /// Data-class that represent an hello-based news
 class News {
   /// News unique Id
@@ -33,8 +31,6 @@ class News {
 
   final DateTime updatedAt;
 
-  final NewsUser? moderator;
-
   final Organizer organizer;
 
   final List<NewsTags> tags;
@@ -51,7 +47,6 @@ class News {
       required this.eventEndDate,
       required this.createdAt,
       required this.updatedAt,
-      this.moderator,
       required this.organizer});
 
   /// Used to create [CourseActivity] instance from a JSON file
@@ -69,8 +64,6 @@ class News {
       eventEndDate: DateTime.parse(map['eventEndDate'] as String),
       createdAt: DateTime.parse(map['createdAt'] as String),
       updatedAt: DateTime.parse(map['updatedAt'] as String),
-      moderator:
-          map['moderator'] != null ? NewsUser.fromJson(map['moderator']) : null,
       organizer: Organizer.fromJson(map['organizer']));
 
   Map<String, dynamic> toJson() => {
@@ -85,7 +78,6 @@ class News {
         'eventEndDate': eventEndDate.toString(),
         'createdAt': createdAt.toString(),
         'updatedAt': updatedAt.toString(),
-        'moderator': moderator?.toJson(),
         'organizer': organizer.toJson(),
       };
 
@@ -105,7 +97,6 @@ class News {
           eventEndDate == other.eventEndDate &&
           createdAt == other.createdAt &&
           updatedAt == other.updatedAt &&
-          moderator == other.moderator &&
           organizer == other.organizer;
 
   @override
@@ -121,6 +112,5 @@ class News {
       eventEndDate.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
-      moderator.hashCode ^
       organizer.hashCode;
 }
