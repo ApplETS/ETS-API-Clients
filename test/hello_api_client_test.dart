@@ -112,7 +112,12 @@ void main() {
         avatarUrl: 'https://example.com/avatar.png',
         type: 'type',
         organization: 'Test Organization',
-        activityArea: null,
+        activityArea: ActivityArea(
+            id: "1",
+            nameFr: "Fr",
+            nameEn: "En",
+            createdAt: DateTime.now().subtract(const Duration(days: 4)),
+            updatedAt: DateTime.now().subtract(const Duration(days: 4))),
         isActive: true,
         profileDescription: 'Test Description',
         facebookLink: 'https://facebook.com/test',
