@@ -119,7 +119,7 @@ void main() {
         avatarUrl: 'https://example.com/avatar.png',
         type: 'type',
         organization: 'Test Organization',
-        activityArea: 'Test Area',
+        activityArea: null,
         isActive: true,
         profileDescription: 'Test Description',
         facebookLink: 'https://facebook.com/test',

@@ -1,3 +1,5 @@
+import 'package:ets_api_clients/src/models/activity_area.dart';
+
 class NewsUser {
   /// News user unique Id
   final String id;
@@ -10,7 +12,7 @@ class NewsUser {
 
   final String? organization;
 
-  final String? activityArea;
+  final ActivityArea? activityArea;
 
   final String? profileDescription;
 
@@ -58,7 +60,7 @@ class NewsUser {
       email: map['email'] as String,
       type: map['type'] as String,
       organization: map['organization'] as String?,
-      activityArea: map['activityArea'] as String?,
+      activityArea: ActivityArea.fromJson(map['activityArea']),
       profileDescription: map['profileDescription'] as String?,
       facebookLink: map['facebookLink'] as String?,
       instagramLink: map['instagramLink'] as String?,
@@ -76,7 +78,7 @@ class NewsUser {
         'email': email,
         'type': type,
         'organization': organization,
-        'activityArea': activityArea,
+        'activityArea': activityArea?.toJson(),
         'profileDescription': profileDescription,
         'facebookLink': facebookLink,
         'instagramLink': instagramLink,
