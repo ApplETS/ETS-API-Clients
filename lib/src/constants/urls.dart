@@ -4,6 +4,9 @@ class Urls {
   static const String monEtsAPI = "https://portail.etsmtl.ca/api/";
   static const String authenticationMonETS = "${monEtsAPI}authentification";
 
+  /// Urls related to Hello API news endpoints
+  static const String helloNewsAPI = "api.hello.montydev.ca";
+
   /// Urls related to SignetsMobile API
   /// For more information about the operations supported see:
   /// https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx
