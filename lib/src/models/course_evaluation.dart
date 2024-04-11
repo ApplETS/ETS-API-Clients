@@ -50,7 +50,7 @@ class CourseEvaluation {
   /// Weighted grade of the evaluation
   /// (ex: Mark of 25/50 and 10% weight => 5/10 weighted grade)
   double? get weightedGrade {
-    double? result = (mark ?? 0.0) == 0.0 ||
+    double? result = mark == null ||
             correctedEvaluationOutOfFormatted == 0.0 ||
             weight == 0.0
         ? null
