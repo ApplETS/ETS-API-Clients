@@ -1,6 +1,4 @@
 // FLUTTER / DART / THIRD-PARTIES
-import 'dart:math';
-
 import 'package:ets_api_clients/clients.dart';
 import 'package:ets_api_clients/exceptions.dart';
 import 'package:ets_api_clients/src/constants/urls.dart';
