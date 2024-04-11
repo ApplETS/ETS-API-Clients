@@ -1,4 +1,6 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'dart:math';
+
 import 'package:ets_api_clients/clients.dart';
 import 'package:ets_api_clients/exceptions.dart';
 import 'package:ets_api_clients/src/constants/urls.dart';
@@ -726,6 +728,9 @@ void main() {
 
         expect(result, isA<CourseSummary>());
         expect(result, courseSummary);
+
+        expect(result.evaluations[0].weightedGrade, 0.0);
+        expect(result.evaluations[1].weightedGrade, 9.0);
       });
 
       test("Summary is empty", () async {

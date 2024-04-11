@@ -50,7 +50,7 @@ dependencies:
 
 ## Usage
 
-To use this library you can create an instance of the `SignetsApiClient` class. You will first need to import the clients file from the package. Then, call any function that you whish to use.
+To use this library you can create an instance of the `SignetsApiClient` class. You will first need to import the clients file from the package. Then, call any function that you wish to use.
 
 ```dart
 
