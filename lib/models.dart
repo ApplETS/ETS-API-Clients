@@ -12,10 +12,10 @@ export 'src/models/program.dart';
 export 'src/models/schedule_activity.dart';
 export 'src/models/session.dart';
 export 'src/models/news.dart';
-export 'src/models/news_user.dart';
 export 'src/models/news_tags.dart';
 export 'src/models/paginated_news.dart';
 export 'src/models/organizer.dart';
 export 'src/models/report.dart';
+export 'src/models/activity_area.dart';
 
 export 'src/constants/activity_code.dart';
