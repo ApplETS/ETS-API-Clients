@@ -1,3 +1,5 @@
+import 'package:ets_api_clients/src/models/activity_area.dart';
+
 /// Data-class that represents an organizer
 class Organizer {
   /// Organizer unique Id
@@ -19,7 +21,7 @@ class Organizer {
   final String? organization;
 
   /// Organizer's activity area
-  final String? activityArea;
+  final ActivityArea? activityArea;
 
   /// Whether the organizer is active
   final bool? isActive;
@@ -79,7 +81,7 @@ class Organizer {
         avatarUrl: map['avatarUrl'] as String?,
         type: map['type'] as String?,
         organization: map['organization'] as String?,
-        activityArea: map['activityArea'] as String?,
+        activityArea: ActivityArea.fromJson(map['activityArea']),
         isActive: map['isActive'] as bool?,
         profileDescription: map['profileDescription'] as String?,
         facebookLink: map['facebookLink'] as String?,
@@ -99,7 +101,7 @@ class Organizer {
         'avatarUrl': avatarUrl,
         'type': type,
         'organization': organization,
-        'activityArea': activityArea,
+        'activityArea': activityArea?.toJson(),
         'isActive': isActive,
         'profileDescription': profileDescription,
         'facebookLink': facebookLink,

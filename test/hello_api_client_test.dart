@@ -61,18 +61,17 @@ void main() {
             createdAt: DateTime.now().subtract(const Duration(days: 4)),
             updatedAt: DateTime.now().subtract(const Duration(days: 4)),
             tags: [],
-            moderator: NewsUser(
-              id: "3783f79f-da78-4486-8a5a-7b855b856033",
-              email: "email",
-              type: "moderator",
-              createdAt: DateTime.now().subtract(const Duration(days: 30)),
-              updatedAt: DateTime.now().subtract(const Duration(days: 30)),
-            ),
             organizer: Organizer(
               id: "3a5cb049-67cf-428e-b98f-ef29fb633e0d",
               organization: "name2",
               email: "email2",
               type: "organizer",
+              activityArea: ActivityArea(
+                  id: "1",
+                  nameFr: "Fr",
+                  nameEn: "En",
+                  createdAt: DateTime.now().subtract(const Duration(days: 4)),
+                  updatedAt: DateTime.now().subtract(const Duration(days: 4))),
             ));
 
         final query = {
@@ -119,7 +118,12 @@ void main() {
         avatarUrl: 'https://example.com/avatar.png',
         type: 'type',
         organization: 'Test Organization',
-        activityArea: 'Test Area',
+        activityArea: ActivityArea(
+            id: "1",
+            nameFr: "Fr",
+            nameEn: "En",
+            createdAt: DateTime.now().subtract(const Duration(days: 4)),
+            updatedAt: DateTime.now().subtract(const Duration(days: 4))),
         isActive: true,
         profileDescription: 'Test Description',
         facebookLink: 'https://facebook.com/test',
