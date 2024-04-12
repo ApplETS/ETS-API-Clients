@@ -90,8 +90,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [organizerId] The organizer id
   @override
   Future<Organizer?> getOrganizer(String organizerId) async {
-    final uri =
-        Uri.https(Urls.helloNewsAPI, '/api/moderator/organizer/$organizerId');
+    final uri = Uri.https(Urls.helloNewsAPI, '/api/organizers/$organizerId');
     final response = await _httpClient.get(uri);
 
     // Log the http error and throw a exception
@@ -110,7 +109,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [report] The report
   @override
   Future<bool> reportNews(String newsId, Report report) async {
-    final uri = Uri.https(Urls.helloNewsAPI, '/api/events/$newsId/reports');
+    final uri = Uri.https(Urls.helloNewsAPI, '/api/reports/$newsId');
     final response = await _httpClient.post(
       uri,
       headers: <String, String>{
