@@ -138,8 +138,7 @@ void main() {
 
       final apiResponse = ApiResponse<Organizer>(data: organizer);
 
-      final uri =
-          Uri.https(Urls.helloNewsAPI, '/api/moderator/organizer/$organizerId');
+      final uri = Uri.https(Urls.helloNewsAPI, '/api/organizers/$organizerId');
       mockClient = HttpClientMockHelper.stubJsonGet(uri.toString(),
           apiResponse.toJson((organizer) => organizer.toJson()));
       service = buildService(mockClient);
@@ -171,7 +170,7 @@ void main() {
   group('reportNews - ', () {
     test('successful report', () async {
       const newsId = '123';
-      final uri = Uri.https(Urls.helloNewsAPI, '/api/events/$newsId/reports');
+      final uri = Uri.https(Urls.helloNewsAPI, '/api/reports/$newsId');
       mockClient = HttpClientMockHelper.stubJsonPost(uri.toString(), {}, 200);
       service = buildService(mockClient);
 
