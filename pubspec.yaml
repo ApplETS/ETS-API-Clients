@@ -1,6 +1,6 @@
 name: ets_api_clients
 description: API clients to help process calls from any application that need to access
-version: 1.2.0
+version: 1.2.1
 
 homepage: https://clubapplets.ca/
 repository: https://github.com/ApplETS/ETS-API-Clients
