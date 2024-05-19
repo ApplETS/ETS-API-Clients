@@ -14,6 +14,7 @@ class ApiResponse<T> {
 
   Map<String, dynamic> toJson(Map<String, dynamic> Function(T) toJsonT) {
     return {
+      // ignore: null_check_on_nullable_type_parameter
       'data': data != null ? toJsonT(data!) : null,
       'error': error,
     };

@@ -32,4 +32,7 @@ abstract class IHelloAPIClient {
   /// [newsId] The news id
   /// [report] The report
   Future<bool> reportNews(String newsId, Report report);
+
+  /// Hello API news endpoints URL
+  String? apiLink;
 }

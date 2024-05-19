@@ -8,7 +8,6 @@ import 'package:ets_api_clients/src/models/report.dart';
 import 'package:http/io_client.dart';
 
 import 'constants/http_exception.dart';
-import 'constants/urls.dart';
 
 import 'hello_api_client.dart';
 
@@ -20,6 +19,9 @@ class HelloAPIClient implements IHelloAPIClient {
   static const String tagError = "$tag - Error";
 
   final http.Client _httpClient;
+
+  @override
+  String? apiLink;
 
   HelloAPIClient({http.Client? client})
       : _httpClient = client ?? IOClient(HttpClient());
@@ -43,6 +45,9 @@ class HelloAPIClient implements IHelloAPIClient {
       String? title,
       int pageNumber = 1,
       int pageSize = 10}) async {
+    if (apiLink == null || apiLink!.isEmpty) {
+      throw ArgumentError("_apiLink is null or empty");
+    }
     final query = {
       'startDate': startDate,
       'endDate': endDate,
@@ -73,7 +78,7 @@ class HelloAPIClient implements IHelloAPIClient {
       query.remove('title');
     }
 
-    final uri = Uri.https(Urls.helloNewsAPI, '/api/events');
+    final uri = Uri.https(apiLink!, '/api/events');
     final response = await _httpClient.get(uri.replace(queryParameters: query));
 
     // Log the http error and throw a exception
@@ -90,7 +95,10 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [organizerId] The organizer id
   @override
   Future<Organizer?> getOrganizer(String organizerId) async {
-    final uri = Uri.https(Urls.helloNewsAPI, '/api/organizers/$organizerId');
+    if (apiLink == null || apiLink!.isEmpty) {
+      throw ArgumentError("_apiLink is null or empty");
+    }
+    final uri = Uri.https(apiLink!, '/api/organizers/$organizerId');
     final response = await _httpClient.get(uri);
 
     // Log the http error and throw a exception
@@ -109,7 +117,10 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [report] The report
   @override
   Future<bool> reportNews(String newsId, Report report) async {
-    final uri = Uri.https(Urls.helloNewsAPI, '/api/reports/$newsId');
+    if (apiLink == null || apiLink!.isEmpty) {
+      throw ArgumentError("_apiLink is null or empty");
+    }
+    final uri = Uri.https(apiLink!, '/api/reports/$newsId');
     final response = await _httpClient.post(
       uri,
       headers: <String, String>{

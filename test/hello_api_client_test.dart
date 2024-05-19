@@ -1,4 +1,3 @@
-import 'package:ets_api_clients/src/constants/urls.dart';
 import 'package:ets_api_clients/src/models/api_response.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -11,6 +10,7 @@ import 'package:test/test.dart';
 import 'mocks/http_client_mock_helper.dart';
 
 void main() {
+  const String helloNewsAPI = "api.hello.ca";
   late HelloAPIClient service;
   late MockClient mockClient;
 
@@ -20,6 +20,7 @@ void main() {
       mockClient = MockClient((request) => Future.value(Response("", 200)));
 
       service = HelloAPIClient(client: mockClient);
+      service.apiLink = helloNewsAPI;
     });
 
     tearDown(() {
@@ -32,7 +33,7 @@ void main() {
           'pageNumber': 1.toString(),
           'pageSize': 10.toString(),
         };
-        final uri = Uri.https(Urls.helloNewsAPI, '/api/events', query);
+        final uri = Uri.https(helloNewsAPI, '/api/events', query);
         mockClient = HttpClientMockHelper.stubJsonGet(uri.toString(), {
           'data': [],
           'pageNumber': 1,
@@ -78,7 +79,7 @@ void main() {
           'pageNumber': 1.toString(),
           'pageSize': 10.toString(),
         };
-        final uri = Uri.https(Urls.helloNewsAPI, '/api/events', query);
+        final uri = Uri.https(helloNewsAPI, '/api/events', query);
         mockClient = HttpClientMockHelper.stubJsonGet(uri.toString(), {
           'data': [news],
           'pageNumber': 1,
@@ -100,7 +101,7 @@ void main() {
         const String message = "An error has occurred.";
 
         mockClient = HttpClientMockHelper.stubJsonPost(
-            Urls.helloNewsAPI, {"Message": message}, statusCode);
+            helloNewsAPI, {"Message": message}, statusCode);
         service = buildService(mockClient);
 
         expect(service.getEvents(), throwsA(isA<HttpException>()));
@@ -138,7 +139,7 @@ void main() {
 
       final apiResponse = ApiResponse<Organizer>(data: organizer);
 
-      final uri = Uri.https(Urls.helloNewsAPI, '/api/organizers/$organizerId');
+      final uri = Uri.https(helloNewsAPI, '/api/organizers/$organizerId');
       mockClient = HttpClientMockHelper.stubJsonGet(uri.toString(),
           apiResponse.toJson((organizer) => organizer.toJson()));
       service = buildService(mockClient);
@@ -156,7 +157,7 @@ void main() {
       const String message = "Organizer not found.";
 
       final uri =
-          Uri.https(Urls.helloNewsAPI, '/api/moderator/organizer/$organizerId');
+          Uri.https(helloNewsAPI, '/api/moderator/organizer/$organizerId');
       mockClient = HttpClientMockHelper.stubJsonGet(
           uri.toString(), {"Message": message}, statusCode);
       service = buildService(mockClient);
@@ -170,7 +171,7 @@ void main() {
   group('reportNews - ', () {
     test('successful report', () async {
       const newsId = '123';
-      final uri = Uri.https(Urls.helloNewsAPI, '/api/reports/$newsId');
+      final uri = Uri.https(helloNewsAPI, '/api/reports/$newsId');
       mockClient = HttpClientMockHelper.stubJsonPost(uri.toString(), {}, 200);
       service = buildService(mockClient);
 
@@ -184,7 +185,7 @@ void main() {
       const int statusCode = 400;
       const String message = "Error reporting news.";
 
-      final uri = Uri.https(Urls.helloNewsAPI, '/api/events/$newsId/reports');
+      final uri = Uri.https(helloNewsAPI, '/api/events/$newsId/reports');
       mockClient = HttpClientMockHelper.stubJsonPost(
           uri.toString(), {"Message": message}, statusCode);
       service = buildService(mockClient);
@@ -194,5 +195,8 @@ void main() {
   });
 }
 
-HelloAPIClient buildService(MockClient client) =>
-    HelloAPIClient(client: client);
+HelloAPIClient buildService(MockClient client) {
+  final apiClient = HelloAPIClient(client: client);
+  apiClient.apiLink = "api.hello.ca";
+  return apiClient;
+}
