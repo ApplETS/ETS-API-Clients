@@ -45,8 +45,7 @@ class HelloAPIClient implements IHelloAPIClient {
       String? title,
       int pageNumber = 1,
       int pageSize = 10}) async {
-
-    if(apiLink == null || apiLink!.isEmpty) {
+    if (apiLink == null || apiLink!.isEmpty) {
       throw ArgumentError("_apiLink is null or empty");
     }
     final query = {
@@ -96,7 +95,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [organizerId] The organizer id
   @override
   Future<Organizer?> getOrganizer(String organizerId) async {
-    if(apiLink == null || apiLink!.isEmpty) {
+    if (apiLink == null || apiLink!.isEmpty) {
       throw ArgumentError("_apiLink is null or empty");
     }
     final uri = Uri.https(apiLink!, '/api/organizers/$organizerId');
@@ -118,7 +117,7 @@ class HelloAPIClient implements IHelloAPIClient {
   /// [report] The report
   @override
   Future<bool> reportNews(String newsId, Report report) async {
-    if(apiLink == null || apiLink!.isEmpty) {
+    if (apiLink == null || apiLink!.isEmpty) {
       throw ArgumentError("_apiLink is null or empty");
     }
     final uri = Uri.https(apiLink!, '/api/reports/$newsId');

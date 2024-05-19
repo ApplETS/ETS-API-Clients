@@ -200,4 +200,3 @@ HelloAPIClient buildService(MockClient client) {
   apiClient.apiLink = "api.hello.ca";
   return apiClient;
 }
-    
