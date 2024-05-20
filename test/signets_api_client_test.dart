@@ -784,6 +784,16 @@ void main() {
           '<EstComplete>true</EstComplete> '
           '</EvaluationCours>';
 
+      const String incompleteCourseReviewForSameCourseXML = '<EvaluationCours> '
+          '<Sigle>GEN101</Sigle> '
+          '<Groupe>01</Groupe> '
+          '<Enseignant>Another, Teacher</Enseignant> '
+          '<DateDebutEvaluation>2021-03-19T00:00:00</DateDebutEvaluation> '
+          '<DateFinEvaluation>2021-03-28T23:59:00</DateFinEvaluation> '
+          '<TypeEvaluation>Cours</TypeEvaluation> '
+          '<EstComplete>false</EstComplete> '
+          '</EvaluationCours>';
+
       const String courseReviewNotCompletedXML = '<EvaluationCours> '
           '<Sigle>GEN102</Sigle> '
           '<Groupe>01</Groupe> '
@@ -803,6 +813,15 @@ void main() {
           type: 'Cours',
           isCompleted: true);
 
+      final CourseReview incompleteCourseReviewForSameCourse = CourseReview(
+          acronym: 'GEN101',
+          group: '01',
+          teacherName: 'Another, Teacher',
+          startAt: DateTime(2021, 03, 19),
+          endAt: DateTime(2021, 03, 28, 23, 59),
+          type: 'Cours',
+          isCompleted: false);
+
       final CourseReview courseReviewNotCompleted = CourseReview(
           acronym: 'GEN102',
           group: '01',
@@ -818,7 +837,9 @@ void main() {
 
         final String stubResponse = buildResponse(
             Urls.readCourseReviewOperation,
-            courseReviewCompletedXML + courseReviewNotCompletedXML,
+            courseReviewCompletedXML +
+                incompleteCourseReviewForSameCourseXML +
+                courseReviewNotCompletedXML,
             'liste');
 
         clientMock =
@@ -829,8 +850,13 @@ void main() {
             username: username, password: password, session: session);
 
         expect(result, isA<List<CourseReview>>());
-        expect(result,
-            containsAll([courseReviewCompleted, courseReviewNotCompleted]));
+        expect(
+            result,
+            containsAll([
+              courseReviewCompleted,
+              incompleteCourseReviewForSameCourse,
+              courseReviewNotCompleted
+            ]));
       });
 
       // Currently SignetsAPI doesn't have a clear way to indicate which error
