@@ -52,7 +52,7 @@ class Course {
         now.isBefore(reviews!.first.endAt);
   }
 
-  /// Determine if the review of this course is completed.
+  /// Determine if all the reviews of this course are completed.
   bool? get allReviewsCompleted {
     if (reviews == null) {
       return true;
