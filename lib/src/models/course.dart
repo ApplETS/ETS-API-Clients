@@ -1,4 +1,5 @@
 // FLUTTER / DART / THIRD-PARTIES
+import 'package:collection/collection.dart';
 import 'package:xml/xml.dart';
 
 import 'course_review.dart';
@@ -34,28 +35,29 @@ class Course {
   CourseSummary? summary;
 
   /// Information about when the course will be evaluated by the student.
-  CourseReview? review;
+  List<CourseReview>? reviews;
 
   /// Get the teacher name if available
-  String? get teacherName => review?.teacherName;
+  String? get teacherName => reviews?.first.teacherName;
 
   /// Determine if we are currently in the review period for this course.
   bool get inReviewPeriod {
-    if (review == null) {
+    if (reviews == null) {
       return false;
     }
 
     final now = DateTime.now();
 
-    return now.isAfter(review!.startAt) && now.isBefore(review!.endAt);
+    return now.isAfter(reviews!.first.startAt) &&
+        now.isBefore(reviews!.first.endAt);
   }
 
-  /// Determine if the review of this course is completed.
-  bool? get reviewCompleted {
-    if (review == null) {
+  /// Determine if all the reviews of this course are completed.
+  bool? get allReviewsCompleted {
+    if (reviews == null) {
       return true;
     }
-    return review!.isCompleted;
+    return reviews!.every((review) => review.isCompleted);
   }
 
   Course(
@@ -67,7 +69,7 @@ class Course {
       required this.numberOfCredits,
       this.grade,
       this.summary,
-      this.review});
+      this.reviews});
 
   /// Used to create a new [Course] instance from a [XMLElement].
   factory Course.fromXmlNode(XmlElement node) => Course(
@@ -93,8 +95,11 @@ class Course {
       summary: map["summary"] != null
           ? CourseSummary.fromJson(map["summary"] as Map<String, dynamic>)
           : null,
-      review: map["review"] != null
-          ? CourseReview.fromJson(map["review"] as Map<String, dynamic>)
+      reviews: map["review"] != null
+          ? (map["review"] as List)
+              .map(
+                  (item) => CourseReview.fromJson(item as Map<String, dynamic>))
+              .toList()
           : null);
 
   Map<String, dynamic> toJson() => {
@@ -106,7 +111,7 @@ class Course {
         'numberOfCredits': numberOfCredits,
         'grade': grade,
         'summary': summary,
-        'review': review
+        'reviews': reviews
       };
 
   @override
@@ -120,7 +125,7 @@ class Course {
         'grade: $grade, '
         'numberOfCredits: $numberOfCredits, '
         'summary: $summary, '
-        'review: $review}';
+        'reviews: $reviews}';
   }
 
   @override
@@ -136,7 +141,7 @@ class Course {
           grade == other.grade &&
           numberOfCredits == other.numberOfCredits &&
           summary == other.summary &&
-          review == other.review;
+          const ListEquality().equals(reviews, other.reviews);
 
   @override
   int get hashCode =>
@@ -148,5 +153,5 @@ class Course {
       grade.hashCode ^
       numberOfCredits.hashCode ^
       summary.hashCode ^
-      review.hashCode;
+      reviews.hashCode;
 }
