@@ -49,33 +49,27 @@ class HelloAPIClient implements IHelloAPIClient {
       throw ArgumentError("_apiLink is null or empty");
     }
     final query = {
-      'startDate': startDate,
-      'endDate': endDate,
-      'tags': tags,
-      'activityAreas': activityAreas,
-      'organizerId': organizerId,
-      'title': title,
       'pageNumber': pageNumber.toString(),
       'pageSize': pageSize.toString(),
     };
 
-    if (query['startDate'] == null) {
-      query.remove('startDate');
+    if (startDate != null) {
+      query['startDate'] = startDate.toUtc().toIso8601String();
     }
-    if (query['endDate'] == null) {
-      query.remove('endDate');
+    if (endDate != null) {
+      query['endDate'] = endDate.toUtc().toIso8601String();
     }
-    if (query['tags'] == null) {
-      query.remove('tags');
+    if (tags != null) {
+      query['tags'] = tags.toString();
     }
-    if (query['activityAreas'] == null) {
-      query.remove('activityAreas');
+    if (activityAreas != null) {
+      query['activityAreas'] = activityAreas.toString();
     }
-    if (query['organizerId'] == null) {
-      query.remove('organizerId');
+    if (organizerId != null) {
+      query['organizerId'] = organizerId;
     }
-    if (query['title'] == null) {
-      query.remove('title');
+    if (title != null) {
+      query['title'] = title;
     }
 
     final uri = Uri.https(apiLink!, '/api/events');
