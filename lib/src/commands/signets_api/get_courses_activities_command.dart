@@ -24,7 +24,7 @@ class GetCoursesActivitiesCommand implements Command<List<CourseActivity>> {
   final DateTime? endDate;
 
   GetCoursesActivitiesCommand(
-    this.client, 
+    this.client,
     this._httpClient,
     this._sessionShortNameRegExp,
     this._courseGroupRegExp, {
@@ -42,8 +42,7 @@ class GetCoursesActivitiesCommand implements Command<List<CourseActivity>> {
     if (!_sessionShortNameRegExp.hasMatch(session)) {
       throw FormatException("Session $session isn't a correctly formatted");
     }
-    if (courseGroup.isNotEmpty &&
-        !_courseGroupRegExp.hasMatch(courseGroup)) {
+    if (courseGroup.isNotEmpty && !_courseGroupRegExp.hasMatch(courseGroup)) {
       throw FormatException(
           "CourseGroup $courseGroup isn't a correctly formatted");
     }

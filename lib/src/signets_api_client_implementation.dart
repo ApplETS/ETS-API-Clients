@@ -1,5 +1,18 @@
 import 'dart:io';
 
+import 'package:ets_api_clients/src/signets_api_client.dart';
+import 'package:http/io_client.dart';
+import 'package:http/http.dart' as http;
+
+import 'models/course_activity.dart';
+import 'models/course.dart';
+import 'models/course_review.dart';
+import 'models/course_summary.dart';
+import 'models/profile_student.dart';
+import 'models/program.dart';
+import 'models/schedule_activity.dart';
+import 'models/session.dart';
+
 import 'package:ets_api_clients/src/commands/signets_api/authentificate_command.dart';
 import 'package:ets_api_clients/src/commands/signets_api/get_course_reviews_command.dart';
 import 'package:ets_api_clients/src/commands/signets_api/get_course_summary_command.dart';
@@ -9,23 +22,6 @@ import 'package:ets_api_clients/src/commands/signets_api/get_programs_command.da
 import 'package:ets_api_clients/src/commands/signets_api/get_schedule_activities_command.dart';
 import 'package:ets_api_clients/src/commands/signets_api/get_sessions_command.dart';
 import 'package:ets_api_clients/src/commands/signets_api/get_student_info_command.dart';
-import 'package:ets_api_clients/src/signets_api_client.dart';
-import 'package:http/io_client.dart';
-import 'package:xml/xml.dart';
-import 'package:http/http.dart' as http;
-
-import 'constants/urls.dart';
-import 'services/soap_service.dart';
-import 'constants/api_exception.dart';
-import 'constants/signets_errors.dart';
-import 'models/course_activity.dart';
-import 'models/course.dart';
-import 'models/course_review.dart';
-import 'models/course_summary.dart';
-import 'models/profile_student.dart';
-import 'models/program.dart';
-import 'models/schedule_activity.dart';
-import 'models/session.dart';
 
 /// A Wrapper for all calls to Signets API.
 class SignetsAPIClient implements ISignetsAPIClient {
@@ -47,8 +43,10 @@ class SignetsAPIClient implements ISignetsAPIClient {
   @Deprecated(
       'This function is deprecated in favor of `MonETSAPIClient.authenticate()`')
   @override
-  Future<bool> authenticate({required String username, required String password}) {
-    final command = AuthenticateCommand(this, _httpClient, username: username, password: password);
+  Future<bool> authenticate(
+      {required String username, required String password}) {
+    final command = AuthenticateCommand(this, _httpClient,
+        username: username, password: password);
     return command.execute();
   }
 
@@ -93,7 +91,6 @@ class SignetsAPIClient implements ISignetsAPIClient {
       this,
       _httpClient,
       _sessionShortNameRegExp,
-      _courseGroupRegExp,
       username: username,
       password: password,
       session: session,
@@ -107,7 +104,8 @@ class SignetsAPIClient implements ISignetsAPIClient {
     required String username,
     required String password,
   }) {
-    final command = GetCoursesCommand(this, _httpClient, username: username, password: password);
+    final command = GetCoursesCommand(this, _httpClient,
+        username: username, password: password);
     return command.execute();
   }
 
@@ -130,12 +128,13 @@ class SignetsAPIClient implements ISignetsAPIClient {
   }
 
   /// Call the SignetsAPI to get the list of all the [Session] for the student ([username]).
-   @override
+  @override
   Future<List<Session>> getSessions({
     required String username,
     required String password,
   }) {
-    final command = GetSessionsCommand(this, _httpClient, username: username, password: password);
+    final command = GetSessionsCommand(this, _httpClient,
+        username: username, password: password);
     return command.execute();
   }
 
@@ -145,7 +144,8 @@ class SignetsAPIClient implements ISignetsAPIClient {
     required String username,
     required String password,
   }) {
-    final command = GetStudentInfoCommand(this, _httpClient, username: username, password: password);
+    final command = GetStudentInfoCommand(this, _httpClient,
+        username: username, password: password);
     return command.execute();
   }
 
@@ -155,7 +155,8 @@ class SignetsAPIClient implements ISignetsAPIClient {
     required String username,
     required String password,
   }) {
-    final command = GetProgramsCommand(this, _httpClient, username: username, password: password);
+    final command = GetProgramsCommand(this, _httpClient,
+        username: username, password: password);
     return command.execute();
   }
 

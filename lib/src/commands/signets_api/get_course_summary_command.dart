@@ -4,11 +4,13 @@ import 'package:ets_api_clients/src/constants/signets_errors.dart';
 import 'package:ets_api_clients/src/constants/urls.dart';
 import 'package:ets_api_clients/src/models/course.dart';
 import 'package:ets_api_clients/src/models/course_summary.dart';
-import 'package:ets_api_clients/src/models/schedule_activity.dart';
 import 'package:ets_api_clients/src/services/soap_service.dart';
 import 'package:ets_api_clients/src/signets_api_client_implementation.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
+
+/// Call the SignetsAPI to get all the evaluations (exams) and the summary
+/// of [course] for the student ([username]).
 class GetCourseSummaryCommand implements Command<CourseSummary> {
   final SignetsAPIClient client;
   final http.Client _httpClient;
@@ -17,7 +19,7 @@ class GetCourseSummaryCommand implements Command<CourseSummary> {
   final Course course;
 
   GetCourseSummaryCommand(
-    this.client, 
+    this.client,
     this._httpClient, {
     required this.username,
     required this.password,

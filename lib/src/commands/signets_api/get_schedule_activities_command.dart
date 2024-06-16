@@ -1,5 +1,3 @@
-
-
 import 'package:ets_api_clients/src/commands/command.dart';
 import 'package:ets_api_clients/src/constants/urls.dart';
 import 'package:ets_api_clients/src/models/schedule_activity.dart';
@@ -8,20 +6,20 @@ import 'package:ets_api_clients/src/signets_api_client_implementation.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
 
+/// Call the SignetsAPI to get the courses activities for the [session] for
+/// the student ([username]).
 class GetScheduleActivitiesCommand implements Command<List<ScheduleActivity>> {
   final SignetsAPIClient client;
   final http.Client _httpClient;
   final RegExp _sessionShortNameRegExp;
-  final RegExp _courseGroupRegExp;
   final String username;
   final String password;
   final String session;
 
   GetScheduleActivitiesCommand(
-    this.client, 
+    this.client,
     this._httpClient,
-    this._sessionShortNameRegExp,
-    this._courseGroupRegExp, {
+    this._sessionShortNameRegExp, {
     required this.username,
     required this.password,
     required this.session,

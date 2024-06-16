@@ -1,12 +1,12 @@
 import 'package:ets_api_clients/src/commands/command.dart';
 import 'package:ets_api_clients/src/constants/urls.dart';
-import 'package:ets_api_clients/src/models/schedule_activity.dart';
 import 'package:ets_api_clients/src/models/session.dart';
 import 'package:ets_api_clients/src/services/soap_service.dart';
 import 'package:ets_api_clients/src/signets_api_client_implementation.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
 
+/// Call the SignetsAPI to get the list of all the [Session] for the student ([username]).
 class GetSessionsCommand implements Command<List<Session>> {
   final SignetsAPIClient client;
   final http.Client _httpClient;
