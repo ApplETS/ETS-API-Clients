@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:http/io_client.dart';
 
 import 'monets_api_client.dart';
 
-import 'constants/http_exception.dart';
-import 'constants/urls.dart';
+import 'commands/monets_api/authentificate_command.dart';
 import 'models/mon_ets_user.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,23 +17,10 @@ class MonETSAPIClient implements IMonETSAPIClient {
   MonETSAPIClient({http.Client? client})
       : _httpClient = client ?? IOClient(HttpClient());
 
-  /// Authenticate the basic MonETS user
-  ///
-  /// Throws an [HttpException] if the MonETSApi return anything
-  /// else than a 200 code
-  @override
-  Future<MonETSUser> authenticate(
-      {required String username, required String password}) async {
-    final response = await _httpClient.post(
-        Uri.parse(Urls.authenticationMonETS),
-        body: {"Username": username, "Password": password});
 
-    // Log the http error and throw a exception
-    if (response.statusCode != 200) {
-      throw HttpException(
-          message: response.body, prefix: tagError, code: response.statusCode);
-    }
-    return MonETSUser.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>);
+  @override
+  Future<MonETSUser> authenticate({required String username, required String password}) {
+    final command = AuthenticateCommand(this, _httpClient, username: username, password: password);
+    return command.execute();
   }
 }
