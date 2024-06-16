@@ -1,5 +1,14 @@
 import 'dart:io';
 
+import 'package:ets_api_clients/src/commands/signets_api/authentificate_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_course_reviews_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_course_summary_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_courses_activities_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_courses_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_programs_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_schedule_activities_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_sessions_command.dart';
+import 'package:ets_api_clients/src/commands/signets_api/get_student_info_command.dart';
 import 'package:ets_api_clients/src/signets_api_client.dart';
 import 'package:http/io_client.dart';
 import 'package:xml/xml.dart';
@@ -38,17 +47,9 @@ class SignetsAPIClient implements ISignetsAPIClient {
   @Deprecated(
       'This function is deprecated in favor of `MonETSAPIClient.authenticate()`')
   @override
-  Future<bool> authenticate(
-      {required String username, required String password}) async {
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.donneesAuthentificationValides, username, password)
-        .buildDocument();
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.donneesAuthentificationValides);
-
-    /// Build and return the authentication status
-    return responseBody.innerText == "true";
+  Future<bool> authenticate({required String username, required String password}) {
+    final command = AuthenticateCommand(this, _httpClient, username: username, password: password);
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get the courses activities for the [session] for
@@ -57,258 +58,122 @@ class SignetsAPIClient implements ISignetsAPIClient {
   /// If the [startDate] and/or [endDate] are specified the results will contains
   /// all the activities between these dates
   @override
-  Future<List<CourseActivity>> getCoursesActivities(
-      {required String username,
-      required String password,
-      String session = "",
-      String courseGroup = "",
-      DateTime? startDate,
-      DateTime? endDate}) async {
-    // Validate the format of parameters
-    if (!_sessionShortNameRegExp.hasMatch(session)) {
-      throw FormatException("Session $session isn't a correctly formatted");
-    }
-    if (courseGroup.isNotEmpty && !_courseGroupRegExp.hasMatch(courseGroup)) {
-      throw FormatException(
-          "CourseGroup $courseGroup isn't a correctly formatted");
-    }
-    if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
-      throw ArgumentError("The startDate can't be after endDate.");
-    }
-
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.listClassScheduleOperation, username, password)
-        .buildDocument();
-    final operationContent = XmlBuilder();
-
-    // Add the content needed by the operation
-    operationContent.element("pSession", nest: () {
-      operationContent.text(session);
-    });
-    operationContent.element("pCoursGroupe", nest: () {
-      operationContent.text(courseGroup);
-    });
-
-    operationContent.element("pDateDebut", nest: () {
-      operationContent.text(startDate == null
-          ? ""
-          : "${startDate.year}-${startDate.month}-${startDate.day}");
-    });
-    operationContent.element("pDateFin", nest: () {
-      operationContent.text(endDate == null
-          ? ""
-          : "${endDate.year}-${endDate.month}-${endDate.day}");
-    });
-
-    // Add the parameters needed inside the request.
-    body
-        .findAllElements(Urls.listClassScheduleOperation,
-            namespace: Urls.signetsOperationBase)
-        .first
-        .children
-        .add(operationContent.buildFragment());
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.listClassScheduleOperation);
-
-    /// Build and return the list of CourseActivity
-    return responseBody
-        .findAllElements("Seances")
-        .map((node) => CourseActivity.fromXmlNode(node))
-        .toList();
+  Future<List<CourseActivity>> getCoursesActivities({
+    required String username,
+    required String password,
+    String session = "",
+    String courseGroup = "",
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    final command = GetCoursesActivitiesCommand(
+      this,
+      _httpClient,
+      _sessionShortNameRegExp,
+      _courseGroupRegExp,
+      username: username,
+      password: password,
+      session: session,
+      courseGroup: courseGroup,
+      startDate: startDate,
+      endDate: endDate,
+    );
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get the courses activities for the [session] for
   /// the student ([username]).
   @override
-  Future<List<ScheduleActivity>> getScheduleActivities(
-      {required String username,
-      required String password,
-      String session = ""}) async {
-    if (!_sessionShortNameRegExp.hasMatch(session)) {
-      throw FormatException("Session $session isn't correctly formatted");
-    }
-
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.listeHoraireEtProf, username, password)
-        .buildDocument();
-    final operationContent = XmlBuilder();
-
-    // Add the content needed by the operation
-    operationContent.element("pSession", nest: () {
-      operationContent.text(session);
-    });
-
-    // Add the parameters needed inside the request.
-    body
-        .findAllElements(Urls.listeHoraireEtProf,
-            namespace: Urls.signetsOperationBase)
-        .first
-        .children
-        .add(operationContent.buildFragment());
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.listeHoraireEtProf);
-
-    /// Build and return the list of CourseActivity
-    return responseBody
-        .findAllElements("HoraireActivite")
-        .map((node) => ScheduleActivity.fromXmlNode(node))
-        .toList();
+  Future<List<ScheduleActivity>> getScheduleActivities({
+    required String username,
+    required String password,
+    String session = "",
+  }) {
+    final command = GetScheduleActivitiesCommand(
+      this,
+      _httpClient,
+      _sessionShortNameRegExp,
+      _courseGroupRegExp,
+      username: username,
+      password: password,
+      session: session,
+    );
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get the courses of the student ([username]).
   @override
-  Future<List<Course>> getCourses(
-      {required String username, required String password}) async {
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.listCourseOperation, username, password)
-        .buildDocument();
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.listCourseOperation);
-
-    return responseBody
-        .findAllElements("Cours")
-        .map((node) => Course.fromXmlNode(node))
-        .toList();
+  Future<List<Course>> getCourses({
+    required String username,
+    required String password,
+  }) {
+    final command = GetCoursesCommand(this, _httpClient, username: username, password: password);
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get all the evaluations (exams) and the summary
   /// of [course] for the student ([username]).
   @override
-  Future<CourseSummary> getCourseSummary(
-      {required String username,
-      required String password,
-      required Course course}) async {
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.listEvaluationsOperation, username, password)
-        .buildDocument();
-    final operationContent = XmlBuilder();
-
-    // Add the content needed by the operation
-    operationContent.element("pSigle", nest: () {
-      operationContent.text(course.acronym);
-    });
-    operationContent.element("pGroupe", nest: () {
-      operationContent.text(course.group);
-    });
-    operationContent.element("pSession", nest: () {
-      operationContent.text(course.session);
-    });
-
-    body
-        .findAllElements(Urls.listEvaluationsOperation,
-            namespace: Urls.signetsOperationBase)
-        .first
-        .children
-        .add(operationContent.buildFragment());
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.listEvaluationsOperation);
-    var errorTag = responseBody.getElement(SignetsError.signetsErrorSoapTag);
-    if (errorTag != null &&
-            errorTag.innerText.contains(SignetsError.gradesNotAvailable) ||
-        responseBody.findAllElements('ElementEvaluation').isEmpty) {
-      throw const ApiException(
-          prefix: tag,
-          message: "No grades available",
-          errorCode: SignetsError.gradesEmpty);
-    }
-
-    return CourseSummary.fromXmlNode(responseBody);
+  Future<CourseSummary> getCourseSummary({
+    required String username,
+    required String password,
+    required Course course,
+  }) {
+    final command = GetCourseSummaryCommand(
+      this,
+      _httpClient,
+      username: username,
+      password: password,
+      course: course,
+    );
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get the list of all the [Session] for the student ([username]).
-  @override
-  Future<List<Session>> getSessions(
-      {required String username, required String password}) async {
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.listSessionsOperation, username, password)
-        .buildDocument();
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.listSessionsOperation);
-
-    /// Build and return the list of Session
-    return responseBody
-        .findAllElements("Trimestre")
-        .map((node) => Session.fromXmlNode(node))
-        .toList();
+   @override
+  Future<List<Session>> getSessions({
+    required String username,
+    required String password,
+  }) {
+    final command = GetSessionsCommand(this, _httpClient, username: username, password: password);
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get the [ProfileStudent] for the student.
   @override
-  Future<ProfileStudent> getStudentInfo(
-      {required String username, required String password}) async {
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.infoStudentOperation, username, password)
-        .buildDocument();
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.infoStudentOperation);
-
-    // Build and return the info
-    return ProfileStudent.fromXmlNode(responseBody);
+  Future<ProfileStudent> getStudentInfo({
+    required String username,
+    required String password,
+  }) {
+    final command = GetStudentInfoCommand(this, _httpClient, username: username, password: password);
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get the list of all the [Program] for the student ([username]).
   @override
-  Future<List<Program>> getPrograms(
-      {required String username, required String password}) async {
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.listProgramsOperation, username, password)
-        .buildDocument();
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.listProgramsOperation);
-
-    /// Build and return the list of Program
-    return responseBody
-        .findAllElements("Programme")
-        .map((node) => Program.fromXmlNode(node))
-        .toList();
+  Future<List<Program>> getPrograms({
+    required String username,
+    required String password,
+  }) {
+    final command = GetProgramsCommand(this, _httpClient, username: username, password: password);
+    return command.execute();
   }
 
   /// Call the SignetsAPI to get the list of all [CourseReview] for the [session]
   /// of the student ([username]).
   @override
-  Future<List<CourseReview>> getCourseReviews(
-      {required String username,
-      required String password,
-      Session? session}) async {
-    // Generate initial soap envelope
-    final body = SoapService.buildBasicSOAPBody(
-            Urls.readCourseReviewOperation, username, password)
-        .buildDocument();
-
-    final operationContent = XmlBuilder();
-
-    operationContent.element("pSession", nest: () {
-      operationContent.text(session!.shortName);
-    });
-
-    body
-        .findAllElements(Urls.readCourseReviewOperation,
-            namespace: Urls.signetsOperationBase)
-        .first
-        .children
-        .add(operationContent.buildFragment());
-
-    final responseBody = await SoapService.sendSOAPRequest(
-        _httpClient, body, Urls.readCourseReviewOperation);
-
-    /// Build and return the list of Program
-    return responseBody
-        .findAllElements("EvaluationCours")
-        .map((node) => CourseReview.fromXmlNode(node))
-        .toList();
+  Future<List<CourseReview>> getCourseReviews({
+    required String username,
+    required String password,
+    Session? session,
+  }) {
+    final command = GetCourseReviewsCommand(
+      this,
+      _httpClient,
+      username: username,
+      password: password,
+      session: session,
+    );
+    return command.execute();
   }
 }
