@@ -5,6 +5,9 @@ import 'package:ets_api_clients/src/constants/http_exception.dart';
 import 'package:ets_api_clients/src/commands/command.dart';
 import 'package:ets_api_clients/src/hello_api_client_implementation.dart';
 
+/// Call the Hello API to report a news
+/// [newsId] The news id
+/// [report] The report
 class ReportNewsCommand implements Command<bool> {
   final HelloAPIClient client;
   final http.Client _httpClient;
@@ -30,6 +33,7 @@ class ReportNewsCommand implements Command<bool> {
       }),
     );
 
+    // Log the http error and throw a exception
     if (response.statusCode != 200) {
       throw HttpException(
         message: response.body,

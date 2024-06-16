@@ -5,6 +5,15 @@ import 'package:ets_api_clients/src/constants/http_exception.dart';
 import 'package:ets_api_clients/src/commands/command.dart';
 import 'package:ets_api_clients/src/hello_api_client_implementation.dart';
 
+/// Call the Hello API to get the news
+/// [startDate] The start date of the news (optional)
+/// [endDate] The end date of the news (optional)
+/// [tags] The tags of the news (optional)
+/// [activityAreas] The activity areas of the news (optional)
+/// [organizerId] The organizer id (optional)
+/// [title] The news title (optional)
+/// [pageNumber] The page number (default: 1)
+/// [pageSize] The page size (default: 10)
 class GetEventsCommand implements Command<PaginatedNews> {
   final HelloAPIClient client;
   final http.Client _httpClient;
@@ -18,7 +27,7 @@ class GetEventsCommand implements Command<PaginatedNews> {
   final int pageSize;
 
   GetEventsCommand(
-    this.client, 
+    this.client,
     this._httpClient, {
     this.startDate,
     this.endDate,
@@ -62,6 +71,7 @@ class GetEventsCommand implements Command<PaginatedNews> {
     final uri = Uri.https(client.apiLink!, '/api/events');
     final response = await _httpClient.get(uri.replace(queryParameters: query));
 
+    // Log the http error and throw a exception
     if (response.statusCode != 200) {
       throw HttpException(
         message: response.body,
@@ -70,6 +80,7 @@ class GetEventsCommand implements Command<PaginatedNews> {
       );
     }
 
-    return PaginatedNews.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    return PaginatedNews.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 }

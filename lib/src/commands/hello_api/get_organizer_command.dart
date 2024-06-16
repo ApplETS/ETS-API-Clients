@@ -6,6 +6,8 @@ import 'package:ets_api_clients/src/constants/http_exception.dart';
 import 'package:ets_api_clients/src/commands/command.dart';
 import 'package:ets_api_clients/src/hello_api_client_implementation.dart';
 
+/// Call the Hello API to get the organizer
+/// [organizerId] The organizer id
 class GetOrganizerCommand implements Command<Organizer?> {
   final HelloAPIClient client;
   final http.Client _httpClient;
@@ -20,6 +22,8 @@ class GetOrganizerCommand implements Command<Organizer?> {
     }
     final uri = Uri.https(client.apiLink!, '/api/organizers/$organizerId');
     final response = await _httpClient.get(uri);
+
+    // Log the http error and throw a exception
     if (response.statusCode != 200) {
       throw HttpException(
         message: response.body,
